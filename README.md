@@ -4,7 +4,7 @@
 
 ``` bash
 $ git clone git@github.com:mmasiukevich/service-bus-demo.git
-$ cd service-bus
+$ cd service-bus-demo
 $ composer install -o
 $ docker-compose up
 ```
