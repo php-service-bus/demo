@@ -18,7 +18,7 @@ use Desperado\Domain\Message\AbstractCommand;
 /**
  * Start customer registration
  *
- * @see CustomerRegistrationCompleteEvent
+ * @see CustomerRegisteredEvent
  * @see FailedRegistrationEvent
  * @see CustomerAlreadyExistsEvent
  */
