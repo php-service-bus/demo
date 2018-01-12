@@ -1,0 +1,28 @@
+version: '2'
+services:
+    rabbitmq:
+        image: rabbitmq:3.7.2-management-alpine
+        container_name: rabbitmq
+        restart: always
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            RABBITMQ_VM_MEMORY_HIGH_WATERMARK: "512MiB"
+            RABBITMQ_ERLANG_COOKIE: "f6fAjy5yes"
+            RABBITMQ_DEFAULT_USER: admin
+            RABBITMQ_DEFAULT_PASS: admin123
+    application:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        volumes:
+            - .:/usr/src/app:rw
+        stop_signal: SIGKILL
+        environment:
+            TRANSPORT_CONNECTION_DSN: "amqp://admin:admin123@rabbitmq"
+            APP_ENVIRONMENT: "dev"
+            APP_ENTRY_POINT_NAME: "testing"
+            LOG_STREAM: php://stdout
+        links:
+            - rabbitmq:rabbitmq

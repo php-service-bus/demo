@@ -1,0 +1,44 @@
+{
+  "name": "mmasiukevich/service-bus-demo",
+  "description": "PHP Service Bus (CQS implementation) demo application",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Masiukevich Maksim",
+      "email": "desperado@minsk-info.ru",
+      "homepage": "https://github.com/mmasiukevich",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Desperado\\ServiceBusDemo\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Desperado\\ServiceBusDemo\\": "demo/src/"
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "mmasiukevich/service-bus": "^0.1",
+    "mmasiukevich/event-sourcing": "^0.1",
+    "phpdocumentor/reflection-docblock": "4.2.0"
+  },
+  "require-dev": {
+    "symfony/debug": "^4.0"
+  },
+  "config": {
+    "optimize-autoloader": true
+  },
+  "minimum-stability": "dev",
+  "bin-dir": "bin",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

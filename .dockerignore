@@ -1,0 +1,5 @@
+.git
+docker/*
+!docker/conf
+var/*
+vendor
