@@ -16,7 +16,7 @@ $ php tools/registerCustomerCommand.php
 
 ## Description
 
-This example shows the user registration process, consisting of several steps (@see [flow-example.pdf](https://github.com/mmasiukevich/service-bus/blob/master/flow-example.pdf)):
+This example shows the user registration process, consisting of several steps (@see [flow-example.pdf](https://github.com/mmasiukevich/service-bus-demo/blob/master/flow-example.pdf)):
 * Checking the uniqueness of email
 * Creating a User aggregate
 * After the user is created, the saga is launched, which is responsible for confirming the registration; sending a greeting message after confirming registration
