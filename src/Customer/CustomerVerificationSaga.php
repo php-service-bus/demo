@@ -55,7 +55,7 @@ final class CustomerVerificationSaga extends AbstractSaga
      *
      * @return void
      */
-    protected function onCustomerVerificationTokenReceivedEvent(
+    private function onCustomerVerificationTokenReceivedEvent(
         CustomerEvents\CustomerVerificationTokenReceivedEvent $event
     ): void
     {
@@ -74,7 +74,7 @@ final class CustomerVerificationSaga extends AbstractSaga
      *
      * @return void
      */
-    protected function onCustomerActivatedEvent(CustomerEvents\CustomerActivatedEvent $event): void
+    private function onCustomerActivatedEvent(CustomerEvents\CustomerActivatedEvent $event): void
     {
         /** Somewhere here we got the settings for sending a message */
 
@@ -96,7 +96,7 @@ final class CustomerVerificationSaga extends AbstractSaga
      *
      * @return void
      */
-    protected function onCustomerAggregateNotFoundEvent(CustomerEvents\CustomerAggregateNotFoundEvent $event): void
+    private function onCustomerAggregateNotFoundEvent(CustomerEvents\CustomerAggregateNotFoundEvent $event): void
     {
         $this->fail(
             \sprintf('Customer aggregate "%s" not found', $event->getIdentifier())
@@ -110,7 +110,7 @@ final class CustomerVerificationSaga extends AbstractSaga
      *
      * @return void
      */
-    protected function onEmailSentEvent(EmailNotificationsEvents\EmailSentEvent $event): void
+    private function onEmailSentEvent(EmailNotificationsEvents\EmailSentEvent $event): void
     {
         unset($event);
 

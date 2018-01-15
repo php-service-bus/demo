@@ -549,12 +549,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/event-sourcing.git",
-                "reference": "916ea077ccaa22315c3186037631c29304d68d1b"
+                "reference": "cb8c973e0348f5a7c2b337303888da99ad00ce6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/916ea077ccaa22315c3186037631c29304d68d1b",
-                "reference": "916ea077ccaa22315c3186037631c29304d68d1b",
+                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/cb8c973e0348f5a7c2b337303888da99ad00ce6f",
+                "reference": "cb8c973e0348f5a7c2b337303888da99ad00ce6f",
                 "shasum": ""
             },
             "require": {
@@ -601,7 +601,7 @@
             "keywords": [
                 "event sourcing"
             ],
-            "time": "2018-01-09T11:26:12+00:00"
+            "time": "2018-01-15T08:12:10+00:00"
         },
         {
             "name": "mmasiukevich/event-sourcing-snapshotter",
@@ -772,12 +772,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/saga.git",
-                "reference": "d32ad5af85a272131f6c6628374be9154e36d3a1"
+                "reference": "5f619a1bc46a236eeb493ad27daf0ffbc9fd5586"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/d32ad5af85a272131f6c6628374be9154e36d3a1",
-                "reference": "d32ad5af85a272131f6c6628374be9154e36d3a1",
+                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/5f619a1bc46a236eeb493ad27daf0ffbc9fd5586",
+                "reference": "5f619a1bc46a236eeb493ad27daf0ffbc9fd5586",
                 "shasum": ""
             },
             "require": {
@@ -822,7 +822,7 @@
                 "event sourcing",
                 "saga"
             ],
-            "time": "2018-01-10T14:30:43+00:00"
+            "time": "2018-01-15T08:19:29+00:00"
         },
         {
             "name": "mmasiukevich/service-bus",
@@ -830,12 +830,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "8e1aca43c30f8f0f22324bf0f2060ce265d23457"
+                "reference": "32818f67aab615fd6c1ca4fef5209b3c7bc6edf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/8e1aca43c30f8f0f22324bf0f2060ce265d23457",
-                "reference": "8e1aca43c30f8f0f22324bf0f2060ce265d23457",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/32818f67aab615fd6c1ca4fef5209b3c7bc6edf9",
+                "reference": "32818f67aab615fd6c1ca4fef5209b3c7bc6edf9",
                 "shasum": ""
             },
             "require": {
@@ -846,6 +846,7 @@
                 "mmasiukevich/message-serializer": "^0.1",
                 "mmasiukevich/saga": "^0.1",
                 "php": ">=7.1",
+                "phpdocumentor/reflection-docblock": "4.2.0",
                 "react/http": "v0.7.4",
                 "symfony/config": "^4.0",
                 "symfony/dependency-injection": "^4.0",
@@ -885,7 +886,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-01-11T13:58:41+00:00"
+            "time": "2018-01-15T08:02:43+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1478,16 +1479,16 @@
         },
         {
             "name": "react/dns",
-            "version": "v0.4.11",
+            "version": "v0.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/dns.git",
-                "reference": "8558bba4f2784aa997670d15fc6f7461a8eb4e53"
+                "reference": "c74a0af0c7254e73600fd8c5c95f6bf23c5998f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/dns/zipball/8558bba4f2784aa997670d15fc6f7461a8eb4e53",
-                "reference": "8558bba4f2784aa997670d15fc6f7461a8eb4e53",
+                "url": "https://api.github.com/repos/reactphp/dns/zipball/c74a0af0c7254e73600fd8c5c95f6bf23c5998f4",
+                "reference": "c74a0af0c7254e73600fd8c5c95f6bf23c5998f4",
                 "shasum": ""
             },
             "require": {
@@ -1501,7 +1502,7 @@
             },
             "require-dev": {
                 "clue/block-react": "^1.2",
-                "phpunit/phpunit": "^5.0 || ^4.8.10"
+                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
             },
             "type": "library",
             "autoload": {
@@ -1520,7 +1521,7 @@
                 "dns-resolver",
                 "reactphp"
             ],
-            "time": "2017-08-25T08:22:48+00:00"
+            "time": "2018-01-14T10:04:36+00:00"
         },
         {
             "name": "react/event-loop",

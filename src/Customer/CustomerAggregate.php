@@ -100,7 +100,7 @@ final class CustomerAggregate extends AbstractAggregateRoot
      *
      * @return void
      */
-    protected function onCustomerRegisteredEvent(CustomerEvents\CustomerRegisteredEvent $event): void
+    private function onCustomerRegisteredEvent(CustomerEvents\CustomerRegisteredEvent $event): void
     {
         $this->userName = $event->getUserName();
         $this->displayName = $event->getDisplayName();
@@ -115,7 +115,7 @@ final class CustomerAggregate extends AbstractAggregateRoot
      *
      * @return void
      */
-    protected function onCustomerActivatedEvent(CustomerEvents\CustomerActivatedEvent $event): void
+    private function onCustomerActivatedEvent(CustomerEvents\CustomerActivatedEvent $event): void
     {
         unset($event);
 

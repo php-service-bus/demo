@@ -88,7 +88,7 @@ final class CustomerEmailIndex extends AbstractAggregateRoot implements IndexInt
      *
      * @return void
      */
-    protected function onCustomerEmailAddedToIndexEvent(CustomerEmailAddedToIndexEvent $event): void
+    private function onCustomerEmailAddedToIndexEvent(CustomerEmailAddedToIndexEvent $event): void
     {
         $this->collection[$event->getEmail()] = $event->getIdentifier();
     }
