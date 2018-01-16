@@ -830,12 +830,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "32818f67aab615fd6c1ca4fef5209b3c7bc6edf9"
+                "reference": "3ca909fdc14bb69c20ab19ff97cf60fe865a0062"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/32818f67aab615fd6c1ca4fef5209b3c7bc6edf9",
-                "reference": "32818f67aab615fd6c1ca4fef5209b3c7bc6edf9",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/3ca909fdc14bb69c20ab19ff97cf60fe865a0062",
+                "reference": "3ca909fdc14bb69c20ab19ff97cf60fe865a0062",
                 "shasum": ""
             },
             "require": {
@@ -886,7 +886,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-01-15T08:02:43+00:00"
+            "time": "2018-01-16T11:35:14+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1850,16 +1850,16 @@
         },
         {
             "name": "ringcentral/psr7",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ringcentral/psr7.git",
-                "reference": "2594fb47cdc659f3fcf0aa1559b7355460555303"
+                "reference": "dcd84bbb49b96c616d1dcc8bfb9bef3f2cd53d1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ringcentral/psr7/zipball/2594fb47cdc659f3fcf0aa1559b7355460555303",
-                "reference": "2594fb47cdc659f3fcf0aa1559b7355460555303",
+                "url": "https://api.github.com/repos/ringcentral/psr7/zipball/dcd84bbb49b96c616d1dcc8bfb9bef3f2cd53d1c",
+                "reference": "dcd84bbb49b96c616d1dcc8bfb9bef3f2cd53d1c",
                 "shasum": ""
             },
             "require": {
@@ -1904,7 +1904,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2016-03-25T17:36:49+00:00"
+            "time": "2018-01-15T21:00:49+00:00"
         },
         {
             "name": "symfony/config",

@@ -17,13 +17,13 @@ use Desperado\Domain\ThrowableFormatter;
 
 try
 {
-    $entryPoint = Bootstrap::boot(
+    $bootstrap = Bootstrap::boot(
         __DIR__ . '/..',
         __DIR__ . '/cache',
         __DIR__ . '/.env'
     );
 
-    $entryPoint->run(['demo']);
+    $bootstrap->getEntryPoint()->run(['demo']);
 }
 catch(\Throwable $throwable)
 {
