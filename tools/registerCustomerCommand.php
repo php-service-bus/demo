@@ -24,10 +24,10 @@ include_once __DIR__ . '/../vendor/autoload.php';
 $dsnParts = \parse_url(\getenv('TRANSPORT_CONNECTION_DSN'));
 
 $command = RegisterCustomerCommand::create([
-    'requestId'   => Uuid::new(),
+    'requestId'   => Uuid::v4(),
     'userName'    => 'someCustomerUserName',
     'displayName' => 'someCustomerDisplayName',
-    'email'       => 'desperado@minsk-info.ru',
+    'email'       => \sprintf('%s@minsk-info.ru', \sha1(\random_bytes(32))),
     'password'    => 'qwerty'
 ]);
 

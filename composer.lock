@@ -829,12 +829,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/event-sourcing.git",
-                "reference": "1830bc9b922ed8856ecef42e9098169bbe3b69a0"
+                "reference": "bb3caf973660eb6a775a39aee95a2487a5f3f358"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/1830bc9b922ed8856ecef42e9098169bbe3b69a0",
-                "reference": "1830bc9b922ed8856ecef42e9098169bbe3b69a0",
+                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/bb3caf973660eb6a775a39aee95a2487a5f3f358",
+                "reference": "bb3caf973660eb6a775a39aee95a2487a5f3f358",
                 "shasum": ""
             },
             "require": {
@@ -879,7 +879,7 @@
             "keywords": [
                 "event sourcing"
             ],
-            "time": "2018-01-24T10:59:51+00:00"
+            "time": "2018-01-24T12:41:03+00:00"
         },
         {
             "name": "mmasiukevich/infrastructure",
