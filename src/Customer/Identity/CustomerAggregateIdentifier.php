@@ -12,12 +12,12 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Customer\Identity;
 
-use Desperado\Domain\Identity\AbstractIdentity;
+use Desperado\EventSourcing\Aggregates\Identifier\AbstractAggregateIdentifier;
 
 /**
  *
  */
-class CustomerAggregateIdentifier extends AbstractIdentity
+class CustomerAggregateIdentifier extends AbstractAggregateIdentifier
 {
 
 }

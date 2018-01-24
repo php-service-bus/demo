@@ -12,13 +12,14 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Customer\Services;
 
-use Desperado\EventSourcing\Service\EventSourcingService;
+use Desperado\Domain\Uuid;
+use Desperado\EventSourcing\Aggregates\AggregateManager;
+use Desperado\EventSourcing\Indexes\Indexer;
 use Desperado\Saga\Service\SagaService;
 use Desperado\ServiceBus\Annotations;
 use Desperado\ServiceBusDemo\Application\ApplicationContext;
 use Desperado\ServiceBusDemo\Customer\Command as CustomerCommands;
 use Desperado\ServiceBusDemo\Customer\CustomerAggregate;
-use Desperado\ServiceBusDemo\Customer\CustomerEmailIndex;
 use Desperado\ServiceBusDemo\Customer\Event as CustomerEvents;
 use Desperado\ServiceBusDemo\Customer\Identity as CustomerIdentities;
 use Desperado\ServiceBus\Services\Handlers\Exceptions\UnfulfilledPromiseData;
@@ -31,58 +32,55 @@ use React\Promise\PromiseInterface;
  */
 class RegisterCustomerService implements ServiceInterface
 {
+    private const EMAIL_INDEX_NAME = 'UserEmails';
+
     /**
      * @Annotations\CommandHandler
      *
      * @param CustomerCommands\RegisterCustomerCommand $command
      * @param ApplicationContext                       $context
-     * @param EventSourcingService                     $eventSourcingService
+     * @param AggregateManager                         $aggregateManager
+     * @param  Indexer                                 $indexer
      *
      * @return PromiseInterface
      */
     public function executeRegisterCustomerCommand(
         CustomerCommands\RegisterCustomerCommand $command,
         ApplicationContext $context,
-        EventSourcingService $eventSourcingService
+        AggregateManager $aggregateManager,
+        Indexer $indexer
     ): PromiseInterface
     {
-        return $eventSourcingService
-            ->obtainIndex(CustomerEmailIndex::class)
-            ->then(
-                function(CustomerEmailIndex $customerEmailIndex) use ($command, $context, $eventSourcingService)
+        return new Promise(
+            function() use ($command, $context, $aggregateManager, $indexer)
+            {
+                /** new customer */
+                if(false === $indexer->has(self::EMAIL_INDEX_NAME, $command->getEmail()))
                 {
-                    /** new customer */
-                    if(false === $customerEmailIndex->hasIdentifier($command->getEmail()))
-                    {
-                        /** @var CustomerIdentities\CustomerAggregateIdentifier $customerIdentifier */
-                        $customerIdentifier = CustomerIdentities\CustomerAggregateIdentifier::newUuid();
+                    /** @var CustomerIdentities\CustomerAggregateIdentifier $customerIdentifier */
+                    $customerIdentifier = new CustomerIdentities\CustomerAggregateIdentifier(
+                        Uuid::v4(),
+                        CustomerAggregate::class
+                    );
 
-                        $eventSourcingService
-                            ->createAggregate($customerIdentifier)
-                            ->then(
-                                function(CustomerAggregate $aggregate) use (
-                                    $customerEmailIndex,
-                                    $customerIdentifier,
-                                    $command
-                                )
-                                {
-                                    $aggregate->registerCustomer($command);
+                    $aggregate = new CustomerAggregate($customerIdentifier);
+                    $aggregate->fill($command);
 
-                                    $customerEmailIndex->store($command->getEmail(), $customerIdentifier);
-                                }
-                            );
-                    }
-                    else
-                    {
-                        $context->delivery(
-                            CustomerEvents\CustomerAlreadyExistsEvent::create([
-                                'requestId'  => $command->getRequestId(),
-                                'identifier' => $customerEmailIndex->getIdentifier($command->getEmail())->toString()
-                            ])
-                        );
-                    }
+                    $aggregateManager->persist($aggregate);
+
+                    $indexer->store(self::EMAIL_INDEX_NAME, $command->getEmail(), $aggregate->getIdentityAsString());
                 }
-            );
+                else
+                {
+                    $context->delivery(
+                        CustomerEvents\CustomerAlreadyExistsEvent::create([
+                            'requestId'  => $command->getRequestId(),
+                            'identifier' => $indexer->get(self::EMAIL_INDEX_NAME, $command->getEmail())
+                        ])
+                    );
+                }
+            }
+        );
     }
 
     /**

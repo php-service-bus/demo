@@ -43,7 +43,10 @@ class Bootstrap extends AbstractBootstrap
     {
         return BootstrapContainerConfiguration::create(
             [new DemoExtension()],
-            ['transport_connection_dsn' => \getenv('TRANSPORT_CONNECTION_DSN')]
+            [
+                'transport_connection_dsn' => \getenv('TRANSPORT_CONNECTION_DSN'),
+                'database_connection_dsn' => \getenv('DATABASE_CONNECTION_DSN')
+            ]
         );
     }
 }

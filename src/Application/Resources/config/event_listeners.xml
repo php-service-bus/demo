@@ -5,7 +5,7 @@
 
     <services>
 
-        <!-- Commit aggregates after message execution -->
+        <!-- Commit aggregates after message execution
         <service id="event_listeners.commit_aggregates_listener"
                  class="Desperado\ServiceBusDemo\Application\CommitAggregatesListener"
                  public="false">
@@ -16,6 +16,6 @@
                  method="onComplete"/>
 
         </service>
-
+-->
     </services>
 </container>

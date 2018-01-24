@@ -12,6 +12,13 @@ services:
             RABBITMQ_ERLANG_COOKIE: "f6fAjy5yes"
             RABBITMQ_DEFAULT_USER: admin
             RABBITMQ_DEFAULT_PASS: admin123
+    db:
+        image: postgres
+        restart: always
+        container_name: postgres
+        environment:
+            POSTGRES_PASSWORD: "123456789"
+            POSTGRES_USER: "postgres"
     application:
         build:
             context: ./
@@ -21,8 +28,10 @@ services:
         stop_signal: SIGKILL
         environment:
             TRANSPORT_CONNECTION_DSN: "amqp://admin:admin123@rabbitmq"
+            DATABASE_CONNECTION_DSN: "pgsql://postgres:123456789@postgres/postgres"
             APP_ENVIRONMENT: "dev"
             APP_ENTRY_POINT_NAME: "testing"
             LOG_STREAM: php://stdout
         links:
             - rabbitmq:rabbitmq
+            - db:db

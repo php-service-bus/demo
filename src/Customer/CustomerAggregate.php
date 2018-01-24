@@ -65,7 +65,7 @@ final class CustomerAggregate extends AbstractAggregateRoot
      *
      * @return void
      */
-    public function registerCustomer(CustomerCommands\RegisterCustomerCommand $command): void
+    public function fill(CustomerCommands\RegisterCustomerCommand $command): void
     {
         /** @var CustomerCommands\RegisterCustomerCommand $command */
 

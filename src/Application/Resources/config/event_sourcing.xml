@@ -6,29 +6,66 @@
     <services>
 
         <!-- Event sourcing storage -->
-        <service
-                id="event_sourcing.storage"
-                class="Desperado\EventSourcing\Storage\InMemory\EventSourcingInMemoryStorage"
-                public="false"/>
-
-        <!-- Event store -->
-        <service
-                id="event_sourcing.event_store"
-                class="Desperado\EventSourcing\Store\EventStore"
-                public="false">
-            <argument type="service" id="event_sourcing.storage"/>
-            <argument type="service" id="service_bus.serializer.compressed_messages"/>
-        </service>
-
-        <!-- Event sourcing service -->
-        <service
-                id="event_sourcing.service"
-                class="Desperado\EventSourcing\Service\EventSourcingService"
-                public="true">
-            <argument type="service" id="event_sourcing.event_store"/>
+        <service id="app.event_sourcing.storage" class="Desperado\EventSourcing\Storage\DBAL\DBALStorage"
+                 public="false">
+            <argument>%database_connection_dsn%</argument>
+            <argument type="constant">true</argument>
             <argument type="service" id="service_bus.logger"/>
 
-            <tag name="service_bus.logger" channel="event_sourcing"/>
+            <tag name="service_bus.logger" channel="database"/>
+        </service>
+
+        <!--Indexer -->
+        <service id="app.event_sourcing.indexer" class="Desperado\EventSourcing\Indexes\Indexer" public="true">
+            <argument type="service" id="app.event_sourcing.storage"/>
+        </service>
+
+        <!-- Snapshot store -->
+        <service id="app.event_sourcing.snapshot.snapshot_store"
+                 class="Desperado\EventSourcing\Snapshots\SnapshotStore"
+                 public="false">
+            <argument type="service" id="app.event_sourcing.storage"/>
+        </service>
+
+        <!-- Aggregate serializer -->
+        <service id="app.event_sourcing.snapshot.aggregate_serializer"
+                 class="Desperado\EventSourcing\Snapshots\Serializer\AggregateSnapshotSerializer"
+                 public="false"/>
+
+        <!-- Snapshots trigger -->
+        <service id="app.event_sourcing.snapshot.version_trigger"
+                 class="Desperado\EventSourcing\Snapshots\Trigger\VersionTrigger"
+                 public="false">
+            <argument>2</argument>
+        </service>
+
+        <!-- Snapshotter -->
+        <service id="app.event_sourcing.snapshot.snapshotter"
+                 class="Desperado\EventSourcing\Snapshots\Snapshotter"
+                 public="false">
+            <argument type="service" id="app.event_sourcing.snapshot.snapshot_store"/>
+            <argument type="service" id="app.event_sourcing.snapshot.aggregate_serializer"/>
+            <argument type="service" id="app.event_sourcing.snapshot.version_trigger"/>
+            <argument type="service" id="service_bus.logger"/>
+
+            <tag name="service_bus.logger" channel="snapshotter"/>
+
+        </service>
+
+        <!-- Event store -->
+        <service id="app.event_sourcing.event_store"
+                 class="Desperado\EventSourcing\EventStreams\EventStore"
+                 public="false">
+            <argument type="service" id="app.event_sourcing.storage"/>
+            <argument type="service" id="service_bus.serializer.messages"/>
+        </service>
+
+        <!-- Event sourcing manager -->
+        <service id="app.event_sourcing.aggregate_manager"
+                 class="Desperado\EventSourcing\Aggregates\AggregateManager"
+                 public="true">
+            <argument type="service" id="app.event_sourcing.event_store"/>
+            <argument type="service" id="app.event_sourcing.snapshot.snapshotter"/>
         </service>
     </services>
 </container>
