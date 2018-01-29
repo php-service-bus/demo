@@ -5,17 +5,17 @@
 
     <services>
 
-        <!-- Commit aggregates after message execution
+        <!-- Commit aggregates after message execution -->
         <service id="event_listeners.commit_aggregates_listener"
                  class="Desperado\ServiceBusDemo\Application\CommitAggregatesListener"
                  public="false">
-            <argument type="service" id="event_sourcing.service"/>
+            <argument type="service" id="app.event_sourcing.aggregate_manager"/>
 
             <tag name="service_bus.event_listener"
                  event="service_bus.kernel_events.after_execution"
                  method="onComplete"/>
 
         </service>
--->
+
     </services>
 </container>

@@ -5,26 +5,46 @@
 
     <services>
 
-        <!-- Event sourcing storage -->
-        <service id="app.event_sourcing.storage" class="Desperado\EventSourcing\Storage\DBAL\DBALStorage"
-                 public="false">
+        <!-- Doctrine2 connection instance -->
+        <service id="app.event_sourcing.storage.connection" class="Doctrine\DBAL\Connection" public="false">
+            <factory class="Desperado\EventSourcing\Storage\Doctrine\DoctrineConnectionFactory" method="create"/>
             <argument>%database_connection_dsn%</argument>
             <argument type="constant">true</argument>
             <argument type="service" id="service_bus.logger"/>
-
-            <tag name="service_bus.logger" channel="database"/>
         </service>
+
+        <!-- Indexes storage -->
+        <service id="app.event_sourcing.storage.index_storage"
+                 class="Desperado\EventSourcing\Storage\Doctrine\DoctrineIndexStorage"
+                 public="false">
+            <argument type="service" id="app.event_sourcing.storage.connection"/>
+        </service>
+
+        <!-- Snapshot storage -->
+        <service id="app.event_sourcing.storage.snapshot_storage"
+                 class="Desperado\EventSourcing\Storage\Doctrine\DoctrineSnapshotStorage"
+                 public="false">
+            <argument type="service" id="app.event_sourcing.storage.connection"/>
+        </service>
+
+        <!-- Event sourcing storage -->
+        <service id="app.event_sourcing.storage.event_sourcing_storage"
+                 class="Desperado\EventSourcing\Storage\Doctrine\DoctrineEventStorage"
+                 public="false">
+            <argument type="service" id="app.event_sourcing.storage.connection"/>
+        </service>
+
 
         <!--Indexer -->
         <service id="app.event_sourcing.indexer" class="Desperado\EventSourcing\Indexes\Indexer" public="true">
-            <argument type="service" id="app.event_sourcing.storage"/>
+            <argument type="service" id="app.event_sourcing.storage.index_storage"/>
         </service>
 
         <!-- Snapshot store -->
         <service id="app.event_sourcing.snapshot.snapshot_store"
                  class="Desperado\EventSourcing\Snapshots\SnapshotStore"
                  public="false">
-            <argument type="service" id="app.event_sourcing.storage"/>
+            <argument type="service" id="app.event_sourcing.storage.snapshot_storage"/>
         </service>
 
         <!-- Aggregate serializer -->
@@ -56,7 +76,7 @@
         <service id="app.event_sourcing.event_store"
                  class="Desperado\EventSourcing\EventStreams\EventStore"
                  public="false">
-            <argument type="service" id="app.event_sourcing.storage"/>
+            <argument type="service" id="app.event_sourcing.storage.event_sourcing_storage"/>
             <argument type="service" id="service_bus.serializer.messages"/>
         </service>
 

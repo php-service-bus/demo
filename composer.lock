@@ -829,12 +829,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/event-sourcing.git",
-                "reference": "bb3caf973660eb6a775a39aee95a2487a5f3f358"
+                "reference": "08d9177cf7344c779dee25fdf1cb21900fe07c36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/bb3caf973660eb6a775a39aee95a2487a5f3f358",
-                "reference": "bb3caf973660eb6a775a39aee95a2487a5f3f358",
+                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/08d9177cf7344c779dee25fdf1cb21900fe07c36",
+                "reference": "08d9177cf7344c779dee25fdf1cb21900fe07c36",
                 "shasum": ""
             },
             "require": {
@@ -879,7 +879,7 @@
             "keywords": [
                 "event sourcing"
             ],
-            "time": "2018-01-24T12:41:03+00:00"
+            "time": "2018-01-29T10:08:27+00:00"
         },
         {
             "name": "mmasiukevich/infrastructure",
@@ -994,12 +994,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/saga.git",
-                "reference": "5f619a1bc46a236eeb493ad27daf0ffbc9fd5586"
+                "reference": "5816ac0a070283ba5b90a1610a3fb311cf5a3f05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/5f619a1bc46a236eeb493ad27daf0ffbc9fd5586",
-                "reference": "5f619a1bc46a236eeb493ad27daf0ffbc9fd5586",
+                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/5816ac0a070283ba5b90a1610a3fb311cf5a3f05",
+                "reference": "5816ac0a070283ba5b90a1610a3fb311cf5a3f05",
                 "shasum": ""
             },
             "require": {
@@ -1044,7 +1044,7 @@
                 "event sourcing",
                 "saga"
             ],
-            "time": "2018-01-15T08:19:29+00:00"
+            "time": "2018-01-25T12:03:28+00:00"
         },
         {
             "name": "mmasiukevich/service-bus",
