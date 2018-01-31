@@ -10,14 +10,14 @@
 
 declare(strict_types = 1);
 
-namespace Desperado\ServiceBusDemo\Customer\Identity;
+namespace Desperado\ServiceBusDemo\Customer\Identifier;
 
-use Desperado\EventSourcing\Aggregates\Identifier\AbstractAggregateIdentifier;
+use Desperado\Saga\Identifier\AbstractSagaIdentifier;
 
 /**
  *
  */
-class CustomerAggregateIdentifier extends AbstractAggregateIdentifier
+class CustomerVerificationSagaIdentifier extends AbstractSagaIdentifier
 {
 
 }

@@ -17,6 +17,7 @@ RUN apt-get update && apt-get -y install apt-transport-https \
         php7.1-xml \
         php7.1-dev \
         php7.1-pdo-pgsql \
+        php7.1-sqlite \
         libevent-dev \
         make  libssl-dev  pkg-config \
     && apt-get clean \

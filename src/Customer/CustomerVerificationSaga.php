@@ -22,8 +22,8 @@ use Desperado\ServiceBusDemo\EmailNotifications\Event as EmailNotificationsEvent
 
 /**
  * @Annotations\Saga(
- *     identityNamespace="Desperado\ServiceBusDemo\Customer\Identity\CustomerVerificationSagaIdentifier",
- *     containingIdentityProperty="requestId",
+ *     identifierNamespace="Desperado\ServiceBusDemo\Customer\Identifier\CustomerVerificationSagaIdentifier",
+ *     containingIdentifierProperty="requestId",
  *     expireDateModifier="+2 days"
  * )
  */
@@ -76,6 +76,8 @@ final class CustomerVerificationSaga extends AbstractSaga
      */
     private function onCustomerActivatedEvent(CustomerEvents\CustomerActivatedEvent $event): void
     {
+        unset($event);
+
         /** Somewhere here we got the settings for sending a message */
 
         $this->fire(

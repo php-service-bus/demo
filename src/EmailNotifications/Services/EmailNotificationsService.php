@@ -17,8 +17,6 @@ use Desperado\ServiceBusDemo\Application\ApplicationContext;
 use Desperado\ServiceBus\Services\ServiceInterface;
 use Desperado\ServiceBusDemo\EmailNotifications\Command as EmailNotificationsCommands;
 use Desperado\ServiceBusDemo\EmailNotifications\Event as EmailNotificationsEvents;
-use React\Promise\Promise;
-use React\Promise\PromiseInterface;
 
 /**
  * @Annotations\Service(
@@ -33,22 +31,17 @@ class EmailNotificationsService implements ServiceInterface
      * @param EmailNotificationsCommands\SendEmailCommand $command
      * @param ApplicationContext                          $context
      *
-     * @return PromiseInterface
+     * @return void
      */
     public function executeSendEmailCommand(
         EmailNotificationsCommands\SendEmailCommand $command,
         ApplicationContext $context
-    ): PromiseInterface
+    ): void
     {
         /** We will not send a letter. Suppose that somewhere it was successfully sent */
 
-        return new Promise(
-            function() use ($command, $context)
-            {
-                $context->delivery(
-                    EmailNotificationsEvents\EmailSentEvent::create(['requestId' => $command->getRequestId()])
-                );
-            }
+        $context->delivery(
+            EmailNotificationsEvents\EmailSentEvent::create(['requestId' => $command->getRequestId()])
         );
     }
 }

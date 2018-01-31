@@ -14,9 +14,6 @@
             <argument>%transport_connection_dsn%</argument>
         </service>
 
-        <!-- Sagas storage -->
-        <service id="sagas_storage" class="Desperado\Saga\Storage\InMemory\SagaInMemoryStorage"/>
-
         <!-- Message transport -->
         <service id="message_transport.rabbit_mq"
                  class="Desperado\ServiceBus\Transport\RabbitMqTransport\RabbitMqTransport"

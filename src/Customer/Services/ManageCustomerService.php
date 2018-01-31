@@ -15,13 +15,11 @@ namespace Desperado\ServiceBusDemo\Customer\Services;
 use Desperado\EventSourcing\Aggregates\AggregateManager;
 use Desperado\ServiceBus\Annotations;
 use Desperado\ServiceBusDemo\Application\ApplicationContext;
-use Desperado\ServiceBusDemo\Customer\Identity\CustomerAggregateIdentifier;
+use Desperado\ServiceBusDemo\Customer\Identifier\CustomerAggregateIdentifier;
 use Desperado\ServiceBus\Services\ServiceInterface;
 use Desperado\ServiceBusDemo\Customer\Command as CustomerCommands;
 use Desperado\ServiceBusDemo\Customer\CustomerAggregate;
 use Desperado\ServiceBusDemo\Customer\Event as CustomerEvents;
-use React\Promise\Promise;
-use React\Promise\PromiseInterface;
 
 /**
  * @Annotations\Service(
@@ -37,41 +35,34 @@ class ManageCustomerService implements ServiceInterface
      * @param ApplicationContext                       $context
      * @param AggregateManager                         $aggregateManager
      *
-     * @return PromiseInterface
+     * @return void
      */
     public function executeActivateCustomerCommand(
         CustomerCommands\ActivateCustomerCommand $command,
         ApplicationContext $context,
         AggregateManager $aggregateManager
-    ): PromiseInterface
+    ): void
     {
-        return new Promise(
-            function() use ($context, $command, $aggregateManager)
-            {
-                $identifier = new CustomerAggregateIdentifier(
-                    $command->getIdentifier(),
-                    CustomerAggregate::class
-                );
+        $identifier = new CustomerAggregateIdentifier(
+            $command->getIdentifier(),
+            CustomerAggregate::class
+        );
 
-                /** @var CustomerAggregate $aggregate */
-                $aggregate = $aggregateManager->obtainAggregate($identifier);
+        /** @var CustomerAggregate $aggregate */
+        $aggregate = $aggregateManager->obtainAggregate($identifier);
 
-                if(null !== $aggregate)
-                {
-                    $aggregate->activate($command);
+        if(null !== $aggregate)
+        {
+            $aggregate->activate($command);
 
-                    return;
-                }
+            return;
+        }
 
-                $context->delivery(
-                    CustomerEvents\CustomerAggregateNotFoundEvent::create([
-                        'requestId'  => $command->getRequestId(),
-                        'identifier' => $command->getIdentifier()
-                    ])
-                );
-
-                return;
-            }
+        $context->delivery(
+            CustomerEvents\CustomerAggregateNotFoundEvent::create([
+                'requestId'  => $command->getRequestId(),
+                'identifier' => $command->getIdentifier()
+            ])
         );
     }
 }

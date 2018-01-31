@@ -20,12 +20,11 @@ use Desperado\ServiceBus\Annotations;
 use Desperado\ServiceBusDemo\Application\ApplicationContext;
 use Desperado\ServiceBusDemo\Customer\Command as CustomerCommands;
 use Desperado\ServiceBusDemo\Customer\CustomerAggregate;
+use Desperado\ServiceBusDemo\Customer\CustomerVerificationSaga;
 use Desperado\ServiceBusDemo\Customer\Event as CustomerEvents;
-use Desperado\ServiceBusDemo\Customer\Identity as CustomerIdentities;
+use Desperado\ServiceBusDemo\Customer\Identifier as CustomerIdentities;
 use Desperado\ServiceBus\Services\Handlers\Exceptions\UnfulfilledPromiseData;
 use Desperado\ServiceBus\Services\ServiceInterface;
-use React\Promise\Promise;
-use React\Promise\PromiseInterface;
 
 /**
  * @Annotations\Service()
@@ -42,45 +41,40 @@ class RegisterCustomerService implements ServiceInterface
      * @param AggregateManager                         $aggregateManager
      * @param  Indexer                                 $indexer
      *
-     * @return PromiseInterface
+     * @return void
      */
     public function executeRegisterCustomerCommand(
         CustomerCommands\RegisterCustomerCommand $command,
         ApplicationContext $context,
         AggregateManager $aggregateManager,
         Indexer $indexer
-    ): PromiseInterface
+    ): void
     {
-        return new Promise(
-            function() use ($command, $context, $aggregateManager, $indexer)
-            {
-                /** new customer */
-                if(false === $indexer->has(self::EMAIL_INDEX_NAME, $command->getEmail()))
-                {
-                    /** @var CustomerIdentities\CustomerAggregateIdentifier $customerIdentifier */
-                    $customerIdentifier = new CustomerIdentities\CustomerAggregateIdentifier(
-                        Uuid::v4(),
-                        CustomerAggregate::class
-                    );
+        /** new customer */
+        if(false === $indexer->has(self::EMAIL_INDEX_NAME, $command->getEmail()))
+        {
+            /** @var CustomerIdentities\CustomerAggregateIdentifier $customerIdentifier */
+            $customerIdentifier = new CustomerIdentities\CustomerAggregateIdentifier(
+                Uuid::v4(),
+                CustomerAggregate::class
+            );
 
-                    $aggregate = new CustomerAggregate($customerIdentifier);
-                    $aggregate->fill($command);
+            $aggregate = new CustomerAggregate($customerIdentifier);
+            $aggregate->fill($command);
 
-                    $aggregateManager->persist($aggregate);
+            $aggregateManager->persist($aggregate);
 
-                    $indexer->store(self::EMAIL_INDEX_NAME, $command->getEmail(), $aggregate->getIdentityAsString());
-                }
-                else
-                {
-                    $context->delivery(
-                        CustomerEvents\CustomerAlreadyExistsEvent::create([
-                            'requestId'  => $command->getRequestId(),
-                            'identifier' => $indexer->get(self::EMAIL_INDEX_NAME, $command->getEmail())
-                        ])
-                    );
-                }
-            }
-        );
+            $indexer->store(self::EMAIL_INDEX_NAME, $command->getEmail(), $aggregate->getIdentityAsString());
+        }
+        else
+        {
+            $context->delivery(
+                CustomerEvents\CustomerAlreadyExistsEvent::create([
+                    'requestId'  => $command->getRequestId(),
+                    'identifier' => $indexer->get(self::EMAIL_INDEX_NAME, $command->getEmail())
+                ])
+            );
+        }
     }
 
     /**
@@ -92,26 +86,22 @@ class RegisterCustomerService implements ServiceInterface
      *
      * @param UnfulfilledPromiseData $unfulfilledPromiseData
      *
-     * @return PromiseInterface
+     * @return void
      */
-    public function failedRegisterCustomerCommand(UnfulfilledPromiseData $unfulfilledPromiseData): PromiseInterface
+    public function failedRegisterCustomerCommand(UnfulfilledPromiseData $unfulfilledPromiseData): void
     {
-        return new Promise(
-            function() use ($unfulfilledPromiseData)
-            {
-                /** @var CustomerCommands\RegisterCustomerCommand $registerCommand */
-                $registerCommand = $unfulfilledPromiseData->getMessage();
+        /** @var CustomerCommands\RegisterCustomerCommand $registerCommand */
+        $registerCommand = $unfulfilledPromiseData->getMessage();
 
-                $unfulfilledPromiseData
-                    ->getContext()
-                    ->delivery(
-                        CustomerEvents\FailedRegistrationEvent::create([
-                            'requestId' => $registerCommand->getRequestId(),
-                            'reason'    => $unfulfilledPromiseData->getThrowable()->getMessage()
-                        ])
-                    );
-            }
-        );
+        $unfulfilledPromiseData
+            ->getContext()
+            ->delivery(
+                CustomerEvents\FailedRegistrationEvent::create([
+                    'requestId' => $registerCommand->getRequestId(),
+                    'reason'    => $unfulfilledPromiseData->getThrowable()->getMessage()
+                ])
+            );
+
     }
 
     /**
@@ -121,7 +111,7 @@ class RegisterCustomerService implements ServiceInterface
      * @param ApplicationContext                     $context
      * @param SagaService                            $sagaService
      *
-     * @return PromiseInterface
+     * @return void
      *
      * @throws \Throwable
      */
@@ -129,10 +119,12 @@ class RegisterCustomerService implements ServiceInterface
         CustomerEvents\CustomerRegisteredEvent $event,
         ApplicationContext $context,
         SagaService $sagaService
-    ): PromiseInterface
+    ): void
     {
-        return $sagaService->startSaga(
-            new CustomerIdentities\CustomerVerificationSagaIdentifier($event->getRequestId()),
+        unset($context);
+
+        $sagaService->start(
+            new CustomerIdentities\CustomerVerificationSagaIdentifier($event->getRequestId(), CustomerVerificationSaga::class),
             CustomerCommands\StartVerificationSagaCommand::create(['customerIdentifier' => $event->getIdentifier()])
         );
     }
