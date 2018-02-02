@@ -829,12 +829,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/event-sourcing.git",
-                "reference": "47491baf437b79592735ae03b24e83984ac92615"
+                "reference": "5fe626c59ed42e8e54d1f93d400d2c066fdbda4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/47491baf437b79592735ae03b24e83984ac92615",
-                "reference": "47491baf437b79592735ae03b24e83984ac92615",
+                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/5fe626c59ed42e8e54d1f93d400d2c066fdbda4d",
+                "reference": "5fe626c59ed42e8e54d1f93d400d2c066fdbda4d",
                 "shasum": ""
             },
             "require": {
@@ -875,7 +875,7 @@
             "keywords": [
                 "event sourcing"
             ],
-            "time": "2018-01-31T12:40:50+00:00"
+            "time": "2018-02-02T14:28:15+00:00"
         },
         {
             "name": "mmasiukevich/infrastructure",
@@ -990,12 +990,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/saga.git",
-                "reference": "915ec984d587cab5ca7b354f875e5a5576a1e61c"
+                "reference": "580dc2ffa683b47903b3a7cbe31e3b849437650d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/915ec984d587cab5ca7b354f875e5a5576a1e61c",
-                "reference": "915ec984d587cab5ca7b354f875e5a5576a1e61c",
+                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/580dc2ffa683b47903b3a7cbe31e3b849437650d",
+                "reference": "580dc2ffa683b47903b3a7cbe31e3b849437650d",
                 "shasum": ""
             },
             "require": {
@@ -1036,7 +1036,7 @@
                 "event sourcing",
                 "saga"
             ],
-            "time": "2018-01-31T10:48:34+00:00"
+            "time": "2018-02-02T09:59:39+00:00"
         },
         {
             "name": "mmasiukevich/service-bus",
@@ -1044,12 +1044,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "86eedb94554afee7bdbf6c5cbbab383cc3821c9c"
+                "reference": "08400995023930f7579a7bc0f53c8cc3f688fc85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/86eedb94554afee7bdbf6c5cbbab383cc3821c9c",
-                "reference": "86eedb94554afee7bdbf6c5cbbab383cc3821c9c",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/08400995023930f7579a7bc0f53c8cc3f688fc85",
+                "reference": "08400995023930f7579a7bc0f53c8cc3f688fc85",
                 "shasum": ""
             },
             "require": {
@@ -1100,7 +1100,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-01-31T12:25:14+00:00"
+            "time": "2018-02-02T15:41:16+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2479,16 +2479,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
                 "shasum": ""
             },
             "require": {
@@ -2500,7 +2500,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -2534,7 +2534,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-01-30T19:27:44+00:00"
         },
         {
             "name": "symfony/property-access",

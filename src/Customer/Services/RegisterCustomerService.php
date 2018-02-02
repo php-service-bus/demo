@@ -23,7 +23,6 @@ use Desperado\ServiceBusDemo\Customer\CustomerAggregate;
 use Desperado\ServiceBusDemo\Customer\CustomerVerificationSaga;
 use Desperado\ServiceBusDemo\Customer\Event as CustomerEvents;
 use Desperado\ServiceBusDemo\Customer\Identifier as CustomerIdentities;
-use Desperado\ServiceBus\Services\Handlers\Exceptions\UnfulfilledPromiseData;
 use Desperado\ServiceBus\Services\ServiceInterface;
 
 /**
@@ -75,33 +74,6 @@ class RegisterCustomerService implements ServiceInterface
                 ])
             );
         }
-    }
-
-    /**
-     * @Annotations\ErrorHandler(
-     *     message="Desperado\ServiceBusDemo\Customer\Command\RegisterCustomerCommand",
-     *     type="Exception",
-     *     loggerChannel="registrationFail"
-     * )
-     *
-     * @param UnfulfilledPromiseData $unfulfilledPromiseData
-     *
-     * @return void
-     */
-    public function failedRegisterCustomerCommand(UnfulfilledPromiseData $unfulfilledPromiseData): void
-    {
-        /** @var CustomerCommands\RegisterCustomerCommand $registerCommand */
-        $registerCommand = $unfulfilledPromiseData->getMessage();
-
-        $unfulfilledPromiseData
-            ->getContext()
-            ->delivery(
-                CustomerEvents\FailedRegistrationEvent::create([
-                    'requestId' => $registerCommand->getRequestId(),
-                    'reason'    => $unfulfilledPromiseData->getThrowable()->getMessage()
-                ])
-            );
-
     }
 
     /**
