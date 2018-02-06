@@ -12,9 +12,9 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Application;
 
-use Desperado\ServiceBus\Application\AbstractBootstrap;
-use Desperado\ServiceBus\Application\BootstrapContainerConfiguration;
-use Desperado\ServiceBus\Application\BootstrapServicesDefinitions;
+use Desperado\ServiceBus\Application\Bootstrap\AbstractBootstrap;
+use Desperado\ServiceBus\Application\Bootstrap\BootstrapContainerConfiguration;
+use Desperado\ServiceBus\Application\Bootstrap\BootstrapServicesDefinitions;
 use Desperado\ServiceBusDemo\Application\DependencyInjection\DemoExtension;
 
 /**

@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Application;
 
-use Desperado\ServiceBus\Application\AbstractKernel;
+use Desperado\ServiceBus\Application\Kernel\AbstractKernel;
 use Desperado\ServiceBusDemo\Customer;
 use Desperado\ServiceBusDemo\EmailNotifications;
 

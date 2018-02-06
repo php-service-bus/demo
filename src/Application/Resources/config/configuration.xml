@@ -21,6 +21,9 @@
             <argument type="service" id="message_transport.config.rabbit_mq"/>
             <argument type="service" id="service_bus.environment"/>
             <argument type="service" id="service_bus.serializer.messages"/>
+            <argument type="service" id="service_bus.logger"/>
+
+            <tag name="service_bus.logger" channel="rabbitMQ"/>
         </service>
 
         <!-- Application-level execution context -->
@@ -32,6 +35,10 @@
         <service id="application_kernel" class="Desperado\ServiceBusDemo\Application\Kernel" public="true">
             <argument type="service" id="service_bus.message_bus.builder"/>
             <argument type="service" id="service_bus.sagas.service"/>
-            <argument type="service" id="service_bus.event_dispatcher"/></service>
+            <argument type="service" id="service_bus.event_dispatcher"/>
+            <argument type="service" id="service_bus.logger"/>
+
+            <tag name="service_bus.logger" channel="kernel"/>
+        </service>
     </services>
 </container>

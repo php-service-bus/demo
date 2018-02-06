@@ -28,14 +28,10 @@
     "phpdocumentor/reflection-docblock": "4.2.0",
     "doctrine/dbal": "v2.6.3"
   },
-  "require-dev": {
-    "symfony/debug": "^4.0"
-  },
   "config": {
     "optimize-autoloader": true
   },
   "minimum-stability": "dev",
-  "bin-dir": "bin",
   "prefer-stable": true,
   "extra": {
     "branch-alias": {

@@ -14,7 +14,7 @@ namespace Desperado\ServiceBusDemo\Application;
 
 use Desperado\Domain\Transport\Context\OutboundMessageContextInterface;
 use Desperado\Infrastructure\Bridge\Logger\LoggerRegistry;
-use Desperado\ServiceBus\MessageProcessor\AbstractExecutionContext;
+use Desperado\ServiceBus\Application\Context\AbstractExecutionContext;
 use Desperado\ServiceBus\Transport\Context\OutboundMessageContext;
 use Psr\Log\LoggerInterface;
 

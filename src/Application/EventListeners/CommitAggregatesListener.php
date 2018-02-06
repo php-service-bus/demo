@@ -13,7 +13,7 @@ declare(strict_types = 1);
 namespace Desperado\ServiceBusDemo\Application;
 
 use Desperado\EventSourcing\Aggregates\AggregateManager;
-use Desperado\ServiceBus\KernelEvents\MessageProcessingCompletedEvent;
+use Desperado\ServiceBus\Application\Kernel\Events\MessageProcessingCompletedEvent;
 
 /**
  * Listener, which will be called to save changes to the aggregates
