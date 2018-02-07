@@ -821,12 +821,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/event-sourcing.git",
-                "reference": "39cbdb411972d412eff1c1012276138b3d26fc4e"
+                "reference": "c1c536d529b1ebc25fe0a3de708bc5a21764ae10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/39cbdb411972d412eff1c1012276138b3d26fc4e",
-                "reference": "39cbdb411972d412eff1c1012276138b3d26fc4e",
+                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/c1c536d529b1ebc25fe0a3de708bc5a21764ae10",
+                "reference": "c1c536d529b1ebc25fe0a3de708bc5a21764ae10",
                 "shasum": ""
             },
             "require": {
@@ -866,7 +866,7 @@
             "keywords": [
                 "event sourcing"
             ],
-            "time": "2018-02-06T09:48:41+00:00"
+            "time": "2018-02-07T11:46:50+00:00"
         },
         {
             "name": "mmasiukevich/infrastructure",
@@ -981,12 +981,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/saga.git",
-                "reference": "fc4e1471e50dcb8b44b3396380f2012083e80b75"
+                "reference": "78a8c79d97da77309904b6b9beb2491b00cc54ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/fc4e1471e50dcb8b44b3396380f2012083e80b75",
-                "reference": "fc4e1471e50dcb8b44b3396380f2012083e80b75",
+                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/78a8c79d97da77309904b6b9beb2491b00cc54ce",
+                "reference": "78a8c79d97da77309904b6b9beb2491b00cc54ce",
                 "shasum": ""
             },
             "require": {
@@ -1027,7 +1027,7 @@
                 "event sourcing",
                 "saga"
             ],
-            "time": "2018-02-06T09:50:08+00:00"
+            "time": "2018-02-07T11:38:56+00:00"
         },
         {
             "name": "mmasiukevich/service-bus",
@@ -1035,12 +1035,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "1943e096364a50498ae1943fed5f44da6dc47a06"
+                "reference": "70fb3e52c84b717206e73749e9dd3ed916b89b07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/1943e096364a50498ae1943fed5f44da6dc47a06",
-                "reference": "1943e096364a50498ae1943fed5f44da6dc47a06",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/70fb3e52c84b717206e73749e9dd3ed916b89b07",
+                "reference": "70fb3e52c84b717206e73749e9dd3ed916b89b07",
                 "shasum": ""
             },
             "require": {
@@ -1085,7 +1085,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-02-06T11:01:31+00:00"
+            "time": "2018-02-06T19:12:16+00:00"
         },
         {
             "name": "monolog/monolog",
