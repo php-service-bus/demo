@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Customer\Identifier;
 
-use Desperado\Saga\Identifier\AbstractSagaIdentifier;
+use Desperado\ServiceBus\Saga\Identifier\AbstractSagaIdentifier;
 
 /**
  *

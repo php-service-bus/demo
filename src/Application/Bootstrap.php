@@ -22,7 +22,6 @@ use Desperado\ServiceBusDemo\Application\DependencyInjection\DemoExtension;
  */
 class Bootstrap extends AbstractBootstrap
 {
-
     /**
      * @inheritdoc
      */
@@ -32,6 +31,7 @@ class Bootstrap extends AbstractBootstrap
             'message_transport.rabbit_mq',
             'application_kernel',
             'sagas_storage',
+            'application_scheduler_storage',
             'application_context'
         );
     }
@@ -45,7 +45,7 @@ class Bootstrap extends AbstractBootstrap
             [new DemoExtension()],
             [
                 'transport_connection_dsn' => \getenv('TRANSPORT_CONNECTION_DSN'),
-                'database_connection_dsn' => \getenv('DATABASE_CONNECTION_DSN')
+                'database_connection_dsn'  => \getenv('DATABASE_CONNECTION_DSN')
             ]
         );
     }

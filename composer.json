@@ -23,9 +23,8 @@
   },
   "require": {
     "php": ">=7.1",
-    "mmasiukevich/service-bus": "^0.1",
-    "mmasiukevich/event-sourcing": "^0.1",
-    "phpdocumentor/reflection-docblock": "4.2.0",
+    "mmasiukevich/service-bus": "dev-develop",
+    "mmasiukevich/event-sourcing": "v0.0.1",
     "doctrine/dbal": "v2.6.3"
   },
   "config": {
