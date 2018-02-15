@@ -43,7 +43,7 @@ class ApplicationContext extends AbstractExecutionContext
      */
     public function applyOutboundMessageContext(OutboundMessageContextInterface $outboundMessageContext): self
     {
-        $self = new self();
+        $self = new self($this->getSchedulerProvider());
 
         $self->outboundMessageContext = $outboundMessageContext;
 

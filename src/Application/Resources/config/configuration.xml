@@ -2,9 +2,7 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
     <services>
-
         <!-- Message transport configuration -->
         <service id="message_transport.config.rabbit_mq"
                  class="Desperado\ServiceBus\Transport\RabbitMqTransport\RabbitMqTransportConfig"
@@ -29,16 +27,26 @@
         <!-- Application-level execution context -->
         <service id="application_context"
                  class="Desperado\ServiceBusDemo\Application\ApplicationContext"
-                 public="false"/>
+                 public="false">
+            <argument type="service" id="service_bus.scheduler.provider"/>
+        </service>
 
         <!-- Application kernel -->
         <service id="application_kernel" class="Desperado\ServiceBusDemo\Application\Kernel" public="true">
             <argument type="service" id="service_bus.message_bus.builder"/>
-            <argument type="service" id="service_bus.sagas.service"/>
+            <argument type="service" id="service_bus.sagas.provider"/>
             <argument type="service" id="service_bus.event_dispatcher"/>
             <argument type="service" id="service_bus.logger"/>
 
             <tag name="service_bus.logger" channel="kernel"/>
+        </service>
+
+        <!-- Scheduler storage -->
+        <service
+                id="application_scheduler_storage"
+                class="Desperado\ServiceBus\Storage\Doctrine\DoctrineSchedulerStorage"
+                public="false">
+            <argument type="service" id="app.service_bus.storage.connection"/>
         </service>
     </services>
 </container>

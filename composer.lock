@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0acfae7e0b6e24ba7bfd31fa2abe440d",
+    "content-hash": "f2ad54027099782ee3e85f46cb8c915a",
     "packages": [
         {
             "name": "bunny/bunny",
@@ -764,7 +764,7 @@
         },
         {
             "name": "mmasiukevich/domain-common",
-            "version": "dev-master",
+            "version": "v0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/domain-common.git",
@@ -817,22 +817,22 @@
         },
         {
             "name": "mmasiukevich/event-sourcing",
-            "version": "dev-master",
+            "version": "v0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/event-sourcing.git",
-                "reference": "c1c536d529b1ebc25fe0a3de708bc5a21764ae10"
+                "reference": "8f4ec231122b3e1025f78ab6ed297550159c1ea4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/c1c536d529b1ebc25fe0a3de708bc5a21764ae10",
-                "reference": "c1c536d529b1ebc25fe0a3de708bc5a21764ae10",
+                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/8f4ec231122b3e1025f78ab6ed297550159c1ea4",
+                "reference": "8f4ec231122b3e1025f78ab6ed297550159c1ea4",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "v2.6.3",
-                "mmasiukevich/domain-common": "^0.1",
-                "mmasiukevich/message-serializer": "^0.1",
+                "mmasiukevich/domain-common": "v0.0.1",
+                "mmasiukevich/message-serializer": "v0.0.1",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -866,20 +866,20 @@
             "keywords": [
                 "event sourcing"
             ],
-            "time": "2018-02-07T11:46:50+00:00"
+            "time": "2018-02-08T08:39:19+00:00"
         },
         {
             "name": "mmasiukevich/infrastructure",
-            "version": "dev-master",
+            "version": "v0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/infrastructure.git",
-                "reference": "a74ae7cc71445cedc4ee47c46c929478ea3fed60"
+                "reference": "5d4feb4867c534c8167d04a66bd1ca40e11c73bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/infrastructure/zipball/a74ae7cc71445cedc4ee47c46c929478ea3fed60",
-                "reference": "a74ae7cc71445cedc4ee47c46c929478ea3fed60",
+                "url": "https://api.github.com/repos/mmasiukevich/infrastructure/zipball/5d4feb4867c534c8167d04a66bd1ca40e11c73bd",
+                "reference": "5d4feb4867c534c8167d04a66bd1ca40e11c73bd",
                 "shasum": ""
             },
             "require": {
@@ -887,7 +887,7 @@
                 "doctrine/annotations": "v1.6.0",
                 "guzzlehttp/guzzle": "^6.3",
                 "guzzlehttp/psr7": "1.4.2",
-                "mmasiukevich/domain-common": "^0.1",
+                "mmasiukevich/domain-common": "v0.0.1",
                 "monolog/monolog": "1.23.0",
                 "nikic/fast-route": "v1.2.0",
                 "php": ">=7.1",
@@ -923,24 +923,24 @@
                 }
             ],
             "description": "Command Query Responsibility Segregation/Event Sourcing infrastructure",
-            "time": "2018-02-06T09:43:53+00:00"
+            "time": "2018-02-08T08:34:07+00:00"
         },
         {
             "name": "mmasiukevich/message-serializer",
-            "version": "dev-master",
+            "version": "v0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/message-serializer.git",
-                "reference": "e1b7d22d9efaf8354d4c7cbadbfba8a68f0aeb6c"
+                "reference": "b13699b82062f6827b599c81dc7e403e738d4eb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/message-serializer/zipball/e1b7d22d9efaf8354d4c7cbadbfba8a68f0aeb6c",
-                "reference": "e1b7d22d9efaf8354d4c7cbadbfba8a68f0aeb6c",
+                "url": "https://api.github.com/repos/mmasiukevich/message-serializer/zipball/b13699b82062f6827b599c81dc7e403e738d4eb5",
+                "reference": "b13699b82062f6827b599c81dc7e403e738d4eb5",
                 "shasum": ""
             },
             "require": {
-                "mmasiukevich/domain-common": "^0.1",
+                "mmasiukevich/domain-common": "v0.0.1",
                 "php": ">=7.1",
                 "symfony/property-access": "v4.0.4",
                 "symfony/property-info": "v4.0.4",
@@ -973,82 +973,27 @@
                 }
             ],
             "description": "Message serializer",
-            "time": "2018-02-06T09:45:06+00:00"
-        },
-        {
-            "name": "mmasiukevich/saga",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mmasiukevich/saga.git",
-                "reference": "78a8c79d97da77309904b6b9beb2491b00cc54ce"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/saga/zipball/78a8c79d97da77309904b6b9beb2491b00cc54ce",
-                "reference": "78a8c79d97da77309904b6b9beb2491b00cc54ce",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/annotations": "v1.6.0",
-                "doctrine/dbal": "v2.6.3",
-                "mmasiukevich/domain-common": "^0.1",
-                "mmasiukevich/infrastructure": "^0.1",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Desperado\\Saga\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Masiukevich Maksim",
-                    "email": "desperado@minsk-info.ru",
-                    "homepage": "https://github.com/mmasiukevich",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Sagas implementation",
-            "keywords": [
-                "event sourcing",
-                "saga"
-            ],
-            "time": "2018-02-07T11:38:56+00:00"
+            "time": "2018-02-08T08:36:02+00:00"
         },
         {
             "name": "mmasiukevich/service-bus",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "70fb3e52c84b717206e73749e9dd3ed916b89b07"
+                "reference": "c3043d751a7f8f12109a75ee4ab8038066a150e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/70fb3e52c84b717206e73749e9dd3ed916b89b07",
-                "reference": "70fb3e52c84b717206e73749e9dd3ed916b89b07",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/c3043d751a7f8f12109a75ee4ab8038066a150e9",
+                "reference": "c3043d751a7f8f12109a75ee4ab8038066a150e9",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "v1.7.1",
-                "mmasiukevich/event-sourcing": "^0.1",
-                "mmasiukevich/infrastructure": "^0.1",
-                "mmasiukevich/message-serializer": "^0.1",
-                "mmasiukevich/saga": "^0.1",
+                "mmasiukevich/event-sourcing": "v0.0.1",
+                "mmasiukevich/infrastructure": "v0.0.1",
+                "mmasiukevich/message-serializer": "v0.0.1",
                 "php": ">=7.1",
                 "phpdocumentor/reflection-docblock": "4.2.0",
                 "symfony/config": "v4.0.4",
@@ -1064,7 +1009,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1-dev"
+                    "dev-master": "v0.0.1-dev"
                 }
             },
             "autoload": {
@@ -1085,7 +1030,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-02-06T19:12:16+00:00"
+            "time": "2018-02-15T14:20:40+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2950,7 +2895,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "mmasiukevich/service-bus": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

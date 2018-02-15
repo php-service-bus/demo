@@ -13,15 +13,15 @@ declare(strict_types = 1);
 namespace Desperado\ServiceBusDemo\Customer;
 
 use Desperado\Domain\Message\AbstractCommand;
-use Desperado\Saga\AbstractSaga;
-use Desperado\Saga\Annotations;
+use Desperado\ServiceBus\Annotations;
+use Desperado\ServiceBus\AbstractSaga;
 use Desperado\ServiceBusDemo\Customer\Command as CustomerCommands;
 use Desperado\ServiceBusDemo\Customer\Event as CustomerEvents;
 use Desperado\ServiceBusDemo\EmailNotifications\Command\SendEmailCommand;
 use Desperado\ServiceBusDemo\EmailNotifications\Event as EmailNotificationsEvents;
 
 /**
- * @Annotations\Saga(
+ * @Annotations\Sagas\Saga(
  *     identifierNamespace="Desperado\ServiceBusDemo\Customer\Identifier\CustomerVerificationSagaIdentifier",
  *     containingIdentifierProperty="requestId",
  *     expireDateModifier="+2 days"
@@ -49,7 +49,7 @@ final class CustomerVerificationSaga extends AbstractSaga
     }
 
     /**
-     * @Annotations\SagaEventListener()
+     * @Annotations\Sagas\SagaEventListener()
      *
      * @param Event\CustomerVerificationTokenReceivedEvent $event
      *
@@ -68,7 +68,7 @@ final class CustomerVerificationSaga extends AbstractSaga
     }
 
     /**
-     * @Annotations\SagaEventListener()
+     * @Annotations\Sagas\SagaEventListener()
      *
      * @param Event\CustomerActivatedEvent $event
      *
@@ -92,7 +92,7 @@ final class CustomerVerificationSaga extends AbstractSaga
     }
 
     /**
-     * @Annotations\SagaEventListener()
+     * @Annotations\Sagas\SagaEventListener()
      *
      * @param Event\CustomerAggregateNotFoundEvent $event
      *
@@ -106,7 +106,7 @@ final class CustomerVerificationSaga extends AbstractSaga
     }
 
     /**
-     * @Annotations\SagaEventListener()
+     * @Annotations\Sagas\SagaEventListener()
      *
      * @param EmailNotificationsEvents\EmailSentEvent $event
      *
