@@ -28,10 +28,8 @@ This example shows the user registration process, it's consisting of several ste
 * As a message bus, the example uses RabbitMQ
 
 ## @todo list
-* Change the logic of work with indexes ("event-sourcing" component). Index will be just a hash table with there are own storage.
 * Get away from callback hell (change ReactPHP to AmPHP)
 * Optimistic/pessimistic locks
-* Scheduler
 * Reducing the dependence of the user domain on the framework
 * Service-bus tests coverage
 * Time-based UUID (for messages)
