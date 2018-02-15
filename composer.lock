@@ -870,16 +870,16 @@
         },
         {
             "name": "mmasiukevich/infrastructure",
-            "version": "v0.0.1",
+            "version": "v0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/infrastructure.git",
-                "reference": "5d4feb4867c534c8167d04a66bd1ca40e11c73bd"
+                "reference": "9d15b00aca182175cb94f0c8af0595552338d3b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/infrastructure/zipball/5d4feb4867c534c8167d04a66bd1ca40e11c73bd",
-                "reference": "5d4feb4867c534c8167d04a66bd1ca40e11c73bd",
+                "url": "https://api.github.com/repos/mmasiukevich/infrastructure/zipball/9d15b00aca182175cb94f0c8af0595552338d3b6",
+                "reference": "9d15b00aca182175cb94f0c8af0595552338d3b6",
                 "shasum": ""
             },
             "require": {
@@ -923,7 +923,7 @@
                 }
             ],
             "description": "Command Query Responsibility Segregation/Event Sourcing infrastructure",
-            "time": "2018-02-08T08:34:07+00:00"
+            "time": "2018-02-15T15:18:41+00:00"
         },
         {
             "name": "mmasiukevich/message-serializer",
@@ -981,18 +981,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "c3043d751a7f8f12109a75ee4ab8038066a150e9"
+                "reference": "451fa7d20095d018e646db4efc204579308e5494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/c3043d751a7f8f12109a75ee4ab8038066a150e9",
-                "reference": "c3043d751a7f8f12109a75ee4ab8038066a150e9",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/451fa7d20095d018e646db4efc204579308e5494",
+                "reference": "451fa7d20095d018e646db4efc204579308e5494",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "v1.7.1",
                 "mmasiukevich/event-sourcing": "v0.0.1",
-                "mmasiukevich/infrastructure": "v0.0.1",
+                "mmasiukevich/infrastructure": "v0.0.2",
                 "mmasiukevich/message-serializer": "v0.0.1",
                 "php": ">=7.1",
                 "phpdocumentor/reflection-docblock": "4.2.0",
@@ -1030,7 +1030,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-02-15T14:20:40+00:00"
+            "time": "2018-02-15T15:21:47+00:00"
         },
         {
             "name": "monolog/monolog",
