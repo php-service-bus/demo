@@ -1,7 +1,8 @@
+#!/usr/bin/env php
 <?php
 
 /**
- * PHP Service Bus (CQS implementation)
+ * PHP Service Bus (CQS implementation) Demo application
  *
  * @author  Maksim Masiukevich <desperado@minsk-info.ru>
  * @license MIT
@@ -10,20 +11,19 @@
 
 declare(strict_types = 1);
 
-include_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 use Desperado\ServiceBusDemo\Application\Bootstrap;
 use Desperado\Domain\ThrowableFormatter;
+use Desperado\ServiceBus\HttpServer\HttpServerConfiguration;
 
 try
 {
     $bootstrap = Bootstrap::boot(
         __DIR__ . '/..',
-        __DIR__ . '/cache',
-        __DIR__ . '/.env'
+        __DIR__ . '/../cache',
+        __DIR__ . '/../.env'
     );
-
-    $bootstrap->getEntryPoint()->run(['demo']);
 }
 catch(\Throwable $throwable)
 {

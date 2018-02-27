@@ -23,7 +23,7 @@
   },
   "require": {
     "php": ">=7.1",
-    "mmasiukevich/service-bus": "dev-develop",
+    "mmasiukevich/service-bus": "dev-feature/http_server",
     "mmasiukevich/event-sourcing": "^v0.0.3",
     "doctrine/dbal": "v2.6.3"
   },
