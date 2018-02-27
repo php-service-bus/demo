@@ -12,9 +12,7 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\EmailNotifications\Services;
 
-use Desperado\Domain\DateTime;
 use Desperado\ServiceBus\Annotations;
-use Desperado\ServiceBus\Scheduler\Identifier\ScheduledCommandIdentifier;
 use Desperado\ServiceBus\ServiceInterface;
 use Desperado\ServiceBusDemo\Application\ApplicationContext;
 use Desperado\ServiceBusDemo\EmailNotifications\Command as EmailNotificationsCommands;
