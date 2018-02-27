@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2ad54027099782ee3e85f46cb8c915a",
+    "content-hash": "0b577f75baa9be1a49b65ca2c732ccca",
     "packages": [
         {
             "name": "bunny/bunny",
@@ -485,6 +485,60 @@
             "time": "2018-01-09T20:05:19+00:00"
         },
         {
+            "name": "doctrine/instantiator",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "^6.2.3",
+                "squizlabs/php_codesniffer": "^3.0.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2017-07-22T11:58:36+00:00"
+        },
+        {
             "name": "doctrine/lexer",
             "version": "v1.0.1",
             "source": {
@@ -537,6 +591,88 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "doctrine/orm",
+            "version": "v2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/doctrine2.git",
+                "reference": "374e7ace49d864dad8cddbc55346447c8a6a2083"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/374e7ace49d864dad8cddbc55346447c8a6a2083",
+                "reference": "374e7ace49d864dad8cddbc55346447c8a6a2083",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "~1.5",
+                "doctrine/cache": "~1.6",
+                "doctrine/collections": "^1.4",
+                "doctrine/common": "^2.7.1",
+                "doctrine/dbal": "^2.6",
+                "doctrine/instantiator": "~1.1",
+                "ext-pdo": "*",
+                "php": "^7.1",
+                "symfony/console": "~3.0|~4.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^1.0",
+                "phpunit/phpunit": "^6.5",
+                "squizlabs/php_codesniffer": "^3.2",
+                "symfony/yaml": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
+            },
+            "bin": [
+                "bin/doctrine"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\ORM\\": "lib/Doctrine/ORM"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                }
+            ],
+            "description": "Object-Relational-Mapper for PHP",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "orm"
+            ],
+            "time": "2017-12-20T00:38:15+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -764,16 +900,16 @@
         },
         {
             "name": "mmasiukevich/domain-common",
-            "version": "v0.0.1",
+            "version": "v0.0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/domain-common.git",
-                "reference": "21f49b36d897d0d196b576c6aca6383fc62fb135"
+                "reference": "d3082a084029e4fdd241350f28c204e0fb8da232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/domain-common/zipball/21f49b36d897d0d196b576c6aca6383fc62fb135",
-                "reference": "21f49b36d897d0d196b576c6aca6383fc62fb135",
+                "url": "https://api.github.com/repos/mmasiukevich/domain-common/zipball/d3082a084029e4fdd241350f28c204e0fb8da232",
+                "reference": "d3082a084029e4fdd241350f28c204e0fb8da232",
                 "shasum": ""
             },
             "require": {
@@ -787,7 +923,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1-dev"
+                    "dev-develop": "v0.0.*-dev"
                 }
             },
             "autoload": {
@@ -807,32 +943,32 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Command Query Responsibility Segregation/Event Sourcing implementation domain layer",
+            "description": "Service bus domain layer",
             "keywords": [
-                "command query responsibility segregation",
-                "cqrs",
+                "Command Query Segregation",
+                "cqs",
                 "event sourcing"
             ],
-            "time": "2018-02-06T09:42:23+00:00"
+            "time": "2018-02-25T16:05:40+00:00"
         },
         {
             "name": "mmasiukevich/event-sourcing",
-            "version": "v0.0.1",
+            "version": "v0.0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/event-sourcing.git",
-                "reference": "8f4ec231122b3e1025f78ab6ed297550159c1ea4"
+                "reference": "cc6428d1af7a3ef34212e9bf5b50880d3821b3ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/8f4ec231122b3e1025f78ab6ed297550159c1ea4",
-                "reference": "8f4ec231122b3e1025f78ab6ed297550159c1ea4",
+                "url": "https://api.github.com/repos/mmasiukevich/event-sourcing/zipball/cc6428d1af7a3ef34212e9bf5b50880d3821b3ad",
+                "reference": "cc6428d1af7a3ef34212e9bf5b50880d3821b3ad",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "v2.6.3",
-                "mmasiukevich/domain-common": "v0.0.1",
-                "mmasiukevich/message-serializer": "v0.0.1",
+                "mmasiukevich/domain-common": "^v0.0.3",
+                "mmasiukevich/message-serializer": "^v0.0.3",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -842,7 +978,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1-dev"
+                    "dev-develop": "v0.0.*-dev"
                 }
             },
             "autoload": {
@@ -866,28 +1002,29 @@
             "keywords": [
                 "event sourcing"
             ],
-            "time": "2018-02-08T08:39:19+00:00"
+            "time": "2018-02-25T16:13:02+00:00"
         },
         {
             "name": "mmasiukevich/infrastructure",
-            "version": "v0.0.1",
+            "version": "v0.0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/infrastructure.git",
-                "reference": "5d4feb4867c534c8167d04a66bd1ca40e11c73bd"
+                "reference": "bd0e6c5267bbb1e1a6abf23d0cd804d3140f85d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/infrastructure/zipball/5d4feb4867c534c8167d04a66bd1ca40e11c73bd",
-                "reference": "5d4feb4867c534c8167d04a66bd1ca40e11c73bd",
+                "url": "https://api.github.com/repos/mmasiukevich/infrastructure/zipball/bd0e6c5267bbb1e1a6abf23d0cd804d3140f85d6",
+                "reference": "bd0e6c5267bbb1e1a6abf23d0cd804d3140f85d6",
                 "shasum": ""
             },
             "require": {
                 "bunny/bunny": "v0.3.0",
                 "doctrine/annotations": "v1.6.0",
+                "doctrine/orm": "v2.6.0",
                 "guzzlehttp/guzzle": "^6.3",
                 "guzzlehttp/psr7": "1.4.2",
-                "mmasiukevich/domain-common": "v0.0.1",
+                "mmasiukevich/domain-common": "^v0.0.3",
                 "monolog/monolog": "1.23.0",
                 "nikic/fast-route": "v1.2.0",
                 "php": ">=7.1",
@@ -896,7 +1033,6 @@
                 "voryx/event-loop": "^2.0"
             },
             "require-dev": {
-                "doctrine/orm": "v2.6.0",
                 "phpunit/phpunit": "^7.0"
             },
             "type": "library",
@@ -908,7 +1044,10 @@
             "autoload": {
                 "psr-4": {
                     "Desperado\\Infrastructure\\": "src/"
-                }
+                },
+                "files": [
+                    "src/Bridge/AnnotationsReader/functions.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -923,24 +1062,24 @@
                 }
             ],
             "description": "Command Query Responsibility Segregation/Event Sourcing infrastructure",
-            "time": "2018-02-08T08:34:07+00:00"
+            "time": "2018-02-25T16:08:37+00:00"
         },
         {
             "name": "mmasiukevich/message-serializer",
-            "version": "v0.0.1",
+            "version": "v0.0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/message-serializer.git",
-                "reference": "b13699b82062f6827b599c81dc7e403e738d4eb5"
+                "reference": "e0f42b2051ae4818378d9b607164a588c219011e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/message-serializer/zipball/b13699b82062f6827b599c81dc7e403e738d4eb5",
-                "reference": "b13699b82062f6827b599c81dc7e403e738d4eb5",
+                "url": "https://api.github.com/repos/mmasiukevich/message-serializer/zipball/e0f42b2051ae4818378d9b607164a588c219011e",
+                "reference": "e0f42b2051ae4818378d9b607164a588c219011e",
                 "shasum": ""
             },
             "require": {
-                "mmasiukevich/domain-common": "v0.0.1",
+                "mmasiukevich/domain-common": "^v0.0.3",
                 "php": ">=7.1",
                 "symfony/property-access": "v4.0.4",
                 "symfony/property-info": "v4.0.4",
@@ -952,7 +1091,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1-dev"
+                    "dev-develop": "v0.0.*-dev"
                 }
             },
             "autoload": {
@@ -973,7 +1112,7 @@
                 }
             ],
             "description": "Message serializer",
-            "time": "2018-02-08T08:36:02+00:00"
+            "time": "2018-02-25T16:11:28+00:00"
         },
         {
             "name": "mmasiukevich/service-bus",
@@ -981,19 +1120,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "c3043d751a7f8f12109a75ee4ab8038066a150e9"
+                "reference": "b1e38ce2c4d9a0962a17f6f6826c387417a4ca69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/c3043d751a7f8f12109a75ee4ab8038066a150e9",
-                "reference": "c3043d751a7f8f12109a75ee4ab8038066a150e9",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/b1e38ce2c4d9a0962a17f6f6826c387417a4ca69",
+                "reference": "b1e38ce2c4d9a0962a17f6f6826c387417a4ca69",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "v1.7.1",
-                "mmasiukevich/event-sourcing": "v0.0.1",
-                "mmasiukevich/infrastructure": "v0.0.1",
-                "mmasiukevich/message-serializer": "v0.0.1",
+                "mmasiukevich/event-sourcing": "^v0.0.3",
+                "mmasiukevich/infrastructure": "^v0.0.3",
+                "mmasiukevich/message-serializer": "^v0.0.3",
                 "php": ">=7.1",
                 "phpdocumentor/reflection-docblock": "4.2.0",
                 "symfony/config": "v4.0.4",
@@ -1009,7 +1148,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "v0.0.1-dev"
+                    "dev-master": "v0.0.3-dev"
                 }
             },
             "autoload": {
@@ -1030,7 +1169,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-02-15T14:20:40+00:00"
+            "time": "2018-02-26T07:37:11+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2000,6 +2139,74 @@
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
             "time": "2018-01-21T19:06:11+00:00"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v4.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "36d5b41e7d4e1ccf0370f6babe966c08ef0a1488"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/36d5b41e7d4e1ccf0370f6babe966c08ef0a1488",
+                "reference": "36d5b41e7d4e1ccf0370f6babe966c08ef0a1488",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.4",
+                "symfony/process": "<3.3"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/config": "~3.4|~4.0",
+                "symfony/dependency-injection": "~3.4|~4.0",
+                "symfony/event-dispatcher": "~3.4|~4.0",
+                "symfony/lock": "~3.4|~4.0",
+                "symfony/process": "~3.4|~4.0"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/lock": "",
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-01-29T09:06:29+00:00"
         },
         {
             "name": "symfony/dependency-injection",

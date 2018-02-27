@@ -8,16 +8,16 @@ RUN apt-get update && apt-get -y install apt-transport-https \
     && curl -sS https://packages.sury.org/php/apt.gpg | apt-key add - \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-        php7.1-cli \
-        php7.1-apcu php7.1-apcu-bc \
-        php7.1-curl \
-        php7.1-json \
-        php7.1-opcache \
-        php7.1-zip \
-        php7.1-xml \
-        php7.1-dev \
-        php7.1-pdo-pgsql \
-        php7.1-sqlite \
+        php7.2-cli \
+        php7.2-apcu php7.2-apcu-bc \
+        php7.2-curl \
+        php7.2-json \
+        php7.2-opcache \
+        php7.2-zip \
+        php7.2-xml \
+        php7.2-dev \
+        php7.2-pdo-pgsql \
+        php7.2-sqlite \
         libevent-dev \
         make  libssl-dev  pkg-config \
     && apt-get clean \
@@ -30,7 +30,7 @@ RUN cd /var/lib/event/ && tar zfx event-2.3.0.tgz && cd event-2.3.0  \
     &&  phpize \
     &&  ./configure --with-event-core --with-event-extra \
     &&  make  && make install \
-    && echo "extension = event.so" >> /etc/php/7.1/cli/php.ini
+    && echo "extension = event.so" >> /etc/php/7.2/cli/php.ini
 
 
 COPY ./docker/conf/supervisord.conf /etc
