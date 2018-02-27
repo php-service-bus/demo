@@ -14,22 +14,22 @@ namespace Desperado\ServiceBusDemo\Customer\Services;
 
 use Desperado\EventSourcing\Aggregates\AggregateManager;
 use Desperado\ServiceBus\Annotations;
+use Desperado\ServiceBus\ServiceInterface;
 use Desperado\ServiceBusDemo\Application\ApplicationContext;
 use Desperado\ServiceBusDemo\Customer\Command as CustomerCommands;
 use Desperado\ServiceBusDemo\Customer\CustomerAggregate;
 use Desperado\ServiceBusDemo\Customer\Event as CustomerEvents;
 use Desperado\ServiceBusDemo\Customer\Identifier\CustomerAggregateIdentifier;
-use Desperado\ServiceBus\Services\ServiceInterface;
 
 /**
- * @Annotations\Service(
+ * @Annotations\Services\Service(
  *     loggerChannel="customerVerification"
  * )
  */
 class CustomerVerificationService implements ServiceInterface
 {
     /**
-     * @Annotations\CommandHandler()
+     * @Annotations\Services\CommandHandler()
      *
      * @param CustomerCommands\SendCustomerVerificationMessageCommand $command
      * @param ApplicationContext                                      $context

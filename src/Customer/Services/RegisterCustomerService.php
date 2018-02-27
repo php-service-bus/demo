@@ -15,25 +15,25 @@ namespace Desperado\ServiceBusDemo\Customer\Services;
 use Desperado\Domain\Uuid;
 use Desperado\EventSourcing\Aggregates\AggregateManager;
 use Desperado\EventSourcing\Indexes\Indexer;
-use Desperado\Saga\Service\SagaService;
 use Desperado\ServiceBus\Annotations;
+use Desperado\ServiceBus\SagaProvider;
+use Desperado\ServiceBus\ServiceInterface;
 use Desperado\ServiceBusDemo\Application\ApplicationContext;
 use Desperado\ServiceBusDemo\Customer\Command as CustomerCommands;
 use Desperado\ServiceBusDemo\Customer\CustomerAggregate;
 use Desperado\ServiceBusDemo\Customer\CustomerVerificationSaga;
 use Desperado\ServiceBusDemo\Customer\Event as CustomerEvents;
 use Desperado\ServiceBusDemo\Customer\Identifier as CustomerIdentities;
-use Desperado\ServiceBus\Services\ServiceInterface;
 
 /**
- * @Annotations\Service()
+ * @Annotations\Services\Service()
  */
 class RegisterCustomerService implements ServiceInterface
 {
     private const EMAIL_INDEX_NAME = 'UserEmails';
 
     /**
-     * @Annotations\CommandHandler
+     * @Annotations\Services\CommandHandler
      *
      * @param CustomerCommands\RegisterCustomerCommand $command
      * @param ApplicationContext                       $context
@@ -77,11 +77,11 @@ class RegisterCustomerService implements ServiceInterface
     }
 
     /**
-     * @Annotations\EventHandler()
+     * @Annotations\Services\EventHandler()
      *
      * @param CustomerEvents\CustomerRegisteredEvent $event
      * @param ApplicationContext                     $context
-     * @param SagaService                            $sagaService
+     * @param SagaProvider                           $sagaProvider
      *
      * @return void
      *
@@ -90,12 +90,12 @@ class RegisterCustomerService implements ServiceInterface
     public function whenCustomerRegisteredEvent(
         CustomerEvents\CustomerRegisteredEvent $event,
         ApplicationContext $context,
-        SagaService $sagaService
+        SagaProvider $sagaProvider
     ): void
     {
         unset($context);
 
-        $sagaService->start(
+        $sagaProvider->start(
             new CustomerIdentities\CustomerVerificationSagaIdentifier($event->getRequestId(), CustomerVerificationSaga::class),
             CustomerCommands\StartVerificationSagaCommand::create(['customerIdentifier' => $event->getIdentifier()])
         );

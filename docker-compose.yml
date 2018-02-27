@@ -1,7 +1,8 @@
 version: '2'
 services:
     rabbitmq:
-        image: rabbitmq:3.7.2-management-alpine
+        build:
+            context: docker/rabbitmq
         container_name: rabbitmq
         restart: always
         ports:
