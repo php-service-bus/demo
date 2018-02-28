@@ -12,6 +12,9 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Customer\Command;
 
+use Desperado\Domain\Message\AbstractMessage;
+use Desperado\ServiceBus\Messages\HttpMessageInterface;
+use Psr\Http\Message\RequestInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Desperado\Domain\Message\AbstractCommand;
 
@@ -22,7 +25,7 @@ use Desperado\Domain\Message\AbstractCommand;
  * @see FailedRegistrationEvent
  * @see CustomerAlreadyExistsEvent
  */
-class RegisterCustomerCommand extends AbstractCommand
+class RegisterCustomerCommand extends AbstractCommand implements HttpMessageInterface
 {
     /**
      * Operation identifier
@@ -99,6 +102,17 @@ class RegisterCustomerCommand extends AbstractCommand
      * @var string
      */
     protected $password;
+
+    /**
+     * @inheritdoc
+     */
+    public static function fromRequest(RequestInterface $request): AbstractMessage
+    {
+        $parameters = [];
+        \parse_str((string) $request->getBody(), $parameters);
+
+        return new self($parameters);
+    }
 
     /**
      * Get operation identifier

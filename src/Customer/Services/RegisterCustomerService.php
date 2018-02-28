@@ -16,6 +16,8 @@ use Desperado\Domain\Uuid;
 use Desperado\EventSourcing\Aggregates\AggregateManager;
 use Desperado\EventSourcing\Indexes\Indexer;
 use Desperado\ServiceBus\Annotations;
+use Desperado\ServiceBus\HttpServer\Context\HttpHandlerContextInterface;
+use Desperado\ServiceBus\HttpServer\HttpResponse;
 use Desperado\ServiceBus\SagaProvider;
 use Desperado\ServiceBus\ServiceInterface;
 use Desperado\ServiceBusDemo\Application\ApplicationContext;
@@ -33,7 +35,11 @@ class RegisterCustomerService implements ServiceInterface
     private const EMAIL_INDEX_NAME = 'UserEmails';
 
     /**
-     * @Annotations\Services\CommandHandler
+     * @Annotations\Services\CommandHandler(
+     *     route="/register/customer",
+     *     method="POST",
+     *     responseContentType="application/json"
+     * )
      *
      * @param CustomerCommands\RegisterCustomerCommand $command
      * @param ApplicationContext                       $context
@@ -64,6 +70,10 @@ class RegisterCustomerService implements ServiceInterface
             $aggregateManager->persist($aggregate);
 
             $indexer->store(self::EMAIL_INDEX_NAME, $command->getEmail(), $aggregate->getIdentityAsString());
+
+            $context->bindResponse(
+                new HttpResponse(200, [], 'Registration started')
+            );
         }
         else
         {
@@ -72,6 +82,11 @@ class RegisterCustomerService implements ServiceInterface
                     'requestId'  => $command->getRequestId(),
                     'identifier' => $indexer->get(self::EMAIL_INDEX_NAME, $command->getEmail())
                 ])
+            );
+
+            /** @var HttpHandlerContextInterface $context */
+            $context->bindResponse(
+                new HttpResponse(400, [], 'Customer already registered')
             );
         }
     }

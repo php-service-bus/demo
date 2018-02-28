@@ -1120,12 +1120,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "95c374ea9f30162d3445aae07c63d02cca8833ea"
+                "reference": "693cb43d0884488b791723df0456c00263b1198c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/95c374ea9f30162d3445aae07c63d02cca8833ea",
-                "reference": "95c374ea9f30162d3445aae07c63d02cca8833ea",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/693cb43d0884488b791723df0456c00263b1198c",
+                "reference": "693cb43d0884488b791723df0456c00263b1198c",
                 "shasum": ""
             },
             "require": {
@@ -1171,7 +1171,7 @@
                 }
             ],
             "description": "PHP Service Bus (CQS implementation)",
-            "time": "2018-02-27T15:11:52+00:00"
+            "time": "2018-02-28T09:03:53+00:00"
         },
         {
             "name": "monolog/monolog",

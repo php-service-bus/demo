@@ -15,7 +15,6 @@ include_once __DIR__ . '/../vendor/autoload.php';
 
 use Desperado\ServiceBusDemo\Application\Bootstrap;
 use Desperado\Domain\ThrowableFormatter;
-use Desperado\ServiceBus\HttpServer\HttpServerConfiguration;
 
 try
 {
@@ -24,6 +23,11 @@ try
         __DIR__ . '/../cache',
         __DIR__ . '/../.env'
     );
+
+    $bootstrap
+        ->getContainer()
+        ->get('service_bus.http_server.entry_point')
+        ->run([\getenv('APP_ENTRY_POINT_NAME')]);
 }
 catch(\Throwable $throwable)
 {

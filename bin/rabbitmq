@@ -24,7 +24,10 @@ try
         __DIR__ . '/../.env'
     );
 
-    $bootstrap->getEntryPoint()->run(['demo']);
+    $bootstrap
+        ->getContainer()
+        ->get('service_bus.message_bus_entry_point')
+        ->run([\getenv('APP_ENTRY_POINT_NAME')]);
 }
 catch(\Throwable $throwable)
 {
