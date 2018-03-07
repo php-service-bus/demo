@@ -38,8 +38,8 @@ $channel = $client->channel();
 $result = $channel->publish(
     $messageBody,
     [],
-    'testing',
-    'demo'
+    \getenv('APP_ENTRY_POINT_NAME'),
+    \getenv('APP_ENTRY_POINT_NAME')
 );
 
 echo true === $result ? 'true' : 'false';

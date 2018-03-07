@@ -12,10 +12,10 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Application;
 
-use Desperado\Domain\Transport\Context\OutboundMessageContextInterface;
 use Desperado\Infrastructure\Bridge\Logger\LoggerRegistry;
 use Desperado\ServiceBus\Application\Context\AbstractExecutionContext;
 use Desperado\ServiceBus\Transport\Context\OutboundMessageContext;
+use Desperado\ServiceBus\Transport\Context\OutboundMessageContextInterface;
 use Psr\Log\LoggerInterface;
 
 /**

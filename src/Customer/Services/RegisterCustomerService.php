@@ -37,8 +37,7 @@ class RegisterCustomerService implements ServiceInterface
     /**
      * @Annotations\Services\CommandHandler(
      *     route="/register/customer",
-     *     method="POST",
-     *     responseContentType="application/json"
+     *     method="POST"
      * )
      *
      * @param CustomerCommands\RegisterCustomerCommand $command

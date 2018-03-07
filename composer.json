@@ -16,15 +16,9 @@
       "Desperado\\ServiceBusDemo\\": "src/"
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Desperado\\ServiceBusDemo\\": "demo/src/"
-    }
-  },
   "require": {
-    "php": ">=7.1",
-    "mmasiukevich/service-bus": "dev-feature/http_server",
-    "mmasiukevich/event-sourcing": "^v0.0.3",
+    "php": ">=7.2",
+    "mmasiukevich/service-bus": "^v0.0.4",
     "doctrine/dbal": "v2.6.3"
   },
   "config": {
@@ -34,7 +28,7 @@
   "prefer-stable": true,
   "extra": {
     "branch-alias": {
-      "dev-master": "v0.0.3-dev"
+      "dev-master": "v0.0.4-dev"
     }
   }
 }
