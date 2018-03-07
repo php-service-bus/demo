@@ -30,6 +30,4 @@ This example shows the user registration process, it's consisting of several ste
 ## @todo list
 * Get away from callback hell (change ReactPHP to AmPHP)
 * Optimistic/pessimistic locks
-* Reducing the dependence of the user domain on the framework
-* Service-bus tests coverage
 * Time-based UUID (for messages)
