@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Application;
 
+use Desperado\Domain\Message\AbstractMessage;
 use Desperado\EventSourcing\Aggregates\AggregateManager;
 use Desperado\ServiceBus\Application\Kernel\Events\MessageProcessingCompletedEvent;
 
@@ -44,6 +45,11 @@ class CommitAggregatesListener
      */
     public function onComplete(MessageProcessingCompletedEvent $event): void
     {
-        $this->aggregateManager->flush($event->getExecutionContext());
+        $this->aggregateManager->flush(
+            function(AbstractMessage $message) use ($event)
+            {
+                $event->getExecutionContext()->delivery($message);
+            }
+        );
     }
 }
