@@ -76,8 +76,6 @@ final class CustomerVerificationSaga extends AbstractSaga
      */
     private function onCustomerActivatedEvent(CustomerEvents\CustomerActivatedEvent $event): void
     {
-        unset($event);
-
         /** Somewhere here we got the settings for sending a message */
 
         $this->fire(
@@ -114,8 +112,6 @@ final class CustomerVerificationSaga extends AbstractSaga
      */
     private function onEmailSentEvent(EmailNotificationsEvents\EmailSentEvent $event): void
     {
-        unset($event);
-
         $this->complete('Customer successful registered');
     }
 }

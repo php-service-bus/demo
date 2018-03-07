@@ -12,10 +12,10 @@ declare(strict_types = 1);
 
 namespace Desperado\ServiceBusDemo\Application;
 
-use Desperado\Domain\Transport\Context\OutboundMessageContextInterface;
 use Desperado\Infrastructure\Bridge\Logger\LoggerRegistry;
 use Desperado\ServiceBus\Application\Context\AbstractExecutionContext;
 use Desperado\ServiceBus\Transport\Context\OutboundMessageContext;
+use Desperado\ServiceBus\Transport\Context\OutboundMessageContextInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,7 +33,7 @@ class ApplicationContext extends AbstractExecutionContext
     /**
      * @inheritdoc
      */
-    public function getLogger(string $channelName): LoggerInterface
+    final public function getLogger(string $channelName): LoggerInterface
     {
         return LoggerRegistry::getLogger($channelName);
     }
@@ -41,10 +41,9 @@ class ApplicationContext extends AbstractExecutionContext
     /**
      * @inheritdoc
      */
-    public function applyOutboundMessageContext(OutboundMessageContextInterface $outboundMessageContext): self
+    final public function applyOutboundMessageContext(OutboundMessageContextInterface $outboundMessageContext): self
     {
-        $self = new self($this->getSchedulerProvider());
-
+        $self = $this->rebuild();
         $self->outboundMessageContext = $outboundMessageContext;
 
         return $self;
@@ -53,8 +52,18 @@ class ApplicationContext extends AbstractExecutionContext
     /**
      * @inheritdoc
      */
-    public function getOutboundMessageContext(): ?OutboundMessageContextInterface
+    final public function getOutboundMessageContext(): ?OutboundMessageContextInterface
     {
         return $this->outboundMessageContext;
+    }
+
+    /**
+     * Recreate context object
+     *
+     * @return ApplicationContext
+     */
+    protected function rebuild(): self
+    {
+        return new self($this->getSchedulerProvider());
     }
 }

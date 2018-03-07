@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -10,7 +11,7 @@
 
 declare(strict_types = 1);
 
-include_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 use Desperado\ServiceBusDemo\Application\Bootstrap;
 use Desperado\Domain\ThrowableFormatter;
@@ -19,11 +20,14 @@ try
 {
     $bootstrap = Bootstrap::boot(
         __DIR__ . '/..',
-        __DIR__ . '/cache',
-        __DIR__ . '/.env'
+        __DIR__ . '/../cache',
+        __DIR__ . '/../.env'
     );
 
-    $bootstrap->getEntryPoint()->run(['demo']);
+    $bootstrap
+        ->getContainer()
+        ->get('service_bus.message_bus_entry_point')
+        ->run();
 }
 catch(\Throwable $throwable)
 {

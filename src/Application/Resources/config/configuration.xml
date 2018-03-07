@@ -23,14 +23,12 @@
 
             <tag name="service_bus.logger" channel="rabbitMQ"/>
         </service>
-
         <!-- Application-level execution context -->
-        <service id="application_context"
+        <service id="application_context.message_bus"
                  class="Desperado\ServiceBusDemo\Application\ApplicationContext"
                  public="false">
             <argument type="service" id="service_bus.scheduler.provider"/>
         </service>
-
         <!-- Application kernel -->
         <service id="application_kernel" class="Desperado\ServiceBusDemo\Application\Kernel" public="true">
             <argument type="service" id="service_bus.message_bus.builder"/>
