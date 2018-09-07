@@ -1,0 +1,77 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * PHP Service Bus (publish-subscribe pattern implementation) demo
+ * Supports Saga pattern and Event Sourcing
+ *
+ * @author  Maksim Masiukevich <desperado@minsk-info.ru>
+ * @license MIT
+ * @license https://opensource.org/licenses/MIT
+ */
+
+declare(strict_types = 1);
+
+namespace DocumentProcessing\Bin;
+
+use Desperado\ServiceBus\Application\Bootstrap;
+use Desperado\ServiceBus\Application\ServiceBusKernel;
+use Desperado\ServiceBus\OutboundMessage\Destination;
+use Desperado\ServiceBus\Storage\SQL\AmpPostgreSQL\AmpPostgreSQLAdapter;
+use Desperado\ServiceBus\Transport\AmqpExt\AmqpQueue;
+use Desperado\ServiceBus\Transport\AmqpExt\AmqpTopic;
+use Desperado\ServiceBus\Transport\QueueBind;
+use ServiceBusDemo\App\ServiceBusDemoExtension;
+use Symfony\Component\Debug\Debug;
+
+include __DIR__ . '/../vendor/autoload.php';
+
+try
+{
+    /** @noinspection ForgottenDebugOutputInspection */
+    Debug::enable();
+
+    $container = Bootstrap::withDotEnv(__DIR__ . '/../.env')
+        ->useAmqpExtTransport((string) \getenv('TRANSPORT_CONNECTION_DSN'))
+        ->useSqlStorage(AmpPostgreSQLAdapter::class, (string) \getenv('DATABASE_CONNECTION_DSN'))
+        ->useCustomCacheDirectory(__DIR__ . '/../cache')
+        ->addExtensions(new ServiceBusDemoExtension())
+        ->importParameters([
+            'app.log_level' => (string) \getenv('LOG_LEVEL')
+        ])
+        ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
+        ->enableAutoImportSagas([__DIR__ . '/../src'])
+        ->boot();
+
+    $kernel = new ServiceBusKernel($container);
+
+    $transportConfigurator = $kernel->transportConfigurator();
+
+    /** Main exchange and queue binds */
+
+    $mainTopic = AmqpTopic::direct((string) \getenv('TRANSPORT_TOPIC'), true);
+    $mainQueue = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
+
+    $transportConfigurator
+        ->createTopic($mainTopic)
+        ->addQueue($mainQueue)
+        ->bindQueue(new QueueBind($mainQueue, $mainTopic, (string) \getenv('TRANSPORT_ROUTING_KEY')));
+
+    $transportConfigurator->addDefaultDestinations(
+        new Destination(
+            (string) \getenv('SENDER_DESTINATION_TOPIC'),
+            (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
+        )
+    );
+
+    if(false === (bool) (int) \getenv('LOG_MESSAGE_PAYLOAD'))
+    {
+        $kernel->disableMessagesPayloadLogging();
+    }
+
+    $kernel->listen($mainQueue);
+}
+catch(\Throwable $throwable)
+{
+    echo $throwable->getMessage(), \PHP_EOL, $throwable->getFile() . ':' . $throwable->getLine(), \PHP_EOL;
+}

@@ -1,7 +1,8 @@
 {
   "name": "mmasiukevich/service-bus-demo",
-  "description": "PHP Service Bus (CQS implementation) demo application",
+  "description": "PHP Service Bus (publish-subscribe pattern) demo application",
   "type": "library",
+  "license": "proprietary",
   "authors": [
     {
       "name": "Masiukevich Maksim",
@@ -10,25 +11,34 @@
       "role": "Developer"
     }
   ],
-  "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Desperado\\ServiceBusDemo\\": "src/"
+      "ServiceBusDemo\\": "src/",
+      "ServiceBusDemo\\App\\": "app/"
     }
   },
   "require": {
     "php": ">=7.2",
-    "mmasiukevich/service-bus": "^v0.0.4",
-    "doctrine/dbal": "v2.6.3"
+    "mmasiukevich/service-bus": "^v1.1",
+    "symfony/dotenv": "^4.1",
+    "symfony/debug": "^4.1"
+  },
+  "require-dev": {
+    "doctrine/dbal": "^v2.6",
+    "phpunit/phpunit": "^7.2",
+    "vimeo/psalm": "^2"
   },
   "config": {
     "optimize-autoloader": true
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "extra": {
-    "branch-alias": {
-      "dev-master": "v0.0.4-dev"
-    }
+  "scripts": {
+    "psalm": "./vendor/bin/psalm --config=./psalm.xml",
+    "phpunit": "phpunit --configuration ./phpunit.xml --verbose",
+    "coverage": "phpunit --configuration ./phpunit.xml --coverage-html ./coverage --verbose",
+    "test": [
+      "@phpunit"
+    ]
   }
 }
