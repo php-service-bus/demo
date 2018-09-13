@@ -55,7 +55,7 @@ try
     $transportConfigurator
         ->createTopic($mainTopic)
         ->addQueue($mainQueue)
-        ->bindQueue(new QueueBind($mainQueue, $mainTopic, (string) \getenv('TRANSPORT_ROUTING_KEY')));
+        ->bindQueue(new QueueBind($mainQueue, $mainTopic, (string) \getenv('*')));
 
     $transportConfigurator->addDefaultDestinations(
         new Destination(

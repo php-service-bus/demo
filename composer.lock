@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1d21799de737eef74dca0b97352deae8",
-    "content-hash": "ed48e62217d451bda7949139e68bc7f0",
+    "hash": "289f4c403df754407d00fc0c0d3c0646",
+    "content-hash": "a1b83901a031033e34950af186e1830e",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1256,16 +1256,16 @@
         },
         {
             "name": "mmasiukevich/service-bus",
-            "version": "v1.1.3",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "7194e924f24cd0778d13d983b8fe52226c9e7899"
+                "reference": "afaa160dee7b850cdc0d6c444abca1bcf4632c95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/7194e924f24cd0778d13d983b8fe52226c9e7899",
-                "reference": "7194e924f24cd0778d13d983b8fe52226c9e7899",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/afaa160dee7b850cdc0d6c444abca1bcf4632c95",
+                "reference": "afaa160dee7b850cdc0d6c444abca1bcf4632c95",
                 "shasum": ""
             },
             "require": {
@@ -1322,7 +1322,7 @@
                 }
             ],
             "description": "PHP Service Bus (publish-subscribe pattern)",
-            "time": "2018-09-06 13:46:32"
+            "time": "2018-09-12 07:43:31"
         },
         {
             "name": "monolog/monolog",
@@ -3948,16 +3948,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.3.4",
+            "version": "7.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "0356331bf62896dc56e3a15030b23b73f38b2935"
+                "reference": "7b331efabbb628c518c408fdfcaf571156775de2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0356331bf62896dc56e3a15030b23b73f38b2935",
-                "reference": "0356331bf62896dc56e3a15030b23b73f38b2935",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7b331efabbb628c518c408fdfcaf571156775de2",
+                "reference": "7b331efabbb628c518c408fdfcaf571156775de2",
                 "shasum": ""
             },
             "require": {
@@ -4028,7 +4028,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-09-05 09:58:53"
+            "time": "2018-09-08 15:14:29"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4703,7 +4703,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "mmasiukevich/service-bus": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

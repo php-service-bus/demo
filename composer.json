@@ -13,13 +13,13 @@
   ],
   "autoload": {
     "psr-4": {
-      "ServiceBusDemo\\": "src/",
+      " \\": "src/",
       "ServiceBusDemo\\App\\": "app/"
     }
   },
   "require": {
     "php": ">=7.2",
-    "mmasiukevich/service-bus": "^v1.1",
+    "mmasiukevich/service-bus": "dev-develop",
     "symfony/dotenv": "^4.1",
     "symfony/debug": "^4.1"
   },
