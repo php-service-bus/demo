@@ -19,11 +19,17 @@ use ServiceBusDemo\Customer\Data\CustomerFullName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Register customer
  *
+ * @see CustomerValidationFailed
+ * @see CustomerAlreadyRegistered
+ * @see CustomerRegistered
  */
 final class RegisterCustomer implements Command
 {
     /**
+     * Trace ID
+     *
      * @Assert\NotBlank(
      *     message="Operation identifier must be specified"
      * )
@@ -33,6 +39,8 @@ final class RegisterCustomer implements Command
     private $operationId;
 
     /**
+     * Customer first name
+     *
      * @Assert\NotBlank(
      *     message="Customer first name must be specified"
      * )
@@ -48,6 +56,8 @@ final class RegisterCustomer implements Command
     private $firstName;
 
     /**
+     * Customer last name
+     *
      * @Assert\NotBlank(
      *     message="Customer last name must be specified"
      * )
@@ -63,6 +73,8 @@ final class RegisterCustomer implements Command
     private $lastName;
 
     /**
+     * Clear password
+     *
      * @Assert\NotBlank(
      *     message="Customer password must be specified"
      * )
@@ -78,6 +90,8 @@ final class RegisterCustomer implements Command
     private $clearPassword;
 
     /**
+     * Customer email address
+     *
      * @Assert\NotBlank(
      *     message="customer email must be specified"
      * )
@@ -118,6 +132,8 @@ final class RegisterCustomer implements Command
     }
 
     /**
+     * Receive full name data
+     *
      * @return CustomerFullName
      */
     public function fullName(): CustomerFullName
@@ -129,6 +145,8 @@ final class RegisterCustomer implements Command
     }
 
     /**
+     * Receive clear password
+     *
      * @return string
      */
     public function clearPassword(): string
@@ -137,6 +155,8 @@ final class RegisterCustomer implements Command
     }
 
     /**
+     * Receive customer contact information
+     *
      * @return CustomerContacts
      */
     public function contacts(): CustomerContacts
@@ -147,6 +167,8 @@ final class RegisterCustomer implements Command
     }
 
     /**
+     * Receive trace id
+     *
      * @return string
      */
     public function operationId(): string

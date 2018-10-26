@@ -13,15 +13,14 @@
   ],
   "autoload": {
     "psr-4": {
-      " \\": "src/",
-      "ServiceBusDemo\\App\\": "app/"
+      "ServiceBusDemo\\": "src/",
+      "ServiceBusDemo\\App\\": "app/",
+      "ServiceBusDemo\\Tools\\": "tools/"
     }
   },
   "require": {
     "php": ">=7.2",
-    "mmasiukevich/service-bus": "dev-develop",
-    "symfony/dotenv": "^4.1",
-    "symfony/debug": "^4.1"
+    "mmasiukevich/service-bus": "^2"
   },
   "require-dev": {
     "doctrine/dbal": "^v2.6",

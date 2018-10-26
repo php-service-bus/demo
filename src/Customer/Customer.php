@@ -14,6 +14,7 @@ declare(strict_types = 1);
 namespace ServiceBusDemo\Customer;
 
 use Desperado\ServiceBus\EventSourcing\Aggregate;
+use ServiceBusDemo\Customer\Command\RegisterCustomer;
 use ServiceBusDemo\Customer\Data\CustomerContacts;
 use ServiceBusDemo\Customer\Data\CustomerCredentials;
 use ServiceBusDemo\Customer\Data\CustomerFullName;
@@ -40,22 +41,25 @@ final class Customer extends Aggregate
     private $contacts;
 
     /**
-     * @param CustomerId          $id
-     * @param CustomerFullName    $fullName
-     * @param CustomerCredentials $credentials
-     * @param CustomerContacts    $contacts
+     * @param RegisterCustomer $command
      *
      * @return self
      */
-    public static function create(
-        CustomerId $id,
-        CustomerFullName $fullName,
-        CustomerCredentials $credentials,
-        CustomerContacts $contacts
-    ): self
+    public static function create(RegisterCustomer $command): self
     {
+        $id = CustomerId::new();
+
         $self = new self($id);
-        $self->raise(CustomerCreated::create($id, $fullName, $credentials, $contacts));
+
+        $self->raise(
+            CustomerCreated::create(
+                $command->operationId(),
+                $id,
+                $command->fullName(),
+                CustomerCredentials::encodeClearPassword($command->clearPassword()),
+                $command->contacts()
+            )
+        );
 
         return $self;
     }

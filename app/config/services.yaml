@@ -2,8 +2,15 @@ services:
 
   # Default logger instance
   Psr\Log\LoggerInterface:
-    factory: 'Desperado\ServiceBus\Logger\DefaultLoggerFactory:build'
+    public: true
+    factory: 'Desperado\ServiceBus\Infrastructure\Logger\DefaultLoggerFactory:build'
     arguments:
       $entryPointName: '%service_bus.entry_point%'
       $environment: '@Desperado\ServiceBus\Environment'
       $logLevel: '%app.log_level%'
+
+  # Create database schema
+  ServiceBusDemo\App\Storage\StorageSchemaBuilder:
+    public: true
+    arguments:
+      $applicationAdapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'

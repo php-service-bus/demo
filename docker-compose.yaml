@@ -1,27 +1,31 @@
 version: "3"
 
 services:
-  application:
+
+  app:
     build:
       context: docker/application
     container_name: demo-backend
     working_dir: /var/www
-    env_file:
-    - .env
+    restart: always
     volumes:
-    - ./:/var/www
+      - ./:/var/www
+    environment:
+      TRANSPORT_CONNECTION_DSN: amqp://admin:admin123@queue
+      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo
     links:
-    - queue:queue
-    - db:db
-    command: ["/tools/wait-for-it.sh", "--timeout=5", "queue:5672", "--", "/tools/entrypoint.sh"]
+      - queue:queue
+      - db:db
+    command: ["/tools/entry_point"]
 
   queue:
-    image: rabbitmq:3.7.7-management-alpine
+    build:
+      context: docker/rabbitmq
     container_name: demo-queue
     restart: always
     ports:
-    - 5672:5672
-    - 15672:15672
+      - 5672:5672
+      - 15672:15672
     environment:
       RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 512MiB
       RABBITMQ_ERLANG_COOKIE: f6fAjy5yes
@@ -36,4 +40,4 @@ services:
       POSTGRES_PASSWORD: 123456789
       POSTGRES_USER: demo
     ports:
-    - 5432:5432
+      - 5432:5432

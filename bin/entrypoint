@@ -1,77 +1,98 @@
 #!/usr/bin/env php
 <?php
 
-/**
- * PHP Service Bus (publish-subscribe pattern implementation) demo
- * Supports Saga pattern and Event Sourcing
- *
- * @author  Maksim Masiukevich <desperado@minsk-info.ru>
- * @license MIT
- * @license https://opensource.org/licenses/MIT
- */
-
 declare(strict_types = 1);
 
-namespace DocumentProcessing\Bin;
+namespace ServiceBusDemo\Bin;
 
+use Amp\Loop;
 use Desperado\ServiceBus\Application\Bootstrap;
 use Desperado\ServiceBus\Application\ServiceBusKernel;
-use Desperado\ServiceBus\OutboundMessage\Destination;
-use Desperado\ServiceBus\Storage\SQL\AmpPostgreSQL\AmpPostgreSQLAdapter;
-use Desperado\ServiceBus\Transport\AmqpExt\AmqpQueue;
-use Desperado\ServiceBus\Transport\AmqpExt\AmqpTopic;
-use Desperado\ServiceBus\Transport\QueueBind;
+use Desperado\ServiceBus\Endpoint\ApplicationTransportEndpoint;
+use Desperado\ServiceBus\Infrastructure\Transport\Implementation\Amqp\AmqpExchange;
+use Desperado\ServiceBus\Infrastructure\Transport\Implementation\Amqp\AmqpQueue;
+use Desperado\ServiceBus\Infrastructure\Transport\Implementation\Amqp\AmqpTransportLevelDestination;
+use Desperado\ServiceBus\Infrastructure\Transport\QueueBind;
+use Desperado\ServiceBus\Infrastructure\Storage\SQL\AmpPostgreSQL\AmpPostgreSQLAdapter;
+use Desperado\ServiceBus\Infrastructure\Transport\TopicBind;
+use Desperado\ServiceBus\Scheduler\Messages\Command\EmitSchedulerOperation;
 use ServiceBusDemo\App\ServiceBusDemoExtension;
-use Symfony\Component\Debug\Debug;
+use ServiceBusDemo\App\Storage\StorageSchemaBuilder;
 
 include __DIR__ . '/../vendor/autoload.php';
 
-try
-{
-    /** @noinspection ForgottenDebugOutputInspection */
-    Debug::enable();
+/**
+ * @todo: wait-for-it
+ *
+ * Wait RabbitMQ
+ */
+sleep(8);
 
-    $container = Bootstrap::withDotEnv(__DIR__ . '/../.env')
-        ->useAmqpExtTransport((string) \getenv('TRANSPORT_CONNECTION_DSN'))
-        ->useSqlStorage(AmpPostgreSQLAdapter::class, (string) \getenv('DATABASE_CONNECTION_DSN'))
-        ->useCustomCacheDirectory(__DIR__ . '/../cache')
-        ->addExtensions(new ServiceBusDemoExtension())
-        ->importParameters([
-            'app.log_level' => (string) \getenv('LOG_LEVEL')
-        ])
-        ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
-        ->enableAutoImportSagas([__DIR__ . '/../src'])
-        ->boot();
+/** @var \Symfony\Component\DependencyInjection\Container $container */
+$container = Bootstrap::withDotEnv(__DIR__ . '/../.env')
+    ->useRabbitMqTransport(
+        (string) \getenv('TRANSPORT_CONNECTION_DSN'),
+        (string) \getenv('TRANSPORT_TOPIC'),
+        (string) \getenv('TRANSPORT_ROUTING_KEY')
+    )
+    ->useSqlStorage(AmpPostgreSQLAdapter::class, (string) \getenv('DATABASE_CONNECTION_DSN'))
+    ->useCustomCacheDirectory(__DIR__ . '/../cache')
+    ->addExtensions(new ServiceBusDemoExtension())
+    ->importParameters([
+        'app.log_level' => (string) \getenv('LOG_LEVEL')
+    ])
+    ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
+    ->enableAutoImportSagas([__DIR__ . '/../src'])
+    ->enableScheduler()
+    ->boot();
 
-    $kernel = new ServiceBusKernel($container);
+/** @var StorageSchemaBuilder $schemaBuilder */
+$schemaBuilder = $container->get(StorageSchemaBuilder::class);
 
-    $transportConfigurator = $kernel->transportConfigurator();
+$kernel = new ServiceBusKernel($container);
 
-    /** Main exchange and queue binds */
-
-    $mainTopic = AmqpTopic::direct((string) \getenv('TRANSPORT_TOPIC'), true);
-    $mainQueue = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
-
-    $transportConfigurator
-        ->createTopic($mainTopic)
-        ->addQueue($mainQueue)
-        ->bindQueue(new QueueBind($mainQueue, $mainTopic, (string) \getenv('*')));
-
-    $transportConfigurator->addDefaultDestinations(
-        new Destination(
-            (string) \getenv('SENDER_DESTINATION_TOPIC'),
-            (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
-        )
-    );
-
-    if(false === (bool) (int) \getenv('LOG_MESSAGE_PAYLOAD'))
+Loop::run(
+    static function() use ($kernel, $schemaBuilder): \Generator
     {
-        $kernel->disableMessagesPayloadLogging();
-    }
+        $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
+        $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
 
-    $kernel->listen($mainQueue);
-}
-catch(\Throwable $throwable)
-{
-    echo $throwable->getMessage(), \PHP_EOL, $throwable->getFile() . ':' . $throwable->getLine(), \PHP_EOL;
-}
+        $transport = $kernel->transport();
+
+        yield $transport->createQueue(
+            $mainQueue,
+            new QueueBind(
+                $mainExchange,
+                (string) \getenv('TRANSPORT_ROUTING_KEY'))
+        );
+
+        yield $transport->createTopic(
+            AmqpExchange::delayed((string) \getenv('SCHEDULER_TOPIC')),
+            new TopicBind(
+                $mainExchange,
+                \getenv('TRANSPORT_ROUTING_KEY')
+            )
+        );
+
+        $kernel->registerMessageCustomEndpoint(
+            EmitSchedulerOperation::class,
+            new ApplicationTransportEndpoint(
+                $transport,
+                new AmqpTransportLevelDestination(
+                    (string) \getenv('SCHEDULER_TOPIC'),
+                    \getenv('TRANSPORT_ROUTING_KEY')
+                )
+            )
+        );
+
+        /** Init database schema */
+        yield $schemaBuilder->buildSchema();
+
+        $kernel
+            ->monitorLoopBlock()
+            ->enableGarbageCleaning()
+            ->useDefaultStopSignalHandler(3);
+
+        yield $kernel->entryPoint()->listen($mainQueue);
+    }
+);

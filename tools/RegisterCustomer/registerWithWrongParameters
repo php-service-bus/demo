@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * PHP Service Bus (publish-subscribe pattern implementation) demo
+ * Supports Saga pattern and Event Sourcing
+ *
+ * @author  Maksim Masiukevich <desperado@minsk-info.ru>
+ * @license MIT
+ * @license https://opensource.org/licenses/MIT
+ */
+
+declare(strict_types = 1);
+
+namespace ServiceBusDemo\Tools\RegisterCustomer;
+
+use function Desperado\ServiceBus\Common\uuid;
+use ServiceBusDemo\App\Tools\ProcessingInteractions;
+use ServiceBusDemo\Customer\Command\RegisterCustomer;
+
+include_once __DIR__ . '/../../vendor/autoload.php';
+
+$processingInteractions = new ProcessingInteractions(__DIR__ . '/../../.env');
+
+$processingInteractions->sendMessage(
+    RegisterCustomer::create(
+        uuid(), '', '', '', 'qwerty@root.com'
+    )
+);
