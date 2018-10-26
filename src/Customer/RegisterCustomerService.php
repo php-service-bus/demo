@@ -81,7 +81,7 @@ final class RegisterCustomerService
             );
         }
 
-        yield $provider->save($customer, $context);;
+        yield $provider->save($customer, $context);
     }
 
     /**
