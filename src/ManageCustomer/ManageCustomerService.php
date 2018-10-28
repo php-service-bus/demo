@@ -1,7 +1,9 @@
+#!/usr/bin/env php
 <?php
 
 /**
- * PHP Telegram Bot Api implementation
+ * PHP Service Bus (publish-subscribe pattern implementation) demo
+ * Supports Saga pattern and Event Sourcing
  *
  * @author  Maksim Masiukevich <desperado@minsk-info.ru>
  * @license MIT
