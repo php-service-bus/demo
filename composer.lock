@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d93d6158ef6801c69afdb2fb2cd29420",
-    "content-hash": "7c717a2464a298572498a5d6ef730429",
+    "hash": "70ef4eed54ce99c95ccb82fc5377d985",
+    "content-hash": "f42f7128a3f4725ec382d56c006b967b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1564,16 +1564,16 @@
         },
         {
             "name": "mmasiukevich/service-bus",
-            "version": "v2.1.1",
+            "version": "v2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "50b1b0360c45b72d1c7d522e0dcd652addd3d41c"
+                "reference": "1cc90aba02ce978a776d279316384ba91cb4d795"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/50b1b0360c45b72d1c7d522e0dcd652addd3d41c",
-                "reference": "50b1b0360c45b72d1c7d522e0dcd652addd3d41c",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/1cc90aba02ce978a776d279316384ba91cb4d795",
+                "reference": "1cc90aba02ce978a776d279316384ba91cb4d795",
                 "shasum": ""
             },
             "require": {
@@ -1637,7 +1637,7 @@
                 }
             ],
             "description": "PHP Service Bus (publish-subscribe pattern)",
-            "time": "2018-10-26 14:43:37"
+            "time": "2018-10-28 11:45:40"
         },
         {
             "name": "monolog/monolog",

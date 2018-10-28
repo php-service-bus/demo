@@ -11,47 +11,44 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer\Event;
+namespace ServiceBusDemo\Customer\Contract;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 
 /**
- * @see RegisterCustomer
+ *
  */
-final class CustomerAlreadyRegistered implements Event
+final class CustomerNotExists implements Event
 {
+
     /**
-     * Trace ID
+     * Customer aggregate id
      *
      * @var string
      */
-    private $operationId;
+    private $customerId;
 
     /**
-     * Email address
-     *
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @param string $operationId
-     * @param string $email
+     * @param string $customerId
      *
      * @return self
      */
-    public static function create(string $operationId, string $email): self
+    public static function create(string $customerId): self
     {
         $self = new self();
 
-        $self->operationId = $operationId;
-        $self->email       = $email;
+        $self->customerId = $customerId;
 
         return $self;
     }
 
-    private function __construct()
+    /**
+     * Receive customer aggregate id
+     *
+     * @return string
+     */
+    public function customerId(): string
     {
-
+        return $this->customerId;
     }
 }

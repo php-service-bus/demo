@@ -14,14 +14,15 @@ declare(strict_types = 1);
 namespace ServiceBusDemo\Customer;
 
 use Desperado\ServiceBus\EventSourcing\Aggregate;
-use ServiceBusDemo\Customer\Command\RegisterCustomer;
 use ServiceBusDemo\Customer\Data\CustomerContacts;
 use ServiceBusDemo\Customer\Data\CustomerCredentials;
 use ServiceBusDemo\Customer\Data\CustomerFullName;
-use ServiceBusDemo\Customer\Event\CustomerCreated;
+use ServiceBusDemo\Customer\Event\CustomerAggregateCreated;
+use ServiceBusDemo\Customer\Events\FullNameChanged;
 
 /**
  *
+ * @method CustomerId id
  */
 final class Customer extends Aggregate
 {
@@ -41,40 +42,67 @@ final class Customer extends Aggregate
     private $contacts;
 
     /**
-     * @param RegisterCustomer $command
+     * @param CustomerFullName $fullName
+     * @param string           $clearPassword
+     * @param CustomerContacts $contacts
      *
      * @return self
      */
-    public static function create(RegisterCustomer $command): self
+    public static function create(CustomerFullName $fullName, string $clearPassword, CustomerContacts $contacts): self
     {
         $id = CustomerId::new();
+        $credentials = CustomerCredentials::encodeClearPassword($clearPassword);
 
         $self = new self($id);
 
         $self->raise(
-            CustomerCreated::create(
-                $command->operationId(),
-                $id,
-                $command->fullName(),
-                CustomerCredentials::encodeClearPassword($command->clearPassword()),
-                $command->contacts()
-            )
+            CustomerAggregateCreated::create($id, $fullName, $credentials, $contacts)
         );
 
         return $self;
     }
 
     /**
-     * @noinspection PhpUnusedPrivateMethodInspection
+     * Change customer full name
      *
-     * @param CustomerCreated $event
+     * @param CustomerFullName $newFullName
      *
      * @return void
      */
-    private function onCustomerCreated(CustomerCreated $event): void
+    public function rename(CustomerFullName $newFullName): void
     {
-        $this->fullName    = $event->fullName();
-        $this->contacts    = $event->contacts();
+        $this->raise(
+            FullNameChanged::create(
+                $this->id(),
+                $this->fullName,
+                $newFullName
+            )
+        );
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     *
+     * @param FullNameChanged $event
+     *
+     * @return void
+     */
+    private function onFullNameChanged(FullNameChanged $event): void
+    {
+        $this->fullName = $event->newFullName();
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     *
+     * @param CustomerAggregateCreated $event
+     *
+     * @return void
+     */
+    private function onCustomerAggregateCreated(CustomerAggregateCreated $event): void
+    {
+        $this->fullName = $event->fullName();
+        $this->contacts = $event->contacts();
         $this->credentials = $event->credentials();
     }
 }

@@ -14,9 +14,8 @@ declare(strict_types = 1);
 
 namespace ServiceBusDemo\Tools\RegisterCustomer;
 
-use function Desperado\ServiceBus\Common\uuid;
 use ServiceBusDemo\App\Tools\ProcessingInteractions;
-use ServiceBusDemo\Customer\Command\RegisterCustomer;
+use ServiceBusDemo\RegisterCustomer\Contract\Register\RegisterCustomer;
 
 include_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -24,7 +23,7 @@ $processingInteractions = new ProcessingInteractions(__DIR__ . '/../../.env');
 
 $processingInteractions->sendMessage(
     RegisterCustomer::create(
-        uuid(), 'Maksim', 'Masiukevich', 'qwerty',
+        'Maksim', 'Masiukevich', 'qwerty',
         \sprintf('%s@root.com', \sha1((string) \microtime()))
     )
 );

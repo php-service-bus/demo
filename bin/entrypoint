@@ -55,7 +55,7 @@ Loop::run(
     static function() use ($kernel, $schemaBuilder): \Generator
     {
         $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
-        $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
+        $mainQueue = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
 
         $transport = $kernel->transport();
 
@@ -91,7 +91,8 @@ Loop::run(
         $kernel
             ->monitorLoopBlock()
             ->enableGarbageCleaning()
-            ->useDefaultStopSignalHandler(3);
+            ->useDefaultStopSignalHandler(3)
+            ->stopWhenFilesChange(__DIR__ . '/../src');
 
         yield $kernel->entryPoint()->listen($mainQueue);
     }

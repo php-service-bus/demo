@@ -16,6 +16,7 @@ namespace ServiceBusDemo\App\Tools;
 use Amp\ByteStream\InMemoryStream;
 use function Amp\Promise\wait;
 use Desperado\ServiceBus\Common\Contract\Messages\Message;
+use function Desperado\ServiceBus\Common\uuid;
 use Desperado\ServiceBus\Infrastructure\MessageSerialization\MessageEncoder;
 use Desperado\ServiceBus\Infrastructure\MessageSerialization\Symfony\SymfonyMessageSerializer;
 use Desperado\ServiceBus\Infrastructure\Transport\Implementation\Amqp\AmqpConnectionConfiguration;
@@ -63,7 +64,7 @@ final class ProcessingInteractions
      */
     public function sendMessage(Message $message, ?string $topic = null, ?string $routingKey = null): void
     {
-        $topic      = $topic ?? \getenv('SENDER_DESTINATION_TOPIC');
+        $topic = $topic ?? \getenv('SENDER_DESTINATION_TOPIC');
         $routingKey = $routingKey ?? \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY');
 
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -71,7 +72,7 @@ final class ProcessingInteractions
             $this->transport()->send(
                 new OutboundPackage(
                     new InMemoryStream($this->encoder->encode($message)),
-                    [],
+                    [Transport::SERVICE_BUS_TRACE_HEADER => uuid()],
                     new AmqpTransportLevelDestination($topic, $routingKey)
                 )
             )

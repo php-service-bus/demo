@@ -22,16 +22,11 @@ use ServiceBusDemo\Customer\Data\CustomerFullName;
 /**
  * Customer aggregate created
  */
-final class CustomerCreated implements Event
+final class CustomerAggregateCreated implements Event
 {
     /**
-     * Trace operation ID
+     * Customer aggregate id
      *
-     * @var string
-     */
-    private $traceId;
-
-    /**
      * @var CustomerId
      */
     private $id;
@@ -52,7 +47,6 @@ final class CustomerCreated implements Event
     private $contacts;
 
     /**
-     * @param string              $traceId
      * @param CustomerId          $id
      * @param CustomerFullName    $fullName
      * @param CustomerCredentials $credentials
@@ -61,7 +55,6 @@ final class CustomerCreated implements Event
      * @return self
      */
     public static function create(
-        string $traceId,
         CustomerId $id,
         CustomerFullName $fullName,
         CustomerCredentials $credentials,
@@ -70,21 +63,12 @@ final class CustomerCreated implements Event
     {
         $self = new self();
 
-        $self->traceId     = $traceId;
         $self->id          = $id;
         $self->fullName    = $fullName;
         $self->credentials = $credentials;
         $self->contacts    = $contacts;
 
         return $self;
-    }
-
-    /**
-     * @return string
-     */
-    public function traceId(): string
-    {
-        return $this->traceId;
     }
 
     /**

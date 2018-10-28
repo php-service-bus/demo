@@ -11,7 +11,7 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer\Event;
+namespace ServiceBusDemo\RegisterCustomer\Contract\Register;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 
@@ -20,13 +20,6 @@ use Desperado\ServiceBus\Common\Contract\Messages\Event;
  */
 final class CustomerValidationFailed implements Event
 {
-    /**
-     * Trace ID
-     *
-     * @var string
-     */
-    private $operationId;
-
     /**
      * Violations list
      *
@@ -37,19 +30,27 @@ final class CustomerValidationFailed implements Event
     private $violations;
 
     /**
-     * @param string                            $operationId
      * @param array<string, array<int, string>> $violations
      *
      * @return self
      */
-    public static function create(string $operationId, array $violations): self
+    public static function create(array $violations): self
     {
         $self = new self();
 
-        $self->operationId = $operationId;
         $self->violations  = $violations;
 
         return $self;
+    }
+
+    /**
+     * Receive violations
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function violations(): array
+    {
+        return $this->violations;
     }
 
     private function __construct()

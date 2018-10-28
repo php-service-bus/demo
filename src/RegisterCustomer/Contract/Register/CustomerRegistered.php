@@ -11,7 +11,7 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer\Event;
+namespace ServiceBusDemo\RegisterCustomer\Contract\Register;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 use ServiceBusDemo\Customer\CustomerId;
@@ -21,12 +21,6 @@ use ServiceBusDemo\Customer\CustomerId;
  */
 final class CustomerRegistered implements Event
 {
-    /**
-     * Trace ID
-     *
-     * @var string
-     */
-    private $operationId;
 
     /**
      * CustomerId
@@ -43,19 +37,17 @@ final class CustomerRegistered implements Event
     private $email;
 
     /**
-     * @param string     $operationId
      * @param CustomerId $customerId
      * @param string     $email
      *
      * @return self
      */
-    public static function create(string $operationId, CustomerId $customerId, string $email): self
+    public static function create(CustomerId $customerId, string $email): self
     {
         $self = new self();
 
-        $self->operationId = $operationId;
-        $self->customerId  = (string) $customerId;
-        $self->email       = $email;
+        $self->customerId = (string) $customerId;
+        $self->email = $email;
 
         return $self;
     }

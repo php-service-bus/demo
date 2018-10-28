@@ -2,22 +2,6 @@ version: "3"
 
 services:
 
-  app:
-    build:
-      context: docker/application
-    container_name: demo-backend
-    working_dir: /var/www
-    restart: always
-    volumes:
-      - ./:/var/www
-    environment:
-      TRANSPORT_CONNECTION_DSN: amqp://admin:admin123@queue
-      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo
-    links:
-      - queue:queue
-      - db:db
-    command: ["/tools/entry_point"]
-
   queue:
     build:
       context: docker/rabbitmq
@@ -41,3 +25,19 @@ services:
       POSTGRES_USER: demo
     ports:
       - 5432:5432
+
+  app:
+    build:
+      context: docker/application
+    container_name: demo-backend
+    working_dir: /var/www
+    restart: always
+    volumes:
+      - ./:/var/www
+    environment:
+      TRANSPORT_CONNECTION_DSN: amqp://admin:admin123@queue
+      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo
+    links:
+      - queue:queue
+      - db:db
+    command: ["/tools/entry_point"]

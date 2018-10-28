@@ -11,7 +11,7 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer\Command;
+namespace ServiceBusDemo\RegisterCustomer\Contract\Register;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Command;
 use ServiceBusDemo\Customer\Data\CustomerContacts;
@@ -27,17 +27,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class RegisterCustomer implements Command
 {
-    /**
-     * Trace ID
-     *
-     * @Assert\NotBlank(
-     *     message="Operation identifier must be specified"
-     * )
-     *
-     * @var string
-     */
-    private $operationId;
-
     /**
      * Customer first name
      *
@@ -104,7 +93,6 @@ final class RegisterCustomer implements Command
     private $email;
 
     /**
-     * @param string $operationId
      * @param string $firstName
      * @param string $lastName
      * @param string $clearPassword
@@ -113,7 +101,6 @@ final class RegisterCustomer implements Command
      * @return self
      */
     public static function create(
-        string $operationId,
         string $firstName,
         string $lastName,
         string $clearPassword,
@@ -122,7 +109,6 @@ final class RegisterCustomer implements Command
     {
         $self = new self();
 
-        $self->operationId   = $operationId;
         $self->firstName     = $firstName;
         $self->lastName      = $lastName;
         $self->clearPassword = $clearPassword;
@@ -164,16 +150,6 @@ final class RegisterCustomer implements Command
         return new CustomerContacts(
             $this->email
         );
-    }
-
-    /**
-     * Receive trace id
-     *
-     * @return string
-     */
-    public function operationId(): string
-    {
-        return $this->operationId;
     }
 
     private function __construct()
