@@ -89,10 +89,8 @@ Loop::run(
         yield $schemaBuilder->buildSchema();
 
         $kernel
-            ->monitorLoopBlock()
             ->enableGarbageCleaning()
-            ->useDefaultStopSignalHandler(3)
-            ->stopWhenFilesChange(__DIR__ . '/../src');
+            ->useDefaultStopSignalHandler(3);
 
         yield $kernel->entryPoint()->listen($mainQueue);
     }
