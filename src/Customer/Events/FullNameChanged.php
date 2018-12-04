@@ -11,11 +11,11 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer\Events;
+namespace App\Customer\Events;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
-use ServiceBusDemo\Customer\CustomerId;
-use ServiceBusDemo\Customer\Data\CustomerFullName;
+use App\Customer\CustomerId;
+use App\Customer\Data\CustomerFullName;
 
 /**
  * Customer aggregate full name changed

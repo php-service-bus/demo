@@ -1,16 +1,9 @@
 services:
-
-  # Default logger instance
-  Psr\Log\LoggerInterface:
-    public: true
-    factory: 'Desperado\ServiceBus\Infrastructure\Logger\DefaultLoggerFactory:build'
-    arguments:
-      $entryPointName: '%service_bus.entry_point%'
-      $environment: '@Desperado\ServiceBus\Environment'
-      $logLevel: '%app.log_level%'
-
-  # Create database schema
-  ServiceBusDemo\App\Storage\StorageSchemaBuilder:
+  # Generate PostgreSQL schema for service-bus components
+  postgresql_schema_builder:
+    class: PostgreSQLSchemaBuilder
     public: true
     arguments:
-      $applicationAdapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
+      $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
+
+  # ... Some custom service definitions

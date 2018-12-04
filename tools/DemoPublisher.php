@@ -1,19 +1,7 @@
 <?php
 
-/**
- * PHP Service Bus (publish-subscribe pattern implementation) demo
- * Supports Saga pattern and Event Sourcing
- *
- * @author  Maksim Masiukevich <desperado@minsk-info.ru>
- * @license MIT
- * @license https://opensource.org/licenses/MIT
- */
-
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\App\Tools;
-
-use Amp\ByteStream\InMemoryStream;
 use function Amp\Promise\wait;
 use Desperado\ServiceBus\Common\Contract\Messages\Message;
 use function Desperado\ServiceBus\Common\uuid;
@@ -27,9 +15,11 @@ use Desperado\ServiceBus\Infrastructure\Transport\Transport;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
- * Init transport for execute tools/ commands
+ * Publisher example
+ *
+ * Attention: for example only. Do not use this code.
  */
-final class ProcessingInteractions
+final class DemoPublisher
 {
     /**
      * @var Transport|null
@@ -71,7 +61,7 @@ final class ProcessingInteractions
         wait(
             $this->transport()->send(
                 new OutboundPackage(
-                    new InMemoryStream($this->encoder->encode($message)),
+                    $this->encoder->encode($message),
                     [Transport::SERVICE_BUS_TRACE_HEADER => uuid()],
                     new AmqpTransportLevelDestination($topic, $routingKey)
                 )

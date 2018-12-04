@@ -11,14 +11,14 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer;
+namespace App\Customer;
 
 use Desperado\ServiceBus\EventSourcing\Aggregate;
-use ServiceBusDemo\Customer\Data\CustomerContacts;
-use ServiceBusDemo\Customer\Data\CustomerCredentials;
-use ServiceBusDemo\Customer\Data\CustomerFullName;
-use ServiceBusDemo\Customer\Event\CustomerAggregateCreated;
-use ServiceBusDemo\Customer\Events\FullNameChanged;
+use App\Customer\Data\CustomerContacts;
+use App\Customer\Data\CustomerCredentials;
+use App\Customer\Data\CustomerFullName;
+use App\Customer\Event\CustomerAggregateCreated;
+use App\Customer\Events\FullNameChanged;
 
 /**
  *

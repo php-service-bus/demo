@@ -11,11 +11,11 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer;
+namespace App\Customer;
 
 use Desperado\ServiceBus\Application\KernelContext;
 use Desperado\ServiceBus\Services\Annotations\EventListener;
-use ServiceBusDemo\Customer\Contract\CustomerNotExists;
+use App\Customer\Contract\CustomerNotExists;
 
 /**
  *

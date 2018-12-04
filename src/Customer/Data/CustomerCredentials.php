@@ -11,7 +11,7 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer\Data;
+namespace App\Customer\Data;
 
 /**
  *

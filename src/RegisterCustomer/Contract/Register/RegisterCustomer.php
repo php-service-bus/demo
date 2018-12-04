@@ -11,11 +11,11 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\RegisterCustomer\Contract\Register;
+namespace App\RegisterCustomer\Contract\Register;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Command;
-use ServiceBusDemo\Customer\Data\CustomerContacts;
-use ServiceBusDemo\Customer\Data\CustomerFullName;
+use App\Customer\Data\CustomerContacts;
+use App\Customer\Data\CustomerFullName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

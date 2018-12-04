@@ -1,27 +1,15 @@
 #!/usr/bin/env php
 <?php
 
-/**
- * PHP Service Bus (publish-subscribe pattern implementation) demo
- * Supports Saga pattern and Event Sourcing
- *
- * @author  Maksim Masiukevich <desperado@minsk-info.ru>
- * @license MIT
- * @license https://opensource.org/licenses/MIT
- */
-
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Tools\RegisterCustomer;
-
-use ServiceBusDemo\App\Tools\ProcessingInteractions;
-use ServiceBusDemo\ManageCustomer\Contract\Rename\RenameCustomer;
+use App\ManageCustomer\Contract\Rename\RenameCustomer;
 
 include_once __DIR__ . '/../../vendor/autoload.php';
 
 $customerId = 'bef669ae-179e-4329-89b3-5d5820b8ca56';
 
-$processingInteractions = new ProcessingInteractions(__DIR__ . '/../../.env');
+$processingInteractions = new DemoPublisher(__DIR__ . '/../../.env');
 
 $processingInteractions->sendMessage(
     RenameCustomer::create($customerId, 'Desperado', 'ServiceBus')

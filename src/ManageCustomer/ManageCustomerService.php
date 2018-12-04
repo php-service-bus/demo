@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /**
@@ -11,20 +10,20 @@
  */
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\ManageCustomer;
+namespace App\ManageCustomer;
 
 use Amp\Promise;
 use Desperado\ServiceBus\Application\KernelContext;
 use Desperado\ServiceBus\EventSourcingProvider;
 use Desperado\ServiceBus\Services\Annotations\CommandHandler;
 use Desperado\ServiceBus\Services\Annotations\EventListener;
-use ServiceBusDemo\Customer\Contract\CustomerNotExists;
-use ServiceBusDemo\Customer\Customer;
-use ServiceBusDemo\Customer\CustomerId;
-use ServiceBusDemo\Customer\Events\FullNameChanged;
-use ServiceBusDemo\ManageCustomer\Contract\Rename\CustomerFullNameChanged;
-use ServiceBusDemo\ManageCustomer\Contract\Rename\RenameCustomer;
-use ServiceBusDemo\ManageCustomer\Contract\Rename\RenameCustomerValidationFailed;
+use App\Customer\Contract\CustomerNotExists;
+use App\Customer\Customer;
+use App\Customer\CustomerId;
+use App\Customer\Events\FullNameChanged;
+use App\ManageCustomer\Contract\Rename\CustomerFullNameChanged;
+use App\ManageCustomer\Contract\Rename\RenameCustomer;
+use App\ManageCustomer\Contract\Rename\RenameCustomerValidationFailed;
 
 /**
  *

@@ -1,5 +1,0 @@
-#!/bin/ash
-
-cd /var/www && composer install -o --no-scripts --no-dev
-
-/var/www/bin/entrypoint

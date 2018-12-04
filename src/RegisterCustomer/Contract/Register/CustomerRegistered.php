@@ -11,10 +11,10 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\RegisterCustomer\Contract\Register;
+namespace App\RegisterCustomer\Contract\Register;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
-use ServiceBusDemo\Customer\CustomerId;
+use App\Customer\CustomerId;
 
 /**
  *

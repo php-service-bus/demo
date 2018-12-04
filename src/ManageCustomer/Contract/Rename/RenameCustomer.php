@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /**
@@ -11,10 +10,10 @@
  */
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\ManageCustomer\Contract\Rename;
+namespace App\ManageCustomer\Contract\Rename;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Command;
-use ServiceBusDemo\Customer\Data\CustomerFullName;
+use App\Customer\Data\CustomerFullName;
 
 /**
  *

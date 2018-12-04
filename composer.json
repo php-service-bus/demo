@@ -1,41 +1,49 @@
 {
   "name": "mmasiukevich/service-bus-demo",
   "description": "PHP Service Bus (publish-subscribe pattern) demo application",
-  "type": "library",
-  "license": "proprietary",
-  "authors": [
-    {
-      "name": "Masiukevich Maksim",
-      "email": "desperado@minsk-info.ru",
-      "homepage": "https://github.com/mmasiukevich",
-      "role": "Developer"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "ServiceBusDemo\\": "src/",
-      "ServiceBusDemo\\App\\": "app/",
-      "ServiceBusDemo\\Tools\\": "tools/"
-    }
-  },
+  "type": "project",
+  "license": "MIT",
+  "minimum-stability": "dev",
   "require": {
     "php": ">=7.2",
-    "mmasiukevich/service-bus": "^2.1"
+    "ext-json": "*",
+    "mmasiukevich/service-bus": "^v2.2"
   },
   "require-dev": {
-    "doctrine/dbal": "^v2.6",
-    "phpunit/phpunit": "^7.2",
+    "phpunit/phpunit": "^7.4",
     "vimeo/psalm": "^2"
   },
   "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true,
     "optimize-autoloader": true
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    },
+    "files": [
+      "app/AppExtension.php",
+      "app/PostgreSQLSchemaBuilder.php",
+      "tools/DemoPublisher.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    },
+    "files": [
+      "app/AppExtension.php",
+      "app/PostgreSQLSchemaBuilder.php",
+      "tools/DemoPublisher.php"
+    ]
+  },
   "scripts": {
-    "psalm": "./vendor/bin/psalm --config=./psalm.xml",
-    "phpunit": "phpunit --configuration ./phpunit.xml --verbose",
-    "coverage": "phpunit --configuration ./phpunit.xml --coverage-html ./coverage --verbose",
+    "psalm": "./vendor/bin/psalm --config=psalm.xml",
+    "phpunit": "phpunit --configuration phpunit.xml --verbose",
+    "coverage": "phpunit --configuration phpunit.xml --coverage-html ./coverage --verbose",
     "test": [
       "@phpunit"
     ]

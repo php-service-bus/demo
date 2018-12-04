@@ -1,27 +1,13 @@
 <?php
 
-/**
- * PHP Service Bus (publish-subscribe pattern implementation) demo
- * Supports Saga pattern and Event Sourcing
- *
- * @author  Maksim Masiukevich <desperado@minsk-info.ru>
- * @license MIT
- * @license https://opensource.org/licenses/MIT
- */
-
 declare(strict_types = 1);
-
-namespace ServiceBusDemo\App;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
- *
- */
-final class ServiceBusDemoExtension extends Extension
+final class AppExtension extends Extension
 {
     /**
      * @inheritdoc
@@ -31,6 +17,6 @@ final class ServiceBusDemoExtension extends Extension
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator());
-        $loader->load(__DIR__ . '/../config/services.yaml');
+        $loader->load(__DIR__ . '/config/services.yaml');
     }
 }

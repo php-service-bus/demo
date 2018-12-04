@@ -11,7 +11,7 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\Customer\Contract;
+namespace App\Customer\Contract;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 

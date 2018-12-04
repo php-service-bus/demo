@@ -11,7 +11,7 @@
 
 declare(strict_types = 1);
 
-namespace ServiceBusDemo\RegisterCustomer;
+namespace App\RegisterCustomer;
 
 use Amp\Promise;
 use Desperado\ServiceBus\Application\KernelContext;
@@ -21,12 +21,12 @@ use Desperado\ServiceBus\Index\IndexValue;
 use Desperado\ServiceBus\IndexProvider;
 use Desperado\ServiceBus\Services\Annotations\CommandHandler;
 use Desperado\ServiceBus\Services\Annotations\EventListener;
-use ServiceBusDemo\Customer\Customer;
-use ServiceBusDemo\Customer\Event\CustomerAggregateCreated;
-use ServiceBusDemo\RegisterCustomer\Contract\Register\CustomerAlreadyRegistered;
-use ServiceBusDemo\RegisterCustomer\Contract\Register\CustomerRegistered;
-use ServiceBusDemo\RegisterCustomer\Contract\Register\CustomerValidationFailed;
-use ServiceBusDemo\RegisterCustomer\Contract\Register\RegisterCustomer;
+use App\Customer\Customer;
+use App\Customer\Event\CustomerAggregateCreated;
+use App\RegisterCustomer\Contract\Register\CustomerAlreadyRegistered;
+use App\RegisterCustomer\Contract\Register\CustomerRegistered;
+use App\RegisterCustomer\Contract\Register\CustomerValidationFailed;
+use App\RegisterCustomer\Contract\Register\RegisterCustomer;
 
 /**
  * Customer registration service
