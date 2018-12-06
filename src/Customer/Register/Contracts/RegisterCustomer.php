@@ -9,26 +9,24 @@
  */
 declare(strict_types = 1);
 
-namespace App\Customer\Events;
+namespace App\Customer\Register\Contracts;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Customer aggregate created
+ * Register a new customer
  *
- * internal event
+ * @api
+ * @see CustomerRegistered
+ * @see ValidationFailed
  */
-final class CustomerAggregateCreated implements Event
+final class RegisterCustomer implements Command
 {
     /**
-     * Customer aggregate id
-     *
-     * @var string
-     */
-    public $id;
-
-    /**
      * Phone number
+     *
+     * @Assert\NotBlank(message="Phone number must be specified")
      *
      * @var string
      */
@@ -37,12 +35,17 @@ final class CustomerAggregateCreated implements Event
     /**
      * Email address
      *
+     * @Assert\NotBlank(message="Email address must be specified")
+     * @Assert\Email(message="Incorrect email address")
+     *
      * @var string
      */
     public $email;
 
     /**
      * First name
+     *
+     * @Assert\NotBlank(message="First name must be specified")
      *
      * @var string
      */
@@ -51,12 +54,13 @@ final class CustomerAggregateCreated implements Event
     /**
      * Last name
      *
+     * @Assert\NotBlank(message="First name must be specified")
+     *
      * @var string
      */
     public $lastName;
 
     /**
-     * @param string $id
      * @param string $phone
      * @param string $email
      * @param string $firstName
@@ -64,11 +68,10 @@ final class CustomerAggregateCreated implements Event
      *
      * @return self
      */
-    public static function create(string $id, string $phone, string $email, string $firstName, string $lastName): self
+    public static function create(string $phone, string $email, string $firstName, string $lastName): self
     {
         $self = new self();
 
-        $self->id        = $id;
         $self->phone     = $phone;
         $self->email     = $email;
         $self->firstName = $firstName;

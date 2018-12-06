@@ -1,95 +1,57 @@
 <?php
 
 /**
- * PHP Service Bus (publish-subscribe pattern implementation) demo
- * Supports Saga pattern and Event Sourcing
+ * Demo application, remotely similar to Uber
  *
  * @author  Maksim Masiukevich <desperado@minsk-info.ru>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-
 declare(strict_types = 1);
 
 namespace App\Customer;
 
-use Desperado\ServiceBus\EventSourcing\Aggregate;
 use App\Customer\Data\CustomerContacts;
-use App\Customer\Data\CustomerCredentials;
 use App\Customer\Data\CustomerFullName;
-use App\Customer\Event\CustomerAggregateCreated;
-use App\Customer\Events\FullNameChanged;
+use App\Customer\Events\CustomerAggregateCreated;
+use Desperado\ServiceBus\EventSourcing\Aggregate;
 
 /**
- *
- * @method CustomerId id
+ * Customer aggregate
  */
 final class Customer extends Aggregate
 {
     /**
-     * @var CustomerFullName
-     */
-    private $fullName;
-
-    /**
-     * @var CustomerCredentials
-     */
-    private $credentials;
-
-    /**
+     * Contact information
+     *
      * @var CustomerContacts
      */
     private $contacts;
 
     /**
-     * @param CustomerFullName $fullName
-     * @param string           $clearPassword
-     * @param CustomerContacts $contacts
+     * Customer full name data
+     *
+     * @var CustomerFullName
+     */
+    private $fullName;
+
+    /**
+     * Create new customer aggregate
+     *
+     * @param string $phone
+     * @param string $email
+     * @param string $firstName
+     * @param string $lastName
      *
      * @return self
      */
-    public static function create(CustomerFullName $fullName, string $clearPassword, CustomerContacts $contacts): self
+    public static function register(string $phone, string $email, string $firstName, string $lastName): self
     {
-        $id = CustomerId::new();
-        $credentials = CustomerCredentials::encodeClearPassword($clearPassword);
+        $self = new self(CustomerId::new());
 
-        $self = new self($id);
-
-        $self->raise(
-            CustomerAggregateCreated::create($id, $fullName, $credentials, $contacts)
-        );
+        $self->raise(CustomerAggregateCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName));
 
         return $self;
-    }
-
-    /**
-     * Change customer full name
-     *
-     * @param CustomerFullName $newFullName
-     *
-     * @return void
-     */
-    public function rename(CustomerFullName $newFullName): void
-    {
-        $this->raise(
-            FullNameChanged::create(
-                $this->id(),
-                $this->fullName,
-                $newFullName
-            )
-        );
-    }
-
-    /**
-     * @noinspection PhpUnusedPrivateMethodInspection
-     *
-     * @param FullNameChanged $event
-     *
-     * @return void
-     */
-    private function onFullNameChanged(FullNameChanged $event): void
-    {
-        $this->fullName = $event->newFullName();
     }
 
     /**
@@ -101,8 +63,7 @@ final class Customer extends Aggregate
      */
     private function onCustomerAggregateCreated(CustomerAggregateCreated $event): void
     {
-        $this->fullName = $event->fullName();
-        $this->contacts = $event->contacts();
-        $this->credentials = $event->credentials();
+        $this->contacts = new CustomerContacts($event->email, $event->phone);
+        $this->fullName = new CustomerFullName($event->firstName, $event->lastName);
     }
 }

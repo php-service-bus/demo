@@ -1,53 +1,52 @@
 <?php
 
 /**
- * PHP Service Bus (publish-subscribe pattern implementation) demo
- * Supports Saga pattern and Event Sourcing
+ * Demo application, remotely similar to Uber
  *
  * @author  Maksim Masiukevich <desperado@minsk-info.ru>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-
 declare(strict_types = 1);
 
-namespace App\RegisterCustomer\Contract\Register;
+namespace App\Customer\Register\Contracts;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
-use App\Customer\CustomerId;
 
 /**
+ * User successfully registered
  *
+ * @api
+ * @see RegisterCustomer
  */
 final class CustomerRegistered implements Event
 {
-
     /**
-     * CustomerId
+     * Customer identifier
      *
      * @var string
      */
-    private $customerId;
+    public $customerId;
 
     /**
-     * Email address
+     * Registration request Id
      *
      * @var string
      */
-    private $email;
+    public $correlationId;
 
     /**
-     * @param CustomerId $customerId
-     * @param string     $email
+     * @param string $customerId
+     * @param string $correlationId
      *
      * @return self
      */
-    public static function create(CustomerId $customerId, string $email): self
+    public static function create(string $customerId, string $correlationId): self
     {
         $self = new self();
 
-        $self->customerId = (string) $customerId;
-        $self->email = $email;
+        $self->customerId    = $customerId;
+        $self->correlationId = $correlationId;
 
         return $self;
     }

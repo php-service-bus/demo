@@ -1,6 +1,6 @@
 {
-  "name": "mmasiukevich/service-bus-demo",
-  "description": "PHP Service Bus (publish-subscribe pattern) demo application",
+  "name": "mmasiukevich/service-bus-skeleton",
+  "description": "PHP Service Bus skeleton",
   "type": "project",
   "license": "MIT",
   "minimum-stability": "dev",
@@ -26,8 +26,7 @@
     },
     "files": [
       "app/AppExtension.php",
-      "app/PostgreSQLSchemaBuilder.php",
-      "tools/DemoPublisher.php"
+      "app/PostgreSQLSchemaBuilder.php"
     ]
   },
   "autoload-dev": {
@@ -36,8 +35,7 @@
     },
     "files": [
       "app/AppExtension.php",
-      "app/PostgreSQLSchemaBuilder.php",
-      "tools/DemoPublisher.php"
+      "app/PostgreSQLSchemaBuilder.php"
     ]
   },
   "scripts": {

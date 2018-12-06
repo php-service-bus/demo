@@ -5,7 +5,7 @@ services:
   queue:
     build:
       context: docker/rabbitmq
-    container_name: service-bus-demo-queue
+    container_name: service-bus-queue
     restart: always
     ports:
       - 5672:5672
@@ -18,7 +18,7 @@ services:
 
   db:
     image: postgres:9.6
-    container_name: service-bus-demo-db
+    container_name: service-bus-db
     restart: always
     environment:
       POSTGRES_PASSWORD: 123456789
@@ -29,7 +29,7 @@ services:
   app:
     build:
       context: docker/application
-    container_name: service-bus-demo-consumer
+    container_name: service-bus-consumer
     working_dir: /var/www
     restart: always
     volumes:

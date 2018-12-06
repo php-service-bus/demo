@@ -1,12 +1,7 @@
-#### An example of using the "[service-bus](https://github.com/mmasiukevich/service-bus)"
+## Usage
 
-#### Usage
 ```bash
+composer create-project mmasiukevich/service-bus-skeleton my-project
+cd my-project
 docker-compose up --build
-```
-
-#### Register customer example
-
-```bash
-tools/RegisterCustomer/successRegisterCustomer
 ```

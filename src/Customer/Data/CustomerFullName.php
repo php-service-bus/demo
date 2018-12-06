@@ -1,56 +1,62 @@
 <?php
 
 /**
- * PHP Service Bus (publish-subscribe pattern implementation) demo
- * Supports Saga pattern and Event Sourcing
+ * Demo application, remotely similar to Uber
  *
  * @author  Maksim Masiukevich <desperado@minsk-info.ru>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-
 declare(strict_types = 1);
 
 namespace App\Customer\Data;
 
 /**
- *
+ * Customer full name data
  */
 final class CustomerFullName
 {
     /**
+     * First name
+     *
      * @var string
      */
-    private $firstName;
+    private $first;
 
     /**
+     * Last name
+     *
      * @var string
      */
-    private $lastName;
+    private $last;
 
     /**
-     * @param string $firstName
-     * @param string $lastName
+     * @param string $first
+     * @param string $last
      */
-    public function __construct(string $firstName, string $lastName)
+    public function __construct(string $first, string $last)
     {
-        $this->firstName = $firstName;
-        $this->lastName  = $lastName;
+        $this->first = $first;
+        $this->last  = $last;
     }
 
     /**
+     * Receive first name
+     *
      * @return string
      */
-    public function firstName(): string
+    public function first(): string
     {
-        return $this->firstName;
+        return $this->first;
     }
 
     /**
+     * Receive last name
+     *
      * @return string
      */
-    public function lastName(): string
+    public function last(): string
     {
-        return $this->lastName;
+        return $this->last;
     }
 }
