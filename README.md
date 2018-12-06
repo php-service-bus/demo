@@ -1,7 +1,2 @@
-## Usage
-
-```bash
-composer create-project mmasiukevich/service-bus-skeleton my-project
-cd my-project
-docker-compose up --build
-```
+#### Description
+> Attempt to implement an application similar to Uber
