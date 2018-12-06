@@ -19,7 +19,7 @@ use Desperado\ServiceBus\Common\Contract\Messages\Event;
  * @api
  * @see RegisterCustomer
  */
-final class RegistrationFailed implements Event
+final class CustomerRegistrationFailed implements Event
 {
     /**
      * Registration request Id

@@ -16,7 +16,8 @@ use App\Customer\Customer;
 use App\Customer\Events\CustomerAggregateCreated;
 use App\Customer\Register\Contracts\CustomerRegistered;
 use App\Customer\Register\Contracts\RegisterCustomer;
-use App\Customer\Register\Contracts\ValidationFailed;
+use App\Customer\Register\Contracts\CustomerRegistrationFailed;
+use App\Customer\Register\Contracts\RegisterCustomerValidationFailed;
 use Desperado\ServiceBus\Application\KernelContext;
 use Desperado\ServiceBus\EventSourcingProvider;
 use Desperado\ServiceBus\Index\IndexKey;
@@ -28,7 +29,7 @@ use Desperado\ServiceBus\Services\Annotations\EventListener;
 /**
  *
  */
-final class CustomerRegisterService
+final class CustomerRegistrationService
 {
     /**
      * Execute registration
@@ -49,26 +50,35 @@ final class CustomerRegisterService
         EventSourcingProvider $eventSourcingProvider
     ): \Generator
     {
-        if(false === $context->isValid())
+        try
         {
-            return yield $context->delivery(ValidationFailed::create($context->traceId(), $context->violations()));
+            if(false === $context->isValid())
+            {
+                return yield $context->delivery(
+                    RegisterCustomerValidationFailed::create($context->traceId(), $context->violations())
+                );
+            }
+
+            $customer = Customer::register($command->phone, $command->email, $command->firstName, $command->lastName);
+
+            /** @var bool $canBeRegistered */
+            $canBeRegistered = yield $indexProvider->add(
+                IndexKey::create('customer', $command->phone),
+                IndexValue::create((string) $customer->id())
+            );
+
+            /** Check the uniqueness of the phone number */
+            if(true === $canBeRegistered)
+            {
+                return yield $eventSourcingProvider->save($customer, $context);
+            }
+
+            return yield $context->delivery(RegisterCustomerValidationFailed::duplicatePhoneNumber($context->traceId()));
         }
-
-        $customer = Customer::register($command->phone, $command->email, $command->firstName, $command->lastName);
-
-        /** @var bool $canBeRegistered */
-        $canBeRegistered = yield $indexProvider->add(
-            IndexKey::create('customer', $command->phone),
-            IndexValue::create((string) $customer->id())
-        );
-
-        /** Check the uniqueness of the phone number */
-        if(true === $canBeRegistered)
+        catch(\Throwable $throwable)
         {
-            return yield $eventSourcingProvider->save($customer, $context);
+            return yield $context->delivery(CustomerRegistrationFailed::create($context->traceId(), $throwable->getMessage()));
         }
-
-        return yield $context->delivery(ValidationFailed::duplicatePhoneNumber($context->traceId()));
     }
 
     /**

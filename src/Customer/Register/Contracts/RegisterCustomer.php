@@ -19,7 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @api
  * @see CustomerRegistered
- * @see ValidationFailed
+ * @see RegisterCustomerValidationFailed
+ * @see CustomerRegistrationFailed
  */
 final class RegisterCustomer implements Command
 {
