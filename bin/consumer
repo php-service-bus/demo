@@ -80,6 +80,8 @@ Loop::run(
         $kernel->useDefaultStopSignalHandler(3);
 
         yield $schemaBuilder->build();
+        yield $schemaBuilder->importFixture(__DIR__ . '/../app/schema/customer.sql');
+
         yield $kernel->entryPoint()->listen($mainQueue);
     }
 );

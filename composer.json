@@ -1,7 +1,15 @@
 {
-  "name": "mmasiukevich/service-bus-skeleton",
-  "description": "PHP Service Bus skeleton",
+  "name": "mmasiukevich/service-bus-demo",
+  "description": "Attempt to implement an application like Uber to demonstrate the capabilities of the framework",
   "type": "project",
+  "authors": [
+    {
+      "name": "Masiukevich Maksim",
+      "email": "desperado@minsk-info.ru",
+      "homepage": "https://github.com/mmasiukevich",
+      "role": "Developer"
+    }
+  ],
   "license": "MIT",
   "minimum-stability": "dev",
   "require": {
@@ -26,7 +34,8 @@
     },
     "files": [
       "app/AppExtension.php",
-      "app/PostgreSQLSchemaBuilder.php"
+      "app/PostgreSQLSchemaBuilder.php",
+      "tools/ToolsPublisher.php"
     ]
   },
   "autoload-dev": {
@@ -35,13 +44,14 @@
     },
     "files": [
       "app/AppExtension.php",
-      "app/PostgreSQLSchemaBuilder.php"
+      "app/PostgreSQLSchemaBuilder.php",
+      "tools/ToolsPublisher.php"
     ]
   },
   "scripts": {
     "psalm": "./vendor/bin/psalm --config=psalm.xml",
-    "phpunit": "phpunit --configuration phpunit.xml --verbose",
-    "coverage": "phpunit --configuration phpunit.xml --coverage-html ./coverage --verbose",
+    "phpunit": "./vendor/bin/phpunit --configuration phpunit.xml --verbose",
+    "coverage": "./vendor/bin/phpunit --configuration phpunit.xml --coverage-html ./coverage --verbose",
     "test": [
       "@phpunit"
     ]

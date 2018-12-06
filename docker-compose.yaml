@@ -36,7 +36,7 @@ services:
       - ./:/var/www
     environment:
       TRANSPORT_CONNECTION_DSN: amqp://admin:admin123@queue
-      DATABASE_CONNECTION_DSN: pgsql://demo:123456789@db/demo
+      DATABASE_CONNECTION_DSN: pgsql://uber:123456789@db/uber
     links:
       - queue:queue
       - db:db

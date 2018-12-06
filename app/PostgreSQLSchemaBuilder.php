@@ -119,7 +119,7 @@ final class PostgreSQLSchemaBuilder
      *
      * @return Promise
      */
-    private function importFixture(string $fileName, bool $multipleQuery = false): Promise
+    public function importFixture(string $fileName, bool $multipleQuery = false): Promise
     {
         /** @psalm-suppress InvalidArgument Incorrect psalm unpack parameters (...$args) */
         return call(

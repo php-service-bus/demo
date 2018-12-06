@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use App\Customer\Register\Contracts\RegisterCustomer;
+
+include_once __DIR__ . '/../../../vendor/autoload.php';
+
+$publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
+$publisher->sendMessage(
+    RegisterCustomer::create(
+        '8-800-888-88-88',
+        'desperado@minsk-info.ru',
+        'Maksim',
+        'Masiukevich'
+    )
+);
