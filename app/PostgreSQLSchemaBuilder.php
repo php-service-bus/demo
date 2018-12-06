@@ -60,7 +60,7 @@ final class PostgreSQLSchemaBuilder
     }
 
     /**
-     * Create Event Sourcing schema
+     * Create Events Sourcing schema
      *
      * @return Promise
      */

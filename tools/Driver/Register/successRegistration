@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use App\Driver\Register\Contracts\RegisterDriver;
+
+include_once __DIR__ . '/../../../vendor/autoload.php';
+
+$publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
+$publisher->sendMessage(
+    RegisterDriver::create(
+        '8-800-888-88-88',
+        'desperado@minsk-info.ru',
+        'Maksim',
+        'Masiukevich',
+        'Andreevich'
+    )
+);
