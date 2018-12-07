@@ -9,7 +9,7 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Register\Contracts;
+namespace App\Customer\Registration\Contracts;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 
@@ -17,9 +17,9 @@ use Desperado\ServiceBus\Common\Contract\Messages\Event;
  * Some error occured
  *
  * @api
- * @see RegisterDriver
+ * @see RegisterCustomer
  */
-final class DriverRegistrationFailed implements Event
+final class CustomerRegistrationFailed implements Event
 {
     /**
      * Registration request Id
@@ -43,9 +43,10 @@ final class DriverRegistrationFailed implements Event
      */
     public static function create(string $correlationId, string $reason): self
     {
-        $self                = new self();
+        $self = new self();
+
         $self->correlationId = $correlationId;
-        $self->reason        = $reason;
+        $self->reason = $reason;
 
         return $self;
     }

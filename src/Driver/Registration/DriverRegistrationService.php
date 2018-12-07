@@ -9,15 +9,15 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Register;
+namespace App\Driver\Registration;
 
 use Amp\Promise;
 use App\Driver\Driver;
 use App\Driver\Events\DriverAggregateCreated;
-use App\Driver\Register\Contracts\DriverRegistered;
-use App\Driver\Register\Contracts\DriverRegistrationFailed;
-use App\Driver\Register\Contracts\RegisterDriver;
-use App\Driver\Register\Contracts\RegisterDriverValidationFailed;
+use App\Driver\Registration\Contracts\DriverRegistered;
+use App\Driver\Registration\Contracts\DriverRegistrationFailed;
+use App\Driver\Registration\Contracts\RegisterDriver;
+use App\Driver\Registration\Contracts\RegisterDriverValidationFailed;
 use Desperado\ServiceBus\Application\KernelContext;
 use Desperado\ServiceBus\EventSourcingProvider;
 use Desperado\ServiceBus\Index\IndexKey;

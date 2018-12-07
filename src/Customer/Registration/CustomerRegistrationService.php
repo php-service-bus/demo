@@ -9,15 +9,15 @@
  */
 declare(strict_types = 1);
 
-namespace App\Customer\Register;
+namespace App\Customer\Registration;
 
 use Amp\Promise;
 use App\Customer\Customer;
 use App\Customer\Events\CustomerAggregateCreated;
-use App\Customer\Register\Contracts\CustomerRegistered;
-use App\Customer\Register\Contracts\RegisterCustomer;
-use App\Customer\Register\Contracts\CustomerRegistrationFailed;
-use App\Customer\Register\Contracts\RegisterCustomerValidationFailed;
+use App\Customer\Registration\Contracts\CustomerRegistered;
+use App\Customer\Registration\Contracts\RegisterCustomer;
+use App\Customer\Registration\Contracts\CustomerRegistrationFailed;
+use App\Customer\Registration\Contracts\RegisterCustomerValidationFailed;
 use Desperado\ServiceBus\Application\KernelContext;
 use Desperado\ServiceBus\EventSourcingProvider;
 use Desperado\ServiceBus\Index\IndexKey;

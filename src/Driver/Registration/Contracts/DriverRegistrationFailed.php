@@ -9,25 +9,18 @@
  */
 declare(strict_types = 1);
 
-namespace App\Customer\Register\Contracts;
+namespace App\Driver\Registration\Contracts;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 
 /**
- * User successfully registered
+ * Some error occured
  *
  * @api
- * @see RegisterCustomer
+ * @see RegisterDriver
  */
-final class CustomerRegistered implements Event
+final class DriverRegistrationFailed implements Event
 {
-    /**
-     * Customer identifier
-     *
-     * @var string
-     */
-    public $customerId;
-
     /**
      * Registration request Id
      *
@@ -36,17 +29,23 @@ final class CustomerRegistered implements Event
     public $correlationId;
 
     /**
-     * @param string $customerId
+     * Error message
+     *
+     * @var string
+     */
+    public $reason;
+
+    /**
      * @param string $correlationId
+     * @param string $reason
      *
      * @return self
      */
-    public static function create(string $customerId, string $correlationId): self
+    public static function create(string $correlationId, string $reason): self
     {
-        $self = new self();
-
-        $self->customerId    = $customerId;
+        $self                = new self();
         $self->correlationId = $correlationId;
+        $self->reason        = $reason;
 
         return $self;
     }

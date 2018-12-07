@@ -9,20 +9,20 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Register\Contracts;
+namespace App\Customer\Registration\Contracts;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Register a new driver
+ * Register a new customer
  *
  * @api
- * @see DriverRegistered
- * @see RegisterDriverValidationFailed
- * @see DriverRegistrationFailed
+ * @see CustomerRegistered
+ * @see RegisterCustomerValidationFailed
+ * @see CustomerRegistrationFailed
  */
-final class RegisterDriver implements Command
+final class RegisterCustomer implements Command
 {
     /**
      * Phone number
@@ -62,34 +62,27 @@ final class RegisterDriver implements Command
     public $lastName;
 
     /**
-     * Patronymic
-     *
-     * @var string|null
-     */
-    public $patronymic;
-
-    /**
-     * @param string      $phone
-     * @param string      $email
-     * @param string      $firstName
-     * @param string      $lastName
-     * @param string|null $patronymic
+     * @param string $phone
+     * @param string $email
+     * @param string $firstName
+     * @param string $lastName
      *
      * @return self
      */
-    public static function create(string $phone, string $email, string $firstName, string $lastName, ?string $patronymic): self
+    public static function create(string $phone, string $email, string $firstName, string $lastName): self
     {
-        $self             = new self();
-        $self->phone      = $phone;
-        $self->email      = $email;
-        $self->firstName  = $firstName;
-        $self->lastName   = $lastName;
-        $self->patronymic = $patronymic;
+        $self = new self();
+
+        $self->phone     = $phone;
+        $self->email     = $email;
+        $self->firstName = $firstName;
+        $self->lastName  = $lastName;
 
         return $self;
     }
 
     private function __construct()
     {
+
     }
 }

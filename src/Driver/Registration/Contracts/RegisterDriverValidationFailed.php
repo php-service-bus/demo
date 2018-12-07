@@ -9,7 +9,7 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Register\Contracts;
+namespace App\Driver\Registration\Contracts;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 
@@ -64,10 +64,11 @@ final class RegisterDriverValidationFailed implements Event
      */
     public static function duplicatePhoneNumber(string $correlationId): self
     {
-        return self::create($correlationId, ['phone' => 'Driver with the specified phone number is already registered']);
+        return self::create($correlationId, ['phone' => ['Driver with the specified phone number is already registered']]);
     }
 
     private function __construct()
     {
+
     }
 }

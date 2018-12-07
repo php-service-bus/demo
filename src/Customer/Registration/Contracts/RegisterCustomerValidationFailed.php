@@ -9,7 +9,7 @@
  */
 declare(strict_types = 1);
 
-namespace App\Customer\Register\Contracts;
+namespace App\Customer\Registration\Contracts;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 
@@ -65,7 +65,7 @@ final class RegisterCustomerValidationFailed implements Event
      */
     public static function duplicatePhoneNumber(string $correlationId): self
     {
-        return self::create($correlationId, ['phone' => 'Customer with the specified phone number is already registered']);
+        return self::create($correlationId, ['phone' => ['Customer with the specified phone number is already registered']]);
     }
 
     private function __construct()
