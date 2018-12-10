@@ -9,20 +9,20 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Registration\Contracts;
+namespace App\Vehicle\Manage\Contracts\Add;
 
 use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
- * Invalid registration data
+ * Invalid vehicle details
  *
  * @api
- * @see RegisterDriver
+ * @see AddVehicle
  */
-final class RegisterDriverValidationFailed implements ValidationFailedEvent
+final class AddVehicleValidationFailed implements ValidationFailedEvent
 {
     /**
-     * Registration request Id
+     * Request Id
      *
      * @var string
      */
@@ -58,9 +58,22 @@ final class RegisterDriverValidationFailed implements ValidationFailedEvent
      *
      * @return self
      */
-    public static function duplicatePhoneNumber(string $correlationId): self
+    public static function invalidBrand(string $correlationId): self
     {
-        return new self($correlationId, ['phone' => ['Driver with the specified phone number is already registered']]);
+        return new self($correlationId, ['brand' => ['Car brand not found']]);
+    }
+
+    /**
+     * @param string $correlationId
+     *
+     * @return self
+     */
+    public static function duplicateStateRegistrationNumber(string $correlationId): self
+    {
+        return new self(
+            $correlationId,
+            ['registrationNumber' => ['The car with the specified registration number is already registered']]
+        );
     }
 
     /**

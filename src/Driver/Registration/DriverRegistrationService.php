@@ -15,7 +15,6 @@ use Amp\Promise;
 use App\Driver\Driver;
 use App\Driver\Events\DriverAggregateCreated;
 use App\Driver\Registration\Contracts\DriverRegistered;
-use App\Driver\Registration\Contracts\DriverRegistrationFailed;
 use App\Driver\Registration\Contracts\RegisterDriver;
 use App\Driver\Registration\Contracts\RegisterDriverValidationFailed;
 use Desperado\ServiceBus\Application\KernelContext;
@@ -34,7 +33,11 @@ final class DriverRegistrationService
     /**
      * Register new driver
      *
-     * @CommandHandler(validate=true)
+     * @CommandHandler(
+     *     validate=true,
+     *     defaultValidationFailedEvent="App\Driver\Registration\Contracts\RegisterDriverValidationFailed",
+     *     defaultThrowableEvent="App\Driver\Registration\Contracts\DriverRegistrationFailed"
+     * )
      *
      * @param RegisterDriver        $command
      * @param KernelContext         $context
@@ -50,39 +53,23 @@ final class DriverRegistrationService
         EventSourcingProvider $eventSourcingProvider
     ): \Generator
     {
-        try
+        $driver = Driver::register(
+            $command->phone, $command->email, $command->firstName, $command->lastName, $command->patronymic
+        );
+
+        /** @var bool $canBeRegistered */
+        $canBeRegistered = yield $indexProvider->add(
+            IndexKey::create('driver', $command->phone),
+            IndexValue::create((string) $driver->id())
+        );
+
+        /** Check the uniqueness of the phone number */
+        if(true === $canBeRegistered)
         {
-            if(false === $context->isValid())
-            {
-                return yield $context->delivery(
-                    RegisterDriverValidationFailed::create($context->traceId(), $context->violations())
-                );
-            }
-
-            $driver = Driver::register(
-                $command->phone, $command->email, $command->firstName, $command->lastName, $command->patronymic
-            );
-
-            /** @var bool $canBeRegistered */
-            $canBeRegistered = yield $indexProvider->add(
-                IndexKey::create('driver', $command->phone),
-                IndexValue::create((string) $driver->id())
-            );
-
-            /** Check the uniqueness of the phone number */
-            if(true === $canBeRegistered)
-            {
-                return yield $eventSourcingProvider->save($driver, $context);
-            }
-
-            return yield $context->delivery(RegisterDriverValidationFailed::duplicatePhoneNumber($context->traceId()));
+            return yield $eventSourcingProvider->save($driver, $context);
         }
-        catch(\Throwable $throwable)
-        {
-            return yield $context->delivery(
-                DriverRegistrationFailed::create($context->traceId(), $throwable->getMessage())
-            );
-        }
+
+        return yield $context->delivery(RegisterDriverValidationFailed::duplicatePhoneNumber($context->traceId()));
     }
 
     /**

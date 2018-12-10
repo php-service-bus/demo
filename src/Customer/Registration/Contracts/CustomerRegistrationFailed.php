@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\Customer\Registration\Contracts;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
 
 /**
  * Some error occured
@@ -19,7 +19,7 @@ use Desperado\ServiceBus\Common\Contract\Messages\Event;
  * @api
  * @see RegisterCustomer
  */
-final class CustomerRegistrationFailed implements Event
+final class CustomerRegistrationFailed implements ExecutionFailedEvent
 {
     /**
      * Registration request Id
@@ -36,23 +36,31 @@ final class CustomerRegistrationFailed implements Event
     public $reason;
 
     /**
-     * @param string $correlationId
-     * @param string $reason
-     *
-     * @return self
+     * @inheritdoc
      */
-    public static function create(string $correlationId, string $reason): self
+    public static function create(string $correlationId, string $errorMessage): ExecutionFailedEvent
     {
         $self = new self();
 
         $self->correlationId = $correlationId;
-        $self->reason = $reason;
+        $self->reason        = $errorMessage;
 
         return $self;
     }
 
-    private function __construct()
+    /**
+     * @inheritdoc
+     */
+    public function correlationId(): string
     {
+        return $this->correlationId;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function errorMessage(): string
+    {
+        return $this->reason;
     }
 }

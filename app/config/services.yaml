@@ -6,4 +6,6 @@ services:
     arguments:
       $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
 
-  # ... Some custom service definitions
+  App\Vehicle\Brand\VehicleBrandFinder:
+    arguments:
+      $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'

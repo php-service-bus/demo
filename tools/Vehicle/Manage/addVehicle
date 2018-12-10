@@ -3,17 +3,17 @@
 
 declare(strict_types = 1);
 
-use App\Driver\Registration\Contracts\RegisterDriver;
+use App\Vehicle\Manage\Contracts\Add\AddVehicle;
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 
 $publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
 $publisher->sendMessage(
-    RegisterDriver::create(
-        '8-800-888-88-88',
-        'desperado@minsk-info.ru',
-        'Maksim',
-        'Masiukevich',
-        'Andreevich'
+    AddVehicle::create(
+        'bmw',
+        'Series 7',
+        2018,
+        'x777xxxx',
+        'black'
     )
 );

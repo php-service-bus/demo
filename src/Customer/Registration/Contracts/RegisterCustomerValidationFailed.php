@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\Customer\Registration\Contracts;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
  * Invalid registration data
@@ -19,7 +19,7 @@ use Desperado\ServiceBus\Common\Contract\Messages\Event;
  * @api
  * @see RegisterCustomer
  */
-final class RegisterCustomerValidationFailed implements Event
+final class RegisterCustomerValidationFailed implements ValidationFailedEvent
 {
     /**
      * Registration request Id
@@ -43,19 +43,11 @@ final class RegisterCustomerValidationFailed implements Event
     public $violations;
 
     /**
-     * @param string                            $correlationId
-     * @param array<string, array<int, string>> $violations
-     *
-     * @return self
+     * @inheritDoc
      */
-    public static function create(string $correlationId, array $violations): self
+    public static function create(string $correlationId, array $violations): ValidationFailedEvent
     {
-        $self = new self();
-
-        $self->correlationId = $correlationId;
-        $self->violations    = $violations;
-
-        return $self;
+        return new self($correlationId, $violations);
     }
 
     /**
@@ -65,11 +57,32 @@ final class RegisterCustomerValidationFailed implements Event
      */
     public static function duplicatePhoneNumber(string $correlationId): self
     {
-        return self::create($correlationId, ['phone' => ['Customer with the specified phone number is already registered']]);
+        return new self($correlationId, ['phone' => ['Customer with the specified phone number is already registered']]);
     }
 
-    private function __construct()
+    /**
+     * @inheritDoc
+     */
+    public function correlationId(): string
     {
+        return $this->correlationId;
+    }
 
+    /**
+     * @inheritDoc
+     */
+    public function violations(): array
+    {
+        return $this->violations;
+    }
+
+    /**
+     * @param string                            $correlationId
+     * @param array<string, array<int, string>> $violations
+     */
+    private function __construct(string $correlationId, array $violations)
+    {
+        $this->correlationId = $correlationId;
+        $this->violations    = $violations;
     }
 }

@@ -15,7 +15,7 @@
   "require": {
     "php": ">=7.2",
     "ext-json": "*",
-    "mmasiukevich/service-bus": "^v2.2"
+    "mmasiukevich/service-bus": "dev-develop"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.4",

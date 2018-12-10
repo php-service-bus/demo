@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b35f2b346614c739c7f04072aba3736f",
-    "content-hash": "94a8e4ab5f66689a18d53643bf16239e",
+    "hash": "29a05a4316e5573545397b849eb2abc9",
+    "content-hash": "b7a584f8a592dd543475c58c47a2f602",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1190,12 +1190,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "36c114783b9f30abfd1054e59c28e6e2e8152481"
+                "reference": "f7fa6673fa8f2dc755f212744ea3f58b5513a788"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/36c114783b9f30abfd1054e59c28e6e2e8152481",
-                "reference": "36c114783b9f30abfd1054e59c28e6e2e8152481",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/f7fa6673fa8f2dc755f212744ea3f58b5513a788",
+                "reference": "f7fa6673fa8f2dc755f212744ea3f58b5513a788",
                 "shasum": ""
             },
             "require": {
@@ -1265,7 +1265,7 @@
                 "riak",
                 "xcache"
             ],
-            "time": "2018-09-25 21:24:06"
+            "time": "2018-12-09 19:26:17"
         },
         {
             "name": "doctrine/lexer",
@@ -1333,24 +1333,27 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "610233d48f24c53fe058addcaf94577ebd0e82fd"
+                "reference": "5e61346ab1e1ca7d01d2f633bad9574d35717781"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/610233d48f24c53fe058addcaf94577ebd0e82fd",
-                "reference": "610233d48f24c53fe058addcaf94577ebd0e82fd",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/5e61346ab1e1ca7d01d2f633bad9574d35717781",
+                "reference": "5e61346ab1e1ca7d01d2f633bad9574d35717781",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
                 "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5"
+                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
             },
             "provide": {
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+            },
+            "suggest": {
+                "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
             },
             "type": "library",
             "extra": {
@@ -1392,7 +1395,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-12-06 12:35:27"
+            "time": "2018-12-07 15:04:46"
         },
         {
             "name": "kelunik/certificate",
@@ -1581,16 +1584,16 @@
         },
         {
             "name": "mmasiukevich/service-bus",
-            "version": "v2.2.6",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "0bb8c98e1fa839b4b92356cc78f904425c87e8c4"
+                "reference": "274fe0b1d4cc0b8fe87f45fe04be21b6861ed449"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/0bb8c98e1fa839b4b92356cc78f904425c87e8c4",
-                "reference": "0bb8c98e1fa839b4b92356cc78f904425c87e8c4",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/274fe0b1d4cc0b8fe87f45fe04be21b6861ed449",
+                "reference": "274fe0b1d4cc0b8fe87f45fe04be21b6861ed449",
                 "shasum": ""
             },
             "require": {
@@ -1654,7 +1657,7 @@
                 }
             ],
             "description": "PHP Service Bus (publish-subscribe pattern)",
-            "time": "2018-12-04 23:04:51"
+            "time": "2018-12-10 10:49:48"
         },
         {
             "name": "monolog/monolog",
@@ -1662,12 +1665,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "a335f6f1a564f43d2c63f2eeeca381e6c78f9006"
+                "reference": "b46967e74ca067c059f2753a586ca981cac8ee39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a335f6f1a564f43d2c63f2eeeca381e6c78f9006",
-                "reference": "a335f6f1a564f43d2c63f2eeeca381e6c78f9006",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/b46967e74ca067c059f2753a586ca981cac8ee39",
+                "reference": "b46967e74ca067c059f2753a586ca981cac8ee39",
                 "shasum": ""
             },
             "require": {
@@ -1732,7 +1735,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2018-11-30 07:43:17"
+            "time": "2018-12-10 10:13:43"
         },
         {
             "name": "paragonie/random_compat",
@@ -3149,12 +3152,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "ed5657af367082373cb40d08b11550e5a32bd43e"
+                "reference": "a67f0b690d425d61c32aef91e6241e51ca9fd196"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/ed5657af367082373cb40d08b11550e5a32bd43e",
-                "reference": "ed5657af367082373cb40d08b11550e5a32bd43e",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/a67f0b690d425d61c32aef91e6241e51ca9fd196",
+                "reference": "a67f0b690d425d61c32aef91e6241e51ca9fd196",
                 "shasum": ""
             },
             "require": {
@@ -3221,7 +3224,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
-            "time": "2018-12-02 13:25:44"
+            "time": "2018-12-08 12:16:17"
         },
         {
             "name": "symfony/validator",
@@ -3229,12 +3232,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "efbf1203e35de5dcc57e225dcd873f8d3b265089"
+                "reference": "a4ccc71ee7588a2ac27419271af0b695e9c4ddf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/efbf1203e35de5dcc57e225dcd873f8d3b265089",
-                "reference": "efbf1203e35de5dcc57e225dcd873f8d3b265089",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/a4ccc71ee7588a2ac27419271af0b695e9c4ddf7",
+                "reference": "a4ccc71ee7588a2ac27419271af0b695e9c4ddf7",
                 "shasum": ""
             },
             "require": {
@@ -3310,7 +3313,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2018-12-06 11:00:21"
+            "time": "2018-12-10 04:07:54"
         },
         {
             "name": "symfony/var-exporter",
@@ -3822,12 +3825,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "f42bbc2403ebc1178d9ae4f1029c0e8ddc6aa451"
+                "reference": "382ca0128f0a792884c81f9014d6ce02bfe73048"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f42bbc2403ebc1178d9ae4f1029c0e8ddc6aa451",
-                "reference": "f42bbc2403ebc1178d9ae4f1029c0e8ddc6aa451",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/382ca0128f0a792884c81f9014d6ce02bfe73048",
+                "reference": "382ca0128f0a792884c81f9014d6ce02bfe73048",
                 "shasum": ""
             },
             "require": {
@@ -3865,7 +3868,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-11-30 10:00:48"
+            "time": "2018-12-08 15:37:28"
         },
         {
             "name": "openlss/lib-array2xml",
@@ -4138,12 +4141,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "cdba7cfeda7f79d911ee0aafd9da21fa6a62ae2c"
+                "reference": "afe4b8aa7526dafeb5a642a70e54a0083ff54d80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/cdba7cfeda7f79d911ee0aafd9da21fa6a62ae2c",
-                "reference": "cdba7cfeda7f79d911ee0aafd9da21fa6a62ae2c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/afe4b8aa7526dafeb5a642a70e54a0083ff54d80",
+                "reference": "afe4b8aa7526dafeb5a642a70e54a0083ff54d80",
                 "shasum": ""
             },
             "require": {
@@ -4193,7 +4196,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-11-25 09:38:39"
+            "time": "2018-12-09 08:02:16"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -4390,12 +4393,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "49ff35ccefff23fb0019365c3427177d3398833c"
+                "reference": "f8a74214924e3d2345f1dfff880756c3f93ba374"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/49ff35ccefff23fb0019365c3427177d3398833c",
-                "reference": "49ff35ccefff23fb0019365c3427177d3398833c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f8a74214924e3d2345f1dfff880756c3f93ba374",
+                "reference": "f8a74214924e3d2345f1dfff880756c3f93ba374",
                 "shasum": ""
             },
             "require": {
@@ -4466,7 +4469,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-12-06 12:52:04"
+            "time": "2018-12-07 13:10:50"
         },
         {
             "name": "sabre/event",
@@ -5353,7 +5356,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "mmasiukevich/service-bus": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
