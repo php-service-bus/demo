@@ -13,11 +13,18 @@ namespace App\Driver;
 
 use App\Driver\Data\DriverContacts;
 use App\Driver\Data\DriverFullName;
+use App\Driver\Document\Data\DriverDocument;
+use App\Driver\Document\Data\DriverDocumentId;
+use App\Driver\Document\Data\DriverDocuments;
+use App\Driver\Document\Data\DriverDocumentType;
+use App\Driver\Events\DocumentAddedToAggregate;
 use App\Driver\Events\DriverAggregateCreated;
 use Desperado\ServiceBus\EventSourcing\Aggregate;
 
 /**
  * Driver aggregate
+ *
+ * @method DriverId id
  */
 final class Driver extends Aggregate
 {
@@ -34,6 +41,13 @@ final class Driver extends Aggregate
      * @var DriverFullName
      */
     private $fullName;
+
+    /**
+     * Uploaded documents collection
+     *
+     * @var DriverDocuments
+     */
+    private $documents;
 
     /**
      * @param string      $phone
@@ -54,6 +68,26 @@ final class Driver extends Aggregate
     }
 
     /**
+     * Attach new document
+     *
+     * @param string $imagePath
+     * @param string $type
+     *
+     * @return void
+     */
+    public function attachDocument(string $imagePath, string $type): void
+    {
+        $this->raise(
+            DocumentAddedToAggregate::create(
+                $this->id(),
+                DriverDocumentId::new(),
+                DriverDocumentType::create($type),
+                $imagePath
+            )
+        );
+    }
+
+    /**
      * @noinspection PhpUnusedPrivateMethodInspection
      *
      * @param DriverAggregateCreated $event
@@ -62,7 +96,20 @@ final class Driver extends Aggregate
      */
     private function onDriverAggregateCreated(DriverAggregateCreated $event): void
     {
-        $this->contacts = new DriverContacts($event->email, $event->phone);
-        $this->fullName = new DriverFullName($event->firstName, $event->lastName, $event->patronymic);
+        $this->contacts  = new DriverContacts($event->email, $event->phone);
+        $this->fullName  = new DriverFullName($event->firstName, $event->lastName, $event->patronymic);
+        $this->documents = new DriverDocuments();
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     *
+     * @param DocumentAddedToAggregate $event
+     *
+     * @return void
+     */
+    private function onDocumentAddedToAggregate(DocumentAddedToAggregate $event): void
+    {
+        $this->documents->add(new DriverDocument($event->documentId, $event->imagePath, $event->type));
     }
 }

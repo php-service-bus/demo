@@ -9,7 +9,7 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Document;
+namespace App\Driver\Document\Data;
 
 use App\Driver\Document\Exceptions\IncorrectDriverDocumentStatus;
 

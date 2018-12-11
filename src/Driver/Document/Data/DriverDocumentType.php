@@ -9,7 +9,7 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Document;
+namespace App\Driver\Document\Data;
 
 use App\Driver\Document\Exceptions\IncorrectDriverDocumentType;
 
@@ -63,7 +63,7 @@ final class DriverDocumentType
     /**
      * @return self
      */
-    public function additionalDocument(): self
+    public static function additionalDocument(): self
     {
         return new self(self::ADDITIONAL_DOCUMENT);
     }
@@ -71,7 +71,7 @@ final class DriverDocumentType
     /**
      * @return self
      */
-    public function driverLicenseFrontSide(): self
+    public static function driverLicenseFrontSide(): self
     {
         return new self(self::DRIVER_LICENSE_FRONT);
     }
@@ -79,7 +79,7 @@ final class DriverDocumentType
     /**
      * @return self
      */
-    public function driverLicenseBackSide(): self
+    public static function driverLicenseBackSide(): self
     {
         return new self(self::DRIVER_LICENSE_BACK);
     }

@@ -8,6 +8,7 @@ RUN set -xe \
         pcntl \
         mbstring \
         sysvsem \
+        pgsql \
         zip \
     # Iconv fix
     && apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \

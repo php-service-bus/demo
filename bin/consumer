@@ -30,7 +30,11 @@ $container = Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useSqlStorage(AmpPostgreSQLAdapter::class, (string) \getenv('DATABASE_CONNECTION_DSN'))
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addExtensions(new AppExtension())
-    ->importParameters(['app.log_level' => (string) \getenv('LOG_LEVEL')])
+    ->importParameters([
+            'app.log_level' => (string) \getenv('LOG_LEVEL'),
+            'app.driver.document.images_path' => \realpath(__DIR__ . '/../storage')
+        ]
+    )
     ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
     ->enableAutoImportSagas([__DIR__ . '/../src'])
     ->enableScheduler()

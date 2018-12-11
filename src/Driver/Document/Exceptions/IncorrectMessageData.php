@@ -9,16 +9,12 @@
  */
 declare(strict_types = 1);
 
-namespace App\Driver\Events;
-
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+namespace App\Driver\Document\Exceptions;
 
 /**
- * Vehicle was added to driver profile
  *
- * internal event
  */
-final class VehicleAddedToDriver implements Event
+final class IncorrectMessageData extends \RuntimeException
 {
 
 }
