@@ -22,6 +22,13 @@ use Desperado\ServiceBus\Common\Contract\Messages\Event;
 final class VehicleAdded implements Event
 {
     /**
+     * Request operation id
+     *
+     * @var string
+     */
+    public $correlationId;
+
+    /**
      * Stored vehicle id
      *
      * @var string
@@ -48,13 +55,6 @@ final class VehicleAdded implements Event
      * @var string
      */
     public $registrationNumber;
-
-    /**
-     * Request Id
-     *
-     * @var string
-     */
-    public $correlationId;
 
     /**
      * @param string $id

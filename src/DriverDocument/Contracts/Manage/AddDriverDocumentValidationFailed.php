@@ -9,17 +9,17 @@
  */
 declare(strict_types = 1);
 
-namespace App\Vehicle\Manage\Contracts\Add;
+namespace App\DriverDocument\Contracts\Manage;
 
 use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
- * Invalid vehicle details
+ * Validation error when adding document
  *
  * @api
- * @see AddVehicle
+ * @see AddDriverDocument
  */
-final class AddVehicleValidationFailed implements ValidationFailedEvent
+final class AddDriverDocumentValidationFailed implements ValidationFailedEvent
 {
     /**
      * Request operation id
@@ -43,14 +43,6 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
     public $violations;
 
     /**
-     * Vehicle identifier
-     * Indicated in case the vehicle with registration number has already been added
-     *
-     * @var string|null
-     */
-    public $vehicleId;
-
-    /**
      * @param string                            $correlationId
      * @param array<string, array<int, string>> $violations
      *
@@ -63,30 +55,23 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
 
     /**
      * @param string $correlationId
+     * @param string $message
      *
      * @return self
      */
-    public static function invalidBrand(string $correlationId): self
+    public static function incorrectImage(string $correlationId, string $message): ValidationFailedEvent
     {
-        return new self($correlationId, ['brand' => ['Car brand not found']]);
+        return new self($correlationId, ['payload' => [$message]]);
     }
 
     /**
      * @param string $correlationId
-     * @param string $vehicleId
      *
      * @return self
      */
-    public static function duplicateStateRegistrationNumber(string $correlationId, string $vehicleId): self
+    public static function driverNotFound(string $correlationId): ValidationFailedEvent
     {
-        $self = new self(
-            $correlationId,
-            ['registrationNumber' => ['The car with the specified registration number is already registered']]
-        );
-
-        $self->vehicleId = $vehicleId;
-
-        return $self;
+        return new self($correlationId, ['driverId' => ['Driver with specified id not found']]);
     }
 
     /**

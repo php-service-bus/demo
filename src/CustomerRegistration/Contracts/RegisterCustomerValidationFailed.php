@@ -9,20 +9,20 @@
  */
 declare(strict_types = 1);
 
-namespace App\Vehicle\Manage\Contracts\Add;
+namespace App\CustomerRegistration\Contracts;
 
 use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
- * Invalid vehicle details
+ * Invalid registration data
  *
  * @api
- * @see AddVehicle
+ * @see RegisterCustomer
  */
-final class AddVehicleValidationFailed implements ValidationFailedEvent
+final class RegisterCustomerValidationFailed implements ValidationFailedEvent
 {
     /**
-     * Request operation id
+     * Registration request Id
      *
      * @var string
      */
@@ -43,18 +43,7 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
     public $violations;
 
     /**
-     * Vehicle identifier
-     * Indicated in case the vehicle with registration number has already been added
-     *
-     * @var string|null
-     */
-    public $vehicleId;
-
-    /**
-     * @param string                            $correlationId
-     * @param array<string, array<int, string>> $violations
-     *
-     * @return self
+     * @inheritDoc
      */
     public static function create(string $correlationId, array $violations): ValidationFailedEvent
     {
@@ -66,27 +55,9 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
      *
      * @return self
      */
-    public static function invalidBrand(string $correlationId): self
+    public static function duplicatePhoneNumber(string $correlationId): self
     {
-        return new self($correlationId, ['brand' => ['Car brand not found']]);
-    }
-
-    /**
-     * @param string $correlationId
-     * @param string $vehicleId
-     *
-     * @return self
-     */
-    public static function duplicateStateRegistrationNumber(string $correlationId, string $vehicleId): self
-    {
-        $self = new self(
-            $correlationId,
-            ['registrationNumber' => ['The car with the specified registration number is already registered']]
-        );
-
-        $self->vehicleId = $vehicleId;
-
-        return $self;
+        return new self($correlationId, ['phone' => ['Customer with the specified phone number is already registered']]);
     }
 
     /**

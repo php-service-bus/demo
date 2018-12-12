@@ -11,13 +11,15 @@ declare(strict_types = 1);
 
 namespace App\Driver\Events;
 
-use App\Driver\Document\Data\DriverDocumentId;
-use App\Driver\Document\Data\DriverDocumentType;
+use App\DriverDocument\Data\DriverDocumentId;
+use App\DriverDocument\Data\DriverDocumentType;
 use App\Driver\DriverId;
 use Desperado\ServiceBus\Common\Contract\Messages\Event;
 
 /**
  * Document successfully added to aggregate
+ *
+ * internal event
  */
 final class DocumentAddedToAggregate implements Event
 {

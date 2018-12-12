@@ -54,22 +54,23 @@ final class ToolsPublisher
      * @noinspection PhpDocMissingThrowsInspection
      *
      * @param Message     $message
+     * @param string|null $traceId
      * @param string|null $topic
      * @param string|null $routingKey
      *
      * @return void
      */
-    public function sendMessage(Message $message, ?string $topic = null, ?string $routingKey = null): void
+    public function sendMessage(Message $message, string $traceId = null, ?string $topic = null, ?string $routingKey = null): void
     {
-        $topic      = $topic ?? \getenv('SENDER_DESTINATION_TOPIC');
-        $routingKey = $routingKey ?? \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY');
+        $topic      = (string) ($topic ?? \getenv('SENDER_DESTINATION_TOPIC'));
+        $routingKey = (string) ($routingKey ?? \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY'));
 
         /** @noinspection PhpUnhandledExceptionInspection */
         wait(
             $this->transport()->send(
                 new OutboundPackage(
                     $this->encoder->encode($message),
-                    [Transport::SERVICE_BUS_TRACE_HEADER => uuid()],
+                    [Transport::SERVICE_BUS_TRACE_HEADER => $traceId ?? uuid()],
                     new AmqpTransportLevelDestination($topic, $routingKey)
                 )
             )

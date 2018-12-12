@@ -9,17 +9,17 @@
  */
 declare(strict_types = 1);
 
-namespace App\Vehicle\Manage\Contracts\Add;
+namespace App\DriverDocument\Contracts\Manage;
 
 use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
 
 /**
- * Some error occured
+ * Error while adding a document
  *
  * @api
- * @see AddVehicle
+ * @see AddDriverDocument
  */
-final class AddVehicleFailed implements ExecutionFailedEvent
+final class AddDriverDocumentFailure implements ExecutionFailedEvent
 {
     /**
      * Request operation id
@@ -70,4 +70,5 @@ final class AddVehicleFailed implements ExecutionFailedEvent
     {
 
     }
+
 }

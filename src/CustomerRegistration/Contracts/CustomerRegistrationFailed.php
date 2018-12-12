@@ -9,7 +9,7 @@
  */
 declare(strict_types = 1);
 
-namespace App\Vehicle\Manage\Contracts\Add;
+namespace App\CustomerRegistration\Contracts;
 
 use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
 
@@ -17,9 +17,9 @@ use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
  * Some error occured
  *
  * @api
- * @see AddVehicle
+ * @see RegisterCustomer
  */
-final class AddVehicleFailed implements ExecutionFailedEvent
+final class CustomerRegistrationFailed implements ExecutionFailedEvent
 {
     /**
      * Request operation id
@@ -36,22 +36,20 @@ final class AddVehicleFailed implements ExecutionFailedEvent
     public $reason;
 
     /**
-     * @param string $correlationId
-     * @param string $reason
-     *
-     * @return self
+     * @inheritdoc
      */
-    public static function create(string $correlationId, string $reason): ExecutionFailedEvent
+    public static function create(string $correlationId, string $errorMessage): ExecutionFailedEvent
     {
-        $self                = new self();
+        $self = new self();
+
         $self->correlationId = $correlationId;
-        $self->reason        = $reason;
+        $self->reason        = $errorMessage;
 
         return $self;
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function correlationId(): string
     {
@@ -59,15 +57,10 @@ final class AddVehicleFailed implements ExecutionFailedEvent
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function errorMessage(): string
     {
         return $this->reason;
-    }
-
-    private function __construct()
-    {
-
     }
 }

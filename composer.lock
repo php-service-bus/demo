@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "amphp/amp",
-            "version": "dev-master",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/amp.git",
-                "reference": "5889f4e0fdbe18a8d6a7d53513d149781c72dc89"
+                "reference": "7075ef7d74dbd32626bfd31c976b23055c3ade6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/amp/zipball/5889f4e0fdbe18a8d6a7d53513d149781c72dc89",
-                "reference": "5889f4e0fdbe18a8d6a7d53513d149781c72dc89",
+                "url": "https://api.github.com/repos/amphp/amp/zipball/7075ef7d74dbd32626bfd31c976b23055c3ade6a",
+                "reference": "7075ef7d74dbd32626bfd31c976b23055c3ade6a",
                 "shasum": ""
             },
             "require": {
@@ -81,7 +81,7 @@
                 "non-blocking",
                 "promise"
             ],
-            "time": "2018-11-26 20:59:15"
+            "time": "2018-12-11 10:31:37"
         },
         {
             "name": "amphp/artax",
@@ -1588,12 +1588,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "c8c8382d60499bbadb743fa6e5f53cca3cb00d95"
+                "reference": "fdaa7b42e5a4053f397ce15163c8de14568b4c77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/c8c8382d60499bbadb743fa6e5f53cca3cb00d95",
-                "reference": "c8c8382d60499bbadb743fa6e5f53cca3cb00d95",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/fdaa7b42e5a4053f397ce15163c8de14568b4c77",
+                "reference": "fdaa7b42e5a4053f397ce15163c8de14568b4c77",
                 "shasum": ""
             },
             "require": {
@@ -1657,7 +1657,7 @@
                 }
             ],
             "description": "PHP Service Bus (publish-subscribe pattern)",
-            "time": "2018-12-10 12:26:19"
+            "time": "2018-12-12 15:44:18"
         },
         {
             "name": "monolog/monolog",
@@ -1665,12 +1665,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "b46967e74ca067c059f2753a586ca981cac8ee39"
+                "reference": "68f536105f1e4fe439ccabac105bb1c90dee8b92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/b46967e74ca067c059f2753a586ca981cac8ee39",
-                "reference": "b46967e74ca067c059f2753a586ca981cac8ee39",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/68f536105f1e4fe439ccabac105bb1c90dee8b92",
+                "reference": "68f536105f1e4fe439ccabac105bb1c90dee8b92",
                 "shasum": ""
             },
             "require": {
@@ -1735,7 +1735,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2018-12-10 10:13:43"
+            "time": "2018-12-11 10:11:11"
         },
         {
             "name": "paragonie/random_compat",
@@ -2176,16 +2176,16 @@
         },
         {
             "name": "ralouphie/getallheaders",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ralouphie/getallheaders.git",
-                "reference": "cd148e0cf8789def229b1bc24be0cb0eeb24301c"
+                "reference": "beb49b96960f0cbf17e7fbcaaddc8eb434e126eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/cd148e0cf8789def229b1bc24be0cb0eeb24301c",
-                "reference": "cd148e0cf8789def229b1bc24be0cb0eeb24301c",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/beb49b96960f0cbf17e7fbcaaddc8eb434e126eb",
+                "reference": "beb49b96960f0cbf17e7fbcaaddc8eb434e126eb",
                 "shasum": ""
             },
             "require": {
@@ -2212,7 +2212,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2018-12-10 04:22:02"
+            "time": "2018-12-11 21:53:24"
         },
         {
             "name": "ramsey/uuid",
@@ -4393,12 +4393,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f8a74214924e3d2345f1dfff880756c3f93ba374"
+                "reference": "c23d78776ad415d5506e0679723cb461d71f488f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f8a74214924e3d2345f1dfff880756c3f93ba374",
-                "reference": "f8a74214924e3d2345f1dfff880756c3f93ba374",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c23d78776ad415d5506e0679723cb461d71f488f",
+                "reference": "c23d78776ad415d5506e0679723cb461d71f488f",
                 "shasum": ""
             },
             "require": {
@@ -4469,7 +4469,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-12-07 13:10:50"
+            "time": "2018-12-12 07:20:32"
         },
         {
             "name": "sabre/event",

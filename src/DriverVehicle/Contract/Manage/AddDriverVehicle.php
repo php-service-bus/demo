@@ -9,21 +9,30 @@
  */
 declare(strict_types = 1);
 
-namespace App\Vehicle\Manage\Contracts\Add;
+namespace App\DriverVehicle\Contract\Manage;
 
 use Desperado\ServiceBus\Common\Contract\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Store new vehicle
+ * Add vehicle to driver profile
  *
  * @api
- * @see VehicleAdded
- * @see AddVehicleValidationFailed
- * @see AddVehicleFailed
+ * @see VehicleAddedToDriver
+ * @see AddDriverVehicleValidationFailed
+ * @see AddDriverVehicleFailed
  */
-final class AddVehicle implements Command
+final class AddDriverVehicle implements Command
 {
+    /**
+     * Driver identifier
+     *
+     * @Assert\NotBlank(message="Driver id must be specified")
+     *
+     * @var string
+     */
+    public $driverId;
+
     /**
      * Vehicle brand
      *
@@ -31,7 +40,7 @@ final class AddVehicle implements Command
      *
      * @var string
      */
-    public $brand;
+    public $vehicleBrand;
 
     /**
      * Vehicle model name
@@ -40,7 +49,7 @@ final class AddVehicle implements Command
      *
      * @var string
      */
-    public $model;
+    public $vehicleModel;
 
     /**
      * Year of release
@@ -50,7 +59,7 @@ final class AddVehicle implements Command
      *
      * @var int
      */
-    public $year;
+    public $vehicleYear;
 
     /**
      * State registration number
@@ -59,7 +68,7 @@ final class AddVehicle implements Command
      *
      * @var string
      */
-    public $registrationNumber;
+    public $vehicleRegistrationNumber;
 
     /**
      * Vehicle color
@@ -68,32 +77,35 @@ final class AddVehicle implements Command
      *
      * @var string
      */
-    public $color;
+    public $vehicleColor;
 
     /**
-     * @param string $brand
-     * @param string $model
-     * @param int    $year
-     * @param string $registrationNumber
-     * @param string $color
+     * @param string $driverId
+     * @param string $vehicleBrand
+     * @param string $vehicleModel
+     * @param int    $vehicleYear
+     * @param string $vehicleRegistrationNumber
+     * @param string $vehicleColor
      *
      * @return self
      */
     public static function create(
-        string $brand,
-        string $model,
-        int $year,
-        string $registrationNumber,
-        string $color
+        string $driverId,
+        string $vehicleBrand,
+        string $vehicleModel,
+        int $vehicleYear,
+        string $vehicleRegistrationNumber,
+        string $vehicleColor
     ): self
     {
         $self = new self();
 
-        $self->brand              = $brand;
-        $self->model              = $model;
-        $self->year               = $year;
-        $self->registrationNumber = $registrationNumber;
-        $self->color              = $color;
+        $self->driverId                  = $driverId;
+        $self->vehicleBrand              = $vehicleBrand;
+        $self->vehicleModel              = $vehicleModel;
+        $self->vehicleYear               = $vehicleYear;
+        $self->vehicleRegistrationNumber = $vehicleRegistrationNumber;
+        $self->vehicleColor              = $vehicleColor;
 
         return $self;
     }

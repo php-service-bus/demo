@@ -15,6 +15,7 @@ use Amp\Promise;
 use App\Vehicle\Brand\VehicleBrandFinder;
 use App\Vehicle\Events\VehicleAggregateCreated;
 use App\Vehicle\Manage\Contracts\Add\AddVehicle;
+use App\Vehicle\Manage\Contracts\Add\AddVehicleFailed;
 use App\Vehicle\Manage\Contracts\Add\AddVehicleValidationFailed;
 use App\Vehicle\Manage\Contracts\Add\VehicleAdded;
 use App\Vehicle\Vehicle;
@@ -66,19 +67,51 @@ final class ManageVehicleService
 
         $vehicle = Vehicle::create($brand, $command->model, $command->year, $command->registrationNumber, $command->color);
 
-        /** @var bool $canBeStored */
-        $canBeStored = yield $indexProvider->add(
-            IndexKey::create('vehicle', $command->registrationNumber),
-            IndexValue::create((string) $vehicle->id())
-        );
+        $indexKey = IndexKey::create('vehicle', $command->registrationNumber);
 
-        /** Check the uniqueness of the state registration number */
-        if(true === $canBeStored)
+        /** @var IndexValue|null $storedValue */
+        $storedValue = yield $indexProvider->get($indexKey);
+
+        /** Vehicle doesn`t exist  */
+        if(null === $storedValue)
         {
+            yield $indexProvider->add($indexKey, IndexValue::create((string) $vehicle->id()));
+
             return yield $eventSourcingProvider->save($vehicle, $context);
         }
 
-        return yield $context->delivery(AddVehicleValidationFailed::duplicateStateRegistrationNumber($context->traceId()));
+        return yield $context->delivery(
+            AddVehicleValidationFailed::duplicateStateRegistrationNumber($context->traceId(), $storedValue->value())
+        );
+    }
+
+    /**
+     * @EventListener()
+     *
+     * @param VehicleAdded  $event
+     * @param KernelContext $context
+     *
+     * @return void
+     */
+    public function whenVehicleAdded(VehicleAdded $event, KernelContext $context): void
+    {
+        $context->logContextMessage(
+            'Vehicle with id "{vehicleId}" successfully added',
+            ['vehicleId' => $event->id]
+        );
+    }
+
+    /**
+     * @EventListener()
+     *
+     * @param AddVehicleValidationFailed $event
+     * @param KernelContext              $context
+     *
+     * @return void
+     */
+    public function whenAddVehicleValidationFailed(AddVehicleValidationFailed $event, KernelContext $context): void
+    {
+        $context->logContextMessage('Incorrect data to create a vehicle', ['violations' => $event->violations]);
     }
 
     /**
@@ -94,6 +127,23 @@ final class ManageVehicleService
         return $context->delivery(
             VehicleAdded::create(
                 (string) $event->id, $event->brand->title(), $event->model, $event->registrationNumber, $context->traceId()
+            )
+        );
+    }
+
+    /**
+     * @EventListener()
+     *
+     * @param AddVehicleFailed $event
+     * @param KernelContext    $context
+     *
+     * @return void
+     */
+    public function whenAddVehicleFailed(AddVehicleFailed $event, KernelContext $context): void
+    {
+        $context->logContextThrowable(
+            new \RuntimeException(
+                \sprintf('Error in the process of saving the vehicle: %s', $event->reason)
             )
         );
     }

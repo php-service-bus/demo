@@ -9,20 +9,22 @@
  */
 declare(strict_types = 1);
 
-namespace App\Vehicle\Manage\Contracts\Add;
+namespace App\DriverRegistration\Contracts;
 
 use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
- * Invalid vehicle details
+ * Invalid registration data
  *
  * @api
- * @see AddVehicle
+ * @see RegisterDriver
  */
-final class AddVehicleValidationFailed implements ValidationFailedEvent
+final class RegisterDriverValidationFailed implements ValidationFailedEvent
 {
     /**
      * Request operation id
+     *
+     * @Assert\NotBlank(message="Request operation id must be specified")
      *
      * @var string
      */
@@ -43,14 +45,6 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
     public $violations;
 
     /**
-     * Vehicle identifier
-     * Indicated in case the vehicle with registration number has already been added
-     *
-     * @var string|null
-     */
-    public $vehicleId;
-
-    /**
      * @param string                            $correlationId
      * @param array<string, array<int, string>> $violations
      *
@@ -66,27 +60,9 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
      *
      * @return self
      */
-    public static function invalidBrand(string $correlationId): self
+    public static function duplicatePhoneNumber(string $correlationId): self
     {
-        return new self($correlationId, ['brand' => ['Car brand not found']]);
-    }
-
-    /**
-     * @param string $correlationId
-     * @param string $vehicleId
-     *
-     * @return self
-     */
-    public static function duplicateStateRegistrationNumber(string $correlationId, string $vehicleId): self
-    {
-        $self = new self(
-            $correlationId,
-            ['registrationNumber' => ['The car with the specified registration number is already registered']]
-        );
-
-        $self->vehicleId = $vehicleId;
-
-        return $self;
+        return new self($correlationId, ['phone' => ['Driver with the specified phone number is already registered']]);
     }
 
     /**

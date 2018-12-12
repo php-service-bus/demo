@@ -13,12 +13,14 @@ namespace App\Driver;
 
 use App\Driver\Data\DriverContacts;
 use App\Driver\Data\DriverFullName;
-use App\Driver\Document\Data\DriverDocument;
-use App\Driver\Document\Data\DriverDocumentId;
-use App\Driver\Document\Data\DriverDocuments;
-use App\Driver\Document\Data\DriverDocumentType;
+use App\Driver\Events\VehicleAddedToAggregate;
+use App\DriverDocument\Data\DriverDocument;
+use App\DriverDocument\Data\DriverDocumentId;
+use App\DriverDocument\Data\DriverDocuments;
+use App\DriverDocument\Data\DriverDocumentType;
 use App\Driver\Events\DocumentAddedToAggregate;
 use App\Driver\Events\DriverAggregateCreated;
+use App\Vehicle\VehicleId;
 use Desperado\ServiceBus\EventSourcing\Aggregate;
 
 /**
@@ -50,6 +52,13 @@ final class Driver extends Aggregate
     private $documents;
 
     /**
+     * Vehicle collection
+     *
+     * @var array<string, \App\Vehicle\VehicleId>
+     */
+    private $vehicles = [];
+
+    /**
      * @param string      $phone
      * @param string      $email
      * @param string      $firstName
@@ -62,7 +71,9 @@ final class Driver extends Aggregate
     {
         $self = new self(DriverId::new());
 
-        $self->raise(DriverAggregateCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName, $patronymic));
+        $self->raise(
+            DriverAggregateCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName, $patronymic)
+        );
 
         return $self;
     }
@@ -70,20 +81,34 @@ final class Driver extends Aggregate
     /**
      * Attach new document
      *
-     * @param string $imagePath
-     * @param string $type
+     * @param string             $imagePath
+     * @param DriverDocumentType $type
      *
      * @return void
      */
-    public function attachDocument(string $imagePath, string $type): void
+    public function attachDocument(string $imagePath, DriverDocumentType $type): void
     {
         $this->raise(
             DocumentAddedToAggregate::create(
                 $this->id(),
                 DriverDocumentId::new(),
-                DriverDocumentType::create($type),
+                $type,
                 $imagePath
             )
+        );
+    }
+
+    /**
+     * Add new vehicle
+     *
+     * @param VehicleId $vehicleId
+     *
+     * @return void
+     */
+    public function addVehicle(VehicleId $vehicleId): void
+    {
+        $this->raise(
+            VehicleAddedToAggregate::create($this->id(), $vehicleId)
         );
     }
 
@@ -110,6 +135,25 @@ final class Driver extends Aggregate
      */
     private function onDocumentAddedToAggregate(DocumentAddedToAggregate $event): void
     {
-        $this->documents->add(new DriverDocument($event->documentId, $event->imagePath, $event->type));
+        $this->documents->add(
+            new DriverDocument($event->documentId, $event->imagePath, $event->type)
+        );
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     *
+     * @param VehicleAddedToAggregate $event
+     *
+     * @return void
+     */
+    private function onVehicleAddedToAggregate(VehicleAddedToAggregate $event): void
+    {
+        $vehicleId = (string) $event->vehicleId;
+
+        if(false === isset($this->vehicles[$vehicleId]))
+        {
+            $this->vehicles[$vehicleId] = $event->vehicleId;
+        }
     }
 }

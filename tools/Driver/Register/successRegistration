@@ -3,7 +3,7 @@
 
 declare(strict_types = 1);
 
-use App\Driver\Registration\Contracts\RegisterDriver;
+use App\DriverRegistration\Contracts\RegisterDriver;
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 

@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use App\DriverVehicle\Contract\Manage\AddDriverVehicle;
+
+include_once __DIR__ . '/../../../vendor/autoload.php';
+
+$publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
+$publisher->sendMessage(
+    AddDriverVehicle::create(
+        'c601d598-e9c4-48cb-b1fd-77816d243dc4',
+        'bmw',
+        'Series 7',
+        2018,
+        'x777xxxx',
+        'black'
+    )
+);

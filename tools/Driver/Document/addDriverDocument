@@ -3,8 +3,8 @@
 
 declare(strict_types = 1);
 
-use App\Driver\Document\Contracts\Manage\AddDriverDocument;
-use App\Driver\Document\Data\DriverDocumentType;
+use App\DriverDocument\Contracts\Manage\AddDriverDocument;
+use App\DriverDocument\Data\DriverDocumentType;
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -13,6 +13,6 @@ $publisher->sendMessage(
     AddDriverDocument::create(
         (string) DriverDocumentType::passport(),
         \base64_encode(\file_get_contents(__DIR__ . '/docs/passport.jpg')),
-        '56216d4b-ca3e-48eb-97e5-a4b72c9261c5'
+        '52b1b826-e150-4468-97fb-66cc00cf245e'
     )
 );

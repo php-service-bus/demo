@@ -6,7 +6,7 @@ services:
     arguments:
       $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
 
-  App\Driver\Document\DocumentFileManager:
+  App\DriverDocument\DocumentFileManager:
     arguments:
       $storageDirectory: '%app.driver.document.images_path%'
 

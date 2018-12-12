@@ -9,7 +9,8 @@
  */
 declare(strict_types = 1);
 
-namespace App\Vehicle\Manage\Contracts\Add;
+namespace App\DriverRegistration\Contracts;
+
 
 use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
 
@@ -17,9 +18,9 @@ use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
  * Some error occured
  *
  * @api
- * @see AddVehicle
+ * @see RegisterDriver
  */
-final class AddVehicleFailed implements ExecutionFailedEvent
+final class DriverRegistrationFailed implements ExecutionFailedEvent
 {
     /**
      * Request operation id
