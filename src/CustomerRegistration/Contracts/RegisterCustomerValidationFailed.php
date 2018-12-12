@@ -47,6 +47,7 @@ final class RegisterCustomerValidationFailed implements ValidationFailedEvent
      */
     public static function create(string $correlationId, array $violations): ValidationFailedEvent
     {
+        /** @var array<string, array<int, string>> $violations */
         return new self($correlationId, $violations);
     }
 

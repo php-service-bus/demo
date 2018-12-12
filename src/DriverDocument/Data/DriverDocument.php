@@ -60,11 +60,14 @@ final class DriverDocument
      */
     public function __construct(DriverDocumentId $id, string $imagePath, DriverDocumentType $type)
     {
+        /** @var \DateTimeImmutable $currentDate */
+        $currentDate = datetimeInstantiator('NOW');
+
         $this->id        = $id;
         $this->imagePath = $imagePath;
         $this->type      = $type;
         $this->status    = DriverDocumentStatus::moderation();
-        $this->createdAt = datetimeInstantiator('NOW');
+        $this->createdAt = $currentDate;
     }
 
     /**

@@ -25,8 +25,6 @@ use Desperado\ServiceBus\EventSourcing\Aggregate;
 
 /**
  * Driver aggregate
- *
- * @method DriverId id
  */
 final class Driver extends Aggregate
 {
@@ -88,13 +86,11 @@ final class Driver extends Aggregate
      */
     public function attachDocument(string $imagePath, DriverDocumentType $type): void
     {
+        /** @var DriverId $id */
+        $id = $this->id();
+
         $this->raise(
-            DocumentAddedToAggregate::create(
-                $this->id(),
-                DriverDocumentId::new(),
-                $type,
-                $imagePath
-            )
+            DocumentAddedToAggregate::create($id, DriverDocumentId::new(), $type, $imagePath)
         );
     }
 
@@ -107,8 +103,11 @@ final class Driver extends Aggregate
      */
     public function addVehicle(VehicleId $vehicleId): void
     {
+        /** @var DriverId $id */
+        $id = $this->id();
+
         $this->raise(
-            VehicleAddedToAggregate::create($this->id(), $vehicleId)
+            VehicleAddedToAggregate::create($id, $vehicleId)
         );
     }
 

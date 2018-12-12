@@ -41,6 +41,8 @@ final class VehicleBrandFinder
     /**
      * Find car by brand title
      *
+     * @psalm-suppress MixedTypeCoercion
+     *
      * @param string $title
      *
      * @return Promise<\App\Vehicle\Brand\VehicleBrand|null>
@@ -73,6 +75,8 @@ final class VehicleBrandFinder
     /**
      * Find car by brand id
      *
+     * @psalm-suppress MixedTypeCoercion
+     *
      * @param string $id
      *
      * @return Promise<\App\Vehicle\Brand\VehicleBrand|null>
@@ -90,6 +94,8 @@ final class VehicleBrandFinder
     }
 
     /**
+     * @psalm-suppress InvalidReturnType
+     *
      * @param string $key
      * @param string $value
      *

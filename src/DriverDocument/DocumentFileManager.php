@@ -40,6 +40,8 @@ final class DocumentFileManager
     /**
      * Store new image
      *
+     * @psalm-suppress MixedTypeCoercion
+     *
      * @param DocumentImage $image
      *
      * @return Promise<string>
@@ -74,6 +76,8 @@ final class DocumentFileManager
 
     /**
      * Load exists image
+     *
+     * @psalm-suppress MixedTypeCoercion
      *
      * @param string $imagePath
      *

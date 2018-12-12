@@ -31,8 +31,6 @@ use Desperado\ServiceBus\Sagas\Saga;
  *    containingIdProperty="correlationId",
  *    expireDateModifier="+5 minutes"
  * )
- *
- * @method AddDriverVehicleSagaId id
  */
 final class AddDriverVehicleSaga extends Saga
 {
@@ -190,8 +188,11 @@ final class AddDriverVehicleSaga extends Saga
     {
         $this->storeRetryCount++;
 
+        /** @var VehicleId $vehicleId */
+        $vehicleId = $this->vehicleId;
+
         $this->fire(
-            AddVehicleToDriverProfile::create($this->driverId, $this->vehicleId)
+            AddVehicleToDriverProfile::create($this->driverId, $vehicleId)
         );
     }
 

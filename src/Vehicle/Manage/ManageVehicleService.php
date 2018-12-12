@@ -81,7 +81,10 @@ final class ManageVehicleService
         }
 
         return yield $context->delivery(
-            AddVehicleValidationFailed::duplicateStateRegistrationNumber($context->traceId(), $storedValue->value())
+            AddVehicleValidationFailed::duplicateStateRegistrationNumber(
+                $context->traceId(),
+                (string) $storedValue->value()
+            )
         );
     }
 
