@@ -11,7 +11,6 @@ declare(strict_types = 1);
 
 namespace App\DriverRegistration;
 
-use Amp\Promise;
 use App\Driver\Driver;
 use App\Driver\Events\DriverAggregateCreated;
 use App\DriverRegistration\Contracts\DriverRegistered;
