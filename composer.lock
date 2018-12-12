@@ -1588,12 +1588,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mmasiukevich/service-bus.git",
-                "reference": "fdaa7b42e5a4053f397ce15163c8de14568b4c77"
+                "reference": "48542139328249abeba85803b87e0a3355ce8bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/fdaa7b42e5a4053f397ce15163c8de14568b4c77",
-                "reference": "fdaa7b42e5a4053f397ce15163c8de14568b4c77",
+                "url": "https://api.github.com/repos/mmasiukevich/service-bus/zipball/48542139328249abeba85803b87e0a3355ce8bf6",
+                "reference": "48542139328249abeba85803b87e0a3355ce8bf6",
                 "shasum": ""
             },
             "require": {
@@ -1657,7 +1657,7 @@
                 }
             ],
             "description": "PHP Service Bus (publish-subscribe pattern)",
-            "time": "2018-12-12 15:44:18"
+            "time": "2018-12-12 21:54:37"
         },
         {
             "name": "monolog/monolog",
