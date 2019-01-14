@@ -79,7 +79,7 @@ final class Vehicle extends Aggregate
         string $color
     ): self
     {
-        $id   = VehicleId::new();
+        $id   = VehicleId::new(__CLASS__);
         $self = new self($id);
 
         $self->raise(

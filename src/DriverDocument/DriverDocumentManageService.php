@@ -62,7 +62,7 @@ final class DriverDocumentManageService
             $imageEntry = DocumentImage::fromString((string) \base64_decode($command->payload));
 
             /** @var Driver|null $driver */
-            $driver = yield $eventSourcingProvider->load(new DriverId($command->driverId));
+            $driver = yield $eventSourcingProvider->load(new DriverId($command->driverId, Driver::class));
 
             if(null === $driver)
             {

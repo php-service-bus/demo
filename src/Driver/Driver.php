@@ -67,7 +67,7 @@ final class Driver extends Aggregate
      */
     public static function register(string $phone, string $email, string $firstName, string $lastName, ?string $patronymic): self
     {
-        $self = new self(DriverId::new());
+        $self = new self(DriverId::new(__CLASS__));
 
         $self->raise(
             DriverAggregateCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName, $patronymic)

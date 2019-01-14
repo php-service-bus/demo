@@ -31,8 +31,8 @@ $container = Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addExtensions(new AppExtension())
     ->importParameters([
-            'app.log_level' => (string) \getenv('LOG_LEVEL'),
-            'app.driver.document.images_path' => \realpath(__DIR__ . '/../storage')
+            'app.log_level'                   => (string) \getenv('LOG_LEVEL'),
+            'app.driver.document.images_path' => __DIR__ . '/../storage'
         ]
     )
     ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])

@@ -47,7 +47,7 @@ final class Customer extends Aggregate
      */
     public static function register(string $phone, string $email, string $firstName, string $lastName): self
     {
-        $self = new self(CustomerId::new());
+        $self = new self(CustomerId::new(__CLASS__));
 
         $self->raise(CustomerAggregateCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName));
 

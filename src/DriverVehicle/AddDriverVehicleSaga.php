@@ -11,12 +11,14 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle;
 
+use App\Driver\Driver;
 use App\Driver\DriverId;
 use App\DriverVehicle\Commands\AddVehicleToDriverProfile;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicleFailed;
 use App\DriverVehicle\Contract\Manage\VehicleAddedToDriver;
 use App\Vehicle\Manage\Contracts as VehicleManageContracts;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicleValidationFailed;
+use App\Vehicle\Vehicle;
 use App\Vehicle\VehicleId;
 use Desperado\ServiceBus\Common\Contract\Messages\Command;
 use Desperado\ServiceBus\Sagas\Annotations\SagaEventListener;
@@ -100,7 +102,7 @@ final class AddDriverVehicleSaga extends Saga
     {
         /** @var \App\DriverVehicle\Contract\Manage\AddDriverVehicle $command */
 
-        $this->driverId                  = new DriverId($command->driverId);
+        $this->driverId                  = new DriverId($command->driverId, Driver::class);
         $this->vehicleBrand              = $command->vehicleBrand;
         $this->vehicleModel              = $command->vehicleModel;
         $this->vehicleYear               = $command->vehicleYear;
@@ -145,7 +147,7 @@ final class AddDriverVehicleSaga extends Saga
         /** Vehicle has been added previously */
         if(null !== $event->vehicleId)
         {
-            $this->vehicleId = new VehicleId($event->vehicleId);
+            $this->vehicleId = new VehicleId($event->vehicleId, Vehicle::class);
 
             $this->doAddToDriver();
 
@@ -174,7 +176,7 @@ final class AddDriverVehicleSaga extends Saga
      */
     private function onVehicleAdded(VehicleManageContracts\Add\VehicleAdded $event): void
     {
-        $this->vehicleId = new VehicleId($event->id);
+        $this->vehicleId = new VehicleId($event->id, Vehicle::class);
 
         $this->doAddToDriver();
     }
