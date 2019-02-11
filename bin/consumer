@@ -19,32 +19,12 @@ use ServiceBus\EventSourcingModule\EventSourcingModule;
 
 include __DIR__ . '/../vendor/autoload.php';
 
-$sqlStorageModule = SqlStorageModule::postgreSQL((string) \getenv('DATABASE_CONNECTION_DSN'));
-
-/** @noinspection PhpUnhandledExceptionInspection */
-$sagaModule = SagaModule::withSqlStorage(DatabaseAdapter::class);
-$sagaModule->enableAutoImportSagas([__DIR__ . '/../src']);
-
-$eventSourcingModule = EventSourcingModule::withSqlStorage(DatabaseAdapter::class);
-
-$transportModule = new PhpInnacleTransportModule(
-    (string) \getenv('TRANSPORT_CONNECTION_DSN'),
-    (string) \getenv('SENDER_DESTINATION_TOPIC'),
-    (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
-);
-
 /** @noinspection PhpUnhandledExceptionInspection */
 $bootstrap = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addExtensions(new \AppExtension())
     ->importParameters(['app.log_level' => (string) \getenv('LOG_LEVEL')])
     ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
-    ->applyModules(
-        $sqlStorageModule,
-        $sagaModule,
-        $eventSourcingModule,
-        $transportModule
-    )
     ->importParameters([
         'app.log_level'                   => (string) \getenv('LOG_LEVEL'),
         'app.driver.document.images_path' => __DIR__ . '/../storage'
