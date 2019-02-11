@@ -11,13 +11,17 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Contracts\Manage;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * Document successfully added
  *
  * @api
  * @see AddDriverDocument
+ *
+ * @property-read string $correlationId
+ * @property-read string $driverId
+ * @property-read string $documentId
  */
 final class DriverDocumentAdded implements Event
 {
@@ -51,17 +55,18 @@ final class DriverDocumentAdded implements Event
      */
     public static function create(string $correlationId, string $driverId, string $documentId): self
     {
-        $self = new self();
-
-        $self->correlationId = $correlationId;
-        $self->driverId      = $driverId;
-        $self->documentId    = $documentId;
-
-        return $self;
+        return new self($correlationId, $driverId, $documentId);
     }
 
-    private function __construct()
+    /**
+     * @param string $correlationId
+     * @param string $driverId
+     * @param string $documentId
+     */
+    private function __construct(string $correlationId, string $driverId, string $documentId)
     {
-
+        $this->correlationId = $correlationId;
+        $this->driverId      = $driverId;
+        $this->documentId    = $documentId;
     }
 }

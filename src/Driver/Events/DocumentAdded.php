@@ -14,14 +14,19 @@ namespace App\Driver\Events;
 use App\DriverDocument\Data\DriverDocumentId;
 use App\DriverDocument\Data\DriverDocumentType;
 use App\Driver\DriverId;
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * Document successfully added to aggregate
  *
  * internal event
+ *
+ * @property-read DriverId           $driverId
+ * @property-read DriverDocumentId   $documentId
+ * @property-read DriverDocumentType $type
+ * @property-read string             $imagePath
  */
-final class DocumentAddedToAggregate implements Event
+final class DocumentAdded implements Event
 {
     /**
      * Driver id
@@ -66,18 +71,20 @@ final class DocumentAddedToAggregate implements Event
         string $imagePath
     ): self
     {
-        $self = new self();
-
-        $self->driverId   = $driverId;
-        $self->documentId = $documentId;
-        $self->type       = $type;
-        $self->imagePath  = $imagePath;
-
-        return $self;
+        return new self($driverId, $documentId, $type, $imagePath);
     }
 
-    private function __construct()
+    /**
+     * @param DriverId           $driverId
+     * @param DriverDocumentId   $documentId
+     * @param DriverDocumentType $type
+     * @param string             $imagePath
+     */
+    private function __construct(DriverId $driverId, DriverDocumentId $documentId, DriverDocumentType $type, string $imagePath)
     {
-
+        $this->driverId   = $driverId;
+        $this->documentId = $documentId;
+        $this->type       = $type;
+        $this->imagePath  = $imagePath;
     }
 }

@@ -13,10 +13,10 @@ namespace App\Vehicle\Brand;
 
 use function Amp\call;
 use Amp\Promise;
-use function Desperado\ServiceBus\Infrastructure\Storage\fetchOne;
-use function Desperado\ServiceBus\Infrastructure\Storage\SQL\equalsCriteria;
-use function Desperado\ServiceBus\Infrastructure\Storage\SQL\selectQuery;
-use Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter;
+use ServiceBus\Storage\Common\DatabaseAdapter;
+use function ServiceBus\Storage\Sql\equalsCriteria;
+use function ServiceBus\Storage\Sql\fetchOne;
+use function ServiceBus\Storage\Sql\selectQuery;
 
 /**
  *
@@ -26,14 +26,14 @@ final class VehicleBrandFinder
     private const TABLE_NAME = 'vehicle_brand';
 
     /**
-     * @var StorageAdapter
+     * @var DatabaseAdapter
      */
     private $adapter;
 
     /**
-     * @param StorageAdapter $adapter
+     * @param DatabaseAdapter $adapter
      */
-    public function __construct(StorageAdapter $adapter)
+    public function __construct(DatabaseAdapter $adapter)
     {
         $this->adapter = $adapter;
     }
@@ -55,7 +55,7 @@ final class VehicleBrandFinder
             {
                 $sql = \sprintf('SELECT * FROM %s WHERE title ILIKE ?', self::TABLE_NAME);
 
-                /** @var \Desperado\ServiceBus\Infrastructure\Storage\ResultSet $resultSet */
+                /** @var \ServiceBus\Storage\Common\ResultSet $resultSet */
                 $resultSet = yield $this->adapter->execute($sql, [$title]);
 
                 /** @var array{id:string, title:string}|null $data */
@@ -94,23 +94,30 @@ final class VehicleBrandFinder
     }
 
     /**
-     * @psalm-suppress InvalidReturnType
+     * @noinspection PhpDocMissingThrowsInspection
      *
      * @param string $key
      * @param string $value
      *
-     * @return \Generator<\App\Vehicle\Brand\VehicleBrand|null>
+     * @return \Generator
+     * @throws \ServiceBus\Storage\Common\Exceptions\ConnectionFailed
+     * @throws \ServiceBus\Storage\Common\Exceptions\InvalidConfigurationOptions
+     * @throws \ServiceBus\Storage\Common\Exceptions\ResultSetIterationFailed
+     * @throws \ServiceBus\Storage\Common\Exceptions\StorageInteractingFailed
      */
     private function findOneBy(string $key, string $value): \Generator
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $selectQuery   = selectQuery(self::TABLE_NAME)->where(equalsCriteria($key, $value));
         $compiledQuery = $selectQuery->compile();
 
-        /** @var \Desperado\ServiceBus\Infrastructure\Storage\ResultSet $resultSet */
-        $resultSet = yield $this->adapter->execute($compiledQuery->sql(), $compiledQuery->params());
+        /** @var \ServiceBus\Storage\Common\ResultSet $resultSet */
+        $resultSet = /** @noinspection PhpUnhandledExceptionInspection */
+            yield $this->adapter->execute($compiledQuery->sql(), $compiledQuery->params());
 
         /** @var array{id:string, title:string}|null $data */
-        $data = yield fetchOne($resultSet);
+        $data = /** @noinspection PhpUnhandledExceptionInspection */
+            yield fetchOne($resultSet);
 
         unset($resultSet);
 

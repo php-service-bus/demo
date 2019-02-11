@@ -4,7 +4,7 @@ services:
     class: PostgreSQLSchemaBuilder
     public: true
     arguments:
-      $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
+      $adapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
 
   App\DriverDocument\DocumentFileManager:
     arguments:
@@ -12,7 +12,7 @@ services:
 
   App\Vehicle\Brand\VehicleBrandFinder:
     arguments:
-      $adapter: '@Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter'
+      $adapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
 
   # Psr log message processor
   service_bus.logger.processors.psr_message:

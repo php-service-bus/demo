@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\CustomerRegistration\Contracts;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +21,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see CustomerRegistered
  * @see RegisterCustomerValidationFailed
  * @see CustomerRegistrationFailed
+ *
+ * @property-read string $phone
+ * @property-read string $email
+ * @property-read string $firstName
+ * @property-read string $lastName
  */
 final class RegisterCustomer implements Command
 {
@@ -71,18 +76,20 @@ final class RegisterCustomer implements Command
      */
     public static function create(string $phone, string $email, string $firstName, string $lastName): self
     {
-        $self = new self();
-
-        $self->phone         = $phone;
-        $self->email         = $email;
-        $self->firstName     = $firstName;
-        $self->lastName      = $lastName;
-
-        return $self;
+        return new self($phone, $email, $firstName, $lastName);
     }
 
-    private function __construct()
+    /**
+     * @param string $phone
+     * @param string $email
+     * @param string $firstName
+     * @param string $lastName
+     */
+    private function __construct(string $phone, string $email, string $firstName, string $lastName)
     {
-
+        $this->phone     = $phone;
+        $this->email     = $email;
+        $this->firstName = $firstName;
+        $this->lastName  = $lastName;
     }
 }

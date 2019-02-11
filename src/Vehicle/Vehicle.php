@@ -13,7 +13,7 @@ namespace App\Vehicle;
 
 use App\Vehicle\Brand\VehicleBrand;
 use App\Vehicle\Events\VehicleAggregateCreated;
-use Desperado\ServiceBus\EventSourcing\Aggregate;
+use ServiceBus\EventSourcing\Aggregate;
 
 /**
  * Vehicle aggregate
@@ -63,6 +63,8 @@ final class Vehicle extends Aggregate
     private $status;
 
     /**
+     * @noinspection PhpDocMissingThrowsInspection
+     *
      * @param VehicleBrand $brand
      * @param string       $model
      * @param int          $year
@@ -79,9 +81,10 @@ final class Vehicle extends Aggregate
         string $color
     ): self
     {
-        $id   = VehicleId::new(__CLASS__);
+        $id   = VehicleId::new();
         $self = new self($id);
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $self->raise(
             VehicleAggregateCreated::create(
                 $id, $brand, $model, $year, $registrationNumber, $color, VehicleStatus::moderation()

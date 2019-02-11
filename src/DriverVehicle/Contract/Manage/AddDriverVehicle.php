@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle\Contract\Manage;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +21,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see VehicleAddedToDriver
  * @see AddDriverVehicleValidationFailed
  * @see AddDriverVehicleFailed
+ *
+ * @property-read string $driverId
+ * @property-read string $vehicleBrand
+ * @property-read string $vehicleModel
+ * @property-read int    $vehicleYear
+ * @property-read string $vehicleRegistrationNumber
+ * @property-read string $vehicleColor
  */
 final class AddDriverVehicle implements Command
 {
@@ -98,20 +105,31 @@ final class AddDriverVehicle implements Command
         string $vehicleColor
     ): self
     {
-        $self = new self();
-
-        $self->driverId                  = $driverId;
-        $self->vehicleBrand              = $vehicleBrand;
-        $self->vehicleModel              = $vehicleModel;
-        $self->vehicleYear               = $vehicleYear;
-        $self->vehicleRegistrationNumber = $vehicleRegistrationNumber;
-        $self->vehicleColor              = $vehicleColor;
-
-        return $self;
+        return new self($driverId, $vehicleBrand, $vehicleModel, $vehicleYear, $vehicleRegistrationNumber, $vehicleColor);
     }
 
-    private function __construct()
+    /**
+     * @param string $driverId
+     * @param string $vehicleBrand
+     * @param string $vehicleModel
+     * @param int    $vehicleYear
+     * @param string $vehicleRegistrationNumber
+     * @param string $vehicleColor
+     */
+    private function __construct(
+        string $driverId,
+        string $vehicleBrand,
+        string $vehicleModel,
+        int $vehicleYear,
+        string $vehicleRegistrationNumber,
+        string $vehicleColor
+    )
     {
-
+        $this->driverId                  = $driverId;
+        $this->vehicleBrand              = $vehicleBrand;
+        $this->vehicleModel              = $vehicleModel;
+        $this->vehicleYear               = $vehicleYear;
+        $this->vehicleRegistrationNumber = $vehicleRegistrationNumber;
+        $this->vehicleColor              = $vehicleColor;
     }
 }

@@ -11,13 +11,16 @@ declare(strict_types = 1);
 
 namespace App\CustomerRegistration\Contracts;
 
-use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
+use ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
  * Invalid registration data
  *
  * @api
  * @see RegisterCustomer
+ *
+ * @property-read string $correlationId
+ * @property-read array  $violations
  */
 final class RegisterCustomerValidationFailed implements ValidationFailedEvent
 {

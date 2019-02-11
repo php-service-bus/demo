@@ -13,6 +13,9 @@ namespace App\Vehicle\Brand;
 
 /**
  * Vehicle brand
+ *
+ * @property-read string $id
+ * @property-read string $title
  */
 final class VehicleBrand
 {
@@ -21,12 +24,12 @@ final class VehicleBrand
      *
      * @var string
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
      */
-    private $title;
+    public $title;
 
     /**
      * @param string $id
@@ -36,31 +39,16 @@ final class VehicleBrand
      */
     public static function create(string $id, string $title): self
     {
-        $self = new self();
-
-        $self->id    = $id;
-        $self->title = $title;
-
-        return $self;
+        return new self($id, $title);
     }
 
     /**
-     * Receive brand id
-     *
-     * @return string
+     * @param string $id
+     * @param string $title
      */
-    public function id(): string
+    private function __construct(string $id, string $title)
     {
-        return $this->id;
-    }
-
-    /**
-     * Receive brand title
-     *
-     * @return string
-     */
-    public function title(): string
-    {
-        return $this->title;
+        $this->id    = $id;
+        $this->title = $title;
     }
 }

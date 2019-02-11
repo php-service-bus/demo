@@ -11,13 +11,16 @@ declare(strict_types = 1);
 
 namespace App\DriverRegistration\Contracts;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * New driver successful registered
  *
  * @api
  * @see RegisterDriver
+ *
+ * @property-read string $correlationId
+ * @property-read string $driverId
  */
 final class DriverRegistered implements Event
 {
@@ -43,16 +46,16 @@ final class DriverRegistered implements Event
      */
     public static function create(string $driverId, string $correlationId): self
     {
-        $self = new self();
-
-        $self->driverId      = $driverId;
-        $self->correlationId = $correlationId;
-
-        return $self;
+        return new self($driverId, $correlationId);
     }
 
-    private function __construct()
+    /**
+     * @param string $driverId
+     * @param string $correlationId
+     */
+    private function __construct(string $driverId, string $correlationId)
     {
-
+        $this->driverId      = $driverId;
+        $this->correlationId = $correlationId;
     }
 }

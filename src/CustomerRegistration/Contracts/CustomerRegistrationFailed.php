@@ -11,13 +11,16 @@ declare(strict_types = 1);
 
 namespace App\CustomerRegistration\Contracts;
 
-use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
+use ServiceBus\Services\Contracts\ExecutionFailedEvent;
 
 /**
  * Some error occured
  *
  * @api
  * @see RegisterCustomer
+ *
+ * @property-read string $correlationId
+ * @property-read string $reason
  */
 final class CustomerRegistrationFailed implements ExecutionFailedEvent
 {
@@ -40,12 +43,7 @@ final class CustomerRegistrationFailed implements ExecutionFailedEvent
      */
     public static function create(string $correlationId, string $errorMessage): ExecutionFailedEvent
     {
-        $self = new self();
-
-        $self->correlationId = $correlationId;
-        $self->reason        = $errorMessage;
-
-        return $self;
+        return new self($correlationId, $errorMessage);
     }
 
     /**
@@ -62,5 +60,15 @@ final class CustomerRegistrationFailed implements ExecutionFailedEvent
     public function errorMessage(): string
     {
         return $this->reason;
+    }
+
+    /**
+     * @param string $correlationId
+     * @param string $errorMessage
+     */
+    private function __construct(string $correlationId, string $errorMessage)
+    {
+        $this->correlationId = $correlationId;
+        $this->reason = $errorMessage;
     }
 }

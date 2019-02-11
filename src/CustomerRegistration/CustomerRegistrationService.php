@@ -12,18 +12,18 @@ declare(strict_types = 1);
 namespace App\CustomerRegistration;
 
 use App\Customer\Customer;
-use App\Customer\Events\CustomerAggregateCreated;
+use App\Customer\Events\CustomerCreated;
 use App\CustomerRegistration\Contracts\CustomerRegistered;
 use App\CustomerRegistration\Contracts\CustomerRegistrationFailed;
 use App\CustomerRegistration\Contracts\RegisterCustomer;
 use App\CustomerRegistration\Contracts\RegisterCustomerValidationFailed;
-use Desperado\ServiceBus\Application\KernelContext;
-use Desperado\ServiceBus\EventSourcingProvider;
-use Desperado\ServiceBus\Index\IndexKey;
-use Desperado\ServiceBus\Index\IndexValue;
-use Desperado\ServiceBus\IndexProvider;
-use Desperado\ServiceBus\Services\Annotations\CommandHandler;
-use Desperado\ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Context\KernelContext;
+use ServiceBus\EventSourcing\Indexes\IndexKey;
+use ServiceBus\EventSourcing\Indexes\IndexValue;
+use ServiceBus\EventSourcingModule\EventSourcingProvider;
+use ServiceBus\EventSourcingModule\IndexProvider;
+use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Annotations\EventListener;
 
 /**
  *
@@ -45,6 +45,8 @@ final class CustomerRegistrationService
      * @param EventSourcingProvider $eventSourcingProvider
      *
      * @return \Generator
+     *
+     * @throws \Throwable
      */
     public function handle(
         RegisterCustomer $command,
@@ -75,12 +77,12 @@ final class CustomerRegistrationService
     /**
      * @EventListener()
      *
-     * @param CustomerAggregateCreated $event
-     * @param KernelContext            $context
+     * @param CustomerCreated $event
+     * @param KernelContext   $context
      *
      * @return \Generator
      */
-    public function whenCustomerAggregateCreated(CustomerAggregateCreated $event, KernelContext $context): \Generator
+    public function whenCustomerAggregateCreated(CustomerCreated $event, KernelContext $context): \Generator
     {
         yield $context->delivery(
             CustomerRegistered::create($event->id, $context->traceId())

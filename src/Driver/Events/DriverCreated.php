@@ -11,14 +11,14 @@ declare(strict_types = 1);
 
 namespace App\Driver\Events;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * Driver aggregate created
  *
  * internal event
  */
-final class DriverAggregateCreated implements Event
+final class DriverCreated implements Event
 {
     /**
      * Driver aggregate id

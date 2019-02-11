@@ -11,13 +11,16 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Contracts\Manage;
 
-use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
+use ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
  * Validation error when adding document
  *
  * @api
  * @see AddDriverDocument
+ *
+ * @property-read string $correlationId
+ * @property-read array  $violations
  */
 final class AddDriverDocumentValidationFailed implements ValidationFailedEvent
 {

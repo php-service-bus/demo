@@ -28,7 +28,7 @@ final class DriverDocuments
      */
     public function add(DriverDocument $document): void
     {
-        $this->collection[(string) $document->id()] = $document;
+        $this->collection[(string) $document->id] = $document;
     }
 
     /**

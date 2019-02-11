@@ -11,13 +11,16 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle\Contract\Manage;
 
-use Desperado\ServiceBus\Services\Contracts\ValidationFailedEvent;
+use ServiceBus\Services\Contracts\ValidationFailedEvent;
 
 /**
  * Validation failed
  *
  * @api
  * @see AddDriverVehicle
+ *
+ * @property-read string $correlationId
+ * @property-read array  $violations
  */
 final class AddDriverVehicleValidationFailed implements ValidationFailedEvent
 {

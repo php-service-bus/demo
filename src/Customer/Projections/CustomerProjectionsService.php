@@ -11,12 +11,10 @@ declare(strict_types = 1);
 
 namespace App\Customer\Projections;
 
-use Amp\Promise;
-use App\Customer\Events\CustomerAggregateCreated;
-use Desperado\ServiceBus\Application\KernelContext;
-use function Desperado\ServiceBus\Infrastructure\Storage\SQL\insertQuery;
-use Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter;
-use Desperado\ServiceBus\Services\Annotations\EventListener;
+use App\Customer\Events\CustomerCreated;
+use ServiceBus\Context\KernelContext;
+use ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Storage\Common\DatabaseAdapter;
 
 /**
  *
@@ -26,20 +24,22 @@ final class CustomerProjectionsService
     /**
      * @EventListener()
      *
-     * @param CustomerAggregateCreated $event
-     * @param KernelContext            $context
-     * @param StorageAdapter           $storageAdapter
+     * @param CustomerCreated $event
+     * @param KernelContext   $context
+     * @param DatabaseAdapter $storageAdapter
      *
-     * @return Promise
+     * @return \Generator
+     *
+     * @throws \Throwable
      */
-    public function whenCustomerAggregateCreated(
-        CustomerAggregateCreated $event,
+    public function whenCustomerCreated(
+        CustomerCreated $event,
         /** @noinspection PhpUnusedParameterInspection */
         KernelContext $context,
-        StorageAdapter $storageAdapter
-    ): Promise
+        DatabaseAdapter $storageAdapter
+    ): \Generator
     {
-        $insertQueryBuilder = insertQuery('customer', [
+        yield CustomerReadModel::new($storageAdapter, [
             'id'      => $event->id,
             'profile' => \json_encode([
                 'email'     => $event->email,
@@ -48,9 +48,5 @@ final class CustomerProjectionsService
                 'lastName'  => $event->lastName
             ])
         ]);
-
-        $insertQuery = $insertQueryBuilder->compile();
-
-        return $storageAdapter->execute($insertQuery->sql(), $insertQuery->params());
     }
 }

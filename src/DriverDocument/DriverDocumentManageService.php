@@ -21,11 +21,11 @@ use App\DriverDocument\Data\DriverDocumentType;
 use App\DriverDocument\Exceptions\IncorrectMessageData;
 use App\Driver\Driver;
 use App\Driver\DriverId;
-use App\Driver\Events\DocumentAddedToAggregate;
-use Desperado\ServiceBus\Application\KernelContext;
-use Desperado\ServiceBus\EventSourcingProvider;
-use Desperado\ServiceBus\Services\Annotations\CommandHandler;
-use Desperado\ServiceBus\Services\Annotations\EventListener;
+use App\Driver\Events\DocumentAdded;
+use ServiceBus\Context\KernelContext;
+use ServiceBus\EventSourcingModule\EventSourcingProvider;
+use ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Services\Annotations\CommandHandler;
 
 /**
  *
@@ -49,6 +49,8 @@ final class DriverDocumentManageService
      * @param DocumentFileManager   $documentFileManager
      *
      * @return \Generator
+     *
+     * @throws \Throwable
      */
     public function storeDocument(
         AddDriverDocument $command,
@@ -62,7 +64,7 @@ final class DriverDocumentManageService
             $imageEntry = DocumentImage::fromString((string) \base64_decode($command->payload));
 
             /** @var Driver|null $driver */
-            $driver = yield $eventSourcingProvider->load(new DriverId($command->driverId, Driver::class));
+            $driver = yield $eventSourcingProvider->load(new DriverId($command->driverId));
 
             if(null === $driver)
             {
@@ -92,12 +94,12 @@ final class DriverDocumentManageService
     /**
      * @EventListener()
      *
-     * @param DocumentAddedToAggregate $event
-     * @param KernelContext            $context
+     * @param DocumentAdded $event
+     * @param KernelContext $context
      *
      * @return Promise
      */
-    public function whenDocumentAddedToAggregate(DocumentAddedToAggregate $event, KernelContext $context): Promise
+    public function whenDocumentAdded(DocumentAdded $event, KernelContext $context): Promise
     {
         return $context->delivery(
             DriverDocumentAdded::create($context->traceId(), (string) $event->driverId, (string) $event->documentId)

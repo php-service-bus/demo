@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle;
 
-use Desperado\ServiceBus\Sagas\SagaId;
+use ServiceBus\Sagas\SagaId;
 
 /**
  *

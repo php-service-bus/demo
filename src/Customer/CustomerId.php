@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\Customer;
 
-use Desperado\ServiceBus\EventSourcing\AggregateId;
+use ServiceBus\EventSourcing\AggregateId;
 
 /**
  * Customer identifier

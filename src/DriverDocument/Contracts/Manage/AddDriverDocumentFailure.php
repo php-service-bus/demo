@@ -11,13 +11,16 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Contracts\Manage;
 
-use Desperado\ServiceBus\Services\Contracts\ExecutionFailedEvent;
+use ServiceBus\Services\Contracts\ExecutionFailedEvent;
 
 /**
  * Error while adding a document
  *
  * @api
  * @see AddDriverDocument
+ *
+ * @property-read string $correlationId
+ * @property-read string $reason
  */
 final class AddDriverDocumentFailure implements ExecutionFailedEvent
 {
@@ -43,11 +46,7 @@ final class AddDriverDocumentFailure implements ExecutionFailedEvent
      */
     public static function create(string $correlationId, string $reason): ExecutionFailedEvent
     {
-        $self                = new self();
-        $self->correlationId = $correlationId;
-        $self->reason        = $reason;
-
-        return $self;
+        return new self($correlationId, $reason);
     }
 
     /**
@@ -66,9 +65,14 @@ final class AddDriverDocumentFailure implements ExecutionFailedEvent
         return $this->reason;
     }
 
-    private function __construct()
+    /**
+     * @param string $correlationId
+     * @param string $reason
+     */
+    private function __construct(string $correlationId, string $reason)
     {
-
+        $this->correlationId = $correlationId;
+        $this->reason        = $reason;
     }
 
 }

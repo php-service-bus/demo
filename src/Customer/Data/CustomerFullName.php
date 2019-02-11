@@ -13,6 +13,9 @@ namespace App\Customer\Data;
 
 /**
  * Customer full name data
+ *
+ * @property-read string $first
+ * @property-read string $last
  */
 final class CustomerFullName
 {
@@ -21,42 +24,33 @@ final class CustomerFullName
      *
      * @var string
      */
-    private $first;
+    public $first;
 
     /**
      * Last name
      *
      * @var string
      */
-    private $last;
+    public $last;
+
+    /**
+     * @param string $first
+     * @param string $last
+     *
+     * @return self
+     */
+    public static function create(string $first, string $last): self
+    {
+        return new self($first, $last);
+    }
 
     /**
      * @param string $first
      * @param string $last
      */
-    public function __construct(string $first, string $last)
+    private function __construct(string $first, string $last)
     {
         $this->first = $first;
         $this->last  = $last;
-    }
-
-    /**
-     * Receive first name
-     *
-     * @return string
-     */
-    public function first(): string
-    {
-        return $this->first;
-    }
-
-    /**
-     * Receive last name
-     *
-     * @return string
-     */
-    public function last(): string
-    {
-        return $this->last;
     }
 }

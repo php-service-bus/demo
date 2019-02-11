@@ -12,18 +12,18 @@ declare(strict_types = 1);
 namespace App\DriverRegistration;
 
 use App\Driver\Driver;
-use App\Driver\Events\DriverAggregateCreated;
+use App\Driver\Events\DriverCreated;
 use App\DriverRegistration\Contracts\DriverRegistered;
 use App\DriverRegistration\Contracts\DriverRegistrationFailed;
 use App\DriverRegistration\Contracts\RegisterDriver;
 use App\DriverRegistration\Contracts\RegisterDriverValidationFailed;
-use Desperado\ServiceBus\Application\KernelContext;
-use Desperado\ServiceBus\EventSourcingProvider;
-use Desperado\ServiceBus\Index\IndexKey;
-use Desperado\ServiceBus\Index\IndexValue;
-use Desperado\ServiceBus\IndexProvider;
-use Desperado\ServiceBus\Services\Annotations\CommandHandler;
-use Desperado\ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Context\KernelContext;
+use ServiceBus\EventSourcing\Indexes\IndexKey;
+use ServiceBus\EventSourcing\Indexes\IndexValue;
+use ServiceBus\EventSourcingModule\EventSourcingProvider;
+use ServiceBus\EventSourcingModule\IndexProvider;
+use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Annotations\EventListener;
 
 /**
  *
@@ -45,6 +45,8 @@ final class DriverRegistrationService
      * @param EventSourcingProvider $eventSourcingProvider
      *
      * @return \Generator
+     *
+     * @throws \Throwable
      */
     public function handle(
         RegisterDriver $command,
@@ -77,12 +79,12 @@ final class DriverRegistrationService
     /**
      * @EventListener()
      *
-     * @param DriverAggregateCreated $event
-     * @param KernelContext          $context
+     * @param DriverCreated $event
+     * @param KernelContext $context
      *
      * @return \Generator
      */
-    public function whenDriverAggregateCreated(DriverAggregateCreated $event, KernelContext $context): \Generator
+    public function whenDriverCreated(DriverCreated $event, KernelContext $context): \Generator
     {
         yield $context->delivery(
             DriverRegistered::create($event->id, $context->traceId())

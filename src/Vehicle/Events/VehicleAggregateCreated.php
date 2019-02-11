@@ -14,10 +14,17 @@ namespace App\Vehicle\Events;
 use App\Vehicle\Brand\VehicleBrand;
 use App\Vehicle\VehicleId;
 use App\Vehicle\VehicleStatus;
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  *
+ * @property-read VehicleId     $id
+ * @property-read VehicleBrand  $brand
+ * @property-read string        $model
+ * @property-read int           $year
+ * @property-read string        $registrationNumber
+ * @property-read string        $color
+ * @property-read VehicleStatus $status
  */
 final class VehicleAggregateCreated implements Event
 {
@@ -91,16 +98,34 @@ final class VehicleAggregateCreated implements Event
         VehicleStatus $status
     ): self
     {
-        $self = new self();
+        return new self($id, $brand, $model, $year, $registrationNumber, $color, $status);
+    }
 
-        $self->id                 = $id;
-        $self->brand              = $brand;
-        $self->model              = $model;
-        $self->year               = $year;
-        $self->registrationNumber = $registrationNumber;
-        $self->color              = $color;
-        $self->status             = $status;
-
-        return $self;
+    /**
+     * @param VehicleId     $id
+     * @param VehicleBrand  $brand
+     * @param string        $model
+     * @param int           $year
+     * @param string        $registrationNumber
+     * @param string        $color
+     * @param VehicleStatus $status
+     */
+    private function __construct(
+        VehicleId $id,
+        VehicleBrand $brand,
+        string $model,
+        int $year,
+        string $registrationNumber,
+        string $color,
+        VehicleStatus $status
+    )
+    {
+        $this->id                 = $id;
+        $this->brand              = $brand;
+        $this->model              = $model;
+        $this->year               = $year;
+        $this->registrationNumber = $registrationNumber;
+        $this->color              = $color;
+        $this->status             = $status;
     }
 }

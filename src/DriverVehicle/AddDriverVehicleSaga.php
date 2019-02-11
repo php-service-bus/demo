@@ -11,19 +11,17 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle;
 
-use App\Driver\Driver;
 use App\Driver\DriverId;
 use App\DriverVehicle\Commands\AddVehicleToDriverProfile;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicleFailed;
 use App\DriverVehicle\Contract\Manage\VehicleAddedToDriver;
 use App\Vehicle\Manage\Contracts as VehicleManageContracts;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicleValidationFailed;
-use App\Vehicle\Vehicle;
 use App\Vehicle\VehicleId;
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
-use Desperado\ServiceBus\Sagas\Annotations\SagaEventListener;
-use Desperado\ServiceBus\Sagas\Annotations\SagaHeader;
-use Desperado\ServiceBus\Sagas\Saga;
+use ServiceBus\Common\Messages\Command;
+use ServiceBus\Sagas\Saga;
+use ServiceBus\Sagas\Configuration\Annotations\SagaHeader;
+use ServiceBus\Sagas\Configuration\Annotations\SagaEventListener;
 
 /**
  * The saga of adding a car to the driver's profile
@@ -100,9 +98,12 @@ final class AddDriverVehicleSaga extends Saga
      */
     public function start(Command $command): void
     {
-        /** @var \App\DriverVehicle\Contract\Manage\AddDriverVehicle $command */
+        /**
+         * @noinspection PhpUnhandledExceptionInspection
+         * @var \App\DriverVehicle\Contract\Manage\AddDriverVehicle $command
+         */
 
-        $this->driverId                  = new DriverId($command->driverId, Driver::class);
+        $this->driverId                  = new DriverId($command->driverId);
         $this->vehicleBrand              = $command->vehicleBrand;
         $this->vehicleModel              = $command->vehicleModel;
         $this->vehicleYear               = $command->vehicleYear;
@@ -115,11 +116,16 @@ final class AddDriverVehicleSaga extends Saga
     /**
      * Saga started
      *
+     * @noinspection PhpDocMissingThrowsInspection
+     *
      * @return void
      */
     private function onStarted(): void
     {
-        /** Try to add new vehicle */
+        /**
+         * @noinspection PhpUnhandledExceptionInspection
+         * Try to add new vehicle
+         */
         $this->fire(
             VehicleManageContracts\Add\AddVehicle::create(
                 $this->vehicleBrand,
@@ -141,13 +147,15 @@ final class AddDriverVehicleSaga extends Saga
      * @param VehicleManageContracts\Add\AddVehicleValidationFailed $event
      *
      * @return void
+     *
+     * @throws \Throwable
      */
     private function onAddVehicleValidationFailed(VehicleManageContracts\Add\AddVehicleValidationFailed $event): void
     {
         /** Vehicle has been added previously */
         if(null !== $event->vehicleId)
         {
-            $this->vehicleId = new VehicleId($event->vehicleId, Vehicle::class);
+            $this->vehicleId = new VehicleId($event->vehicleId);
 
             $this->doAddToDriver();
 
@@ -173,10 +181,12 @@ final class AddDriverVehicleSaga extends Saga
      * @param VehicleManageContracts\Add\VehicleAdded $event
      *
      * @return void
+     *
+     * @throws \Throwable
      */
     private function onVehicleAdded(VehicleManageContracts\Add\VehicleAdded $event): void
     {
-        $this->vehicleId = new VehicleId($event->id, Vehicle::class);
+        $this->vehicleId = new VehicleId($event->id);
 
         $this->doAddToDriver();
     }
@@ -185,6 +195,8 @@ final class AddDriverVehicleSaga extends Saga
      * Add vehicle to driver profile
      *
      * @return void
+     *
+     * @throws \Throwable
      */
     private function doAddToDriver(): void
     {
@@ -208,6 +220,8 @@ final class AddDriverVehicleSaga extends Saga
      * @param VehicleAddedToDriver $event
      *
      * @return void
+     *
+     * @throws \Throwable
      */
     private function onVehicleAddedToDriver(VehicleAddedToDriver $event): void
     {
@@ -225,6 +239,8 @@ final class AddDriverVehicleSaga extends Saga
      * @param AddDriverVehicleFailed $event
      *
      * @return void
+     *
+     * @throws \Throwable
      */
     private function onAddDriverVehicleFailed(AddDriverVehicleFailed $event): void
     {
@@ -250,6 +266,8 @@ final class AddDriverVehicleSaga extends Saga
      * @param AddDriverVehicleValidationFailed $event
      *
      * @return void
+     *
+     * @throws \Throwable
      */
     private function onAddDriverVehicleValidationFailed(AddDriverVehicleValidationFailed $event): void
     {

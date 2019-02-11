@@ -15,6 +15,11 @@ use App\DriverDocument\Exceptions\IncorrectMessageData;
 
 /**
  * Image entry
+ *
+ * @property-read int $width
+ * @property-read int $height
+ * @property-read string $mimeType
+ * @property-read string $payload
  */
 final class DocumentImage
 {
@@ -93,14 +98,7 @@ final class DocumentImage
      */
     public static function create(int $width, int $height, string $mimeType, string $payload): self
     {
-        $self = new self();
-
-        $self->width    = $width;
-        $self->height   = $height;
-        $self->mimeType = $mimeType;
-        $self->payload  = $payload;
-
-        return $self;
+        return new self($width, $height, $mimeType, $payload);
     }
 
     /**
@@ -113,8 +111,17 @@ final class DocumentImage
         return self::ACCEPTED_MIME_TYPES[$this->mimeType];
     }
 
-    private function __construct()
+    /**
+     * @param int    $width
+     * @param int    $height
+     * @param string $mimeType
+     * @param string $payload
+     */
+    private function __construct(int $width, int $height, string $mimeType, string $payload)
     {
-
+        $this->width    = $width;
+        $this->height   = $height;
+        $this->mimeType = $mimeType;
+        $this->payload  = $payload;
     }
 }

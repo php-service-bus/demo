@@ -13,12 +13,15 @@ namespace App\DriverVehicle\Commands;
 
 use App\Driver\DriverId;
 use App\Vehicle\VehicleId;
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use ServiceBus\Common\Messages\Command;
 
 /**
  * Add vehicle to driver aggregate
  *
  * internal command
+ *
+ * @property-read DriverId  $driverId
+ * @property-read VehicleId $vehicleId
  */
 final class AddVehicleToDriverProfile implements Command
 {
@@ -37,23 +40,23 @@ final class AddVehicleToDriverProfile implements Command
     public $vehicleId;
 
     /**
-     * @param DriverId $driverId
+     * @param DriverId  $driverId
      * @param VehicleId $vehicleId
      *
      * @return self
      */
     public static function create(DriverId $driverId, VehicleId $vehicleId): self
     {
-        $self = new self();
-
-        $self->driverId  = $driverId;
-        $self->vehicleId = $vehicleId;
-
-        return $self;
+        return new self($driverId, $vehicleId);
     }
 
-    private function __construct()
+    /**
+     * @param DriverId  $driverId
+     * @param VehicleId $vehicleId
+     */
+    private function __construct(DriverId $driverId, VehicleId $vehicleId)
     {
-
+        $this->driverId  = $driverId;
+        $this->vehicleId = $vehicleId;
     }
 }

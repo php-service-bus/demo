@@ -11,13 +11,16 @@ declare(strict_types = 1);
 
 namespace App\CustomerRegistration\Contracts;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * User successfully registered
  *
  * @api
  * @see RegisterCustomer
+ *
+ * @property-read string $correlationId
+ * @property-read string $customerId
  */
 final class CustomerRegistered implements Event
 {
@@ -43,16 +46,16 @@ final class CustomerRegistered implements Event
      */
     public static function create(string $customerId, string $correlationId): self
     {
-        $self = new self();
-
-        $self->customerId    = $customerId;
-        $self->correlationId = $correlationId;
-
-        return $self;
+        return new self($customerId, $correlationId);
     }
 
-    private function __construct()
+    /**
+     * @param string $customerId
+     * @param string $correlationId
+     */
+    private function __construct(string $customerId, string $correlationId)
     {
-
+        $this->customerId    = $customerId;
+        $this->correlationId = $correlationId;
     }
 }

@@ -13,15 +13,15 @@ namespace App\Driver;
 
 use App\Driver\Data\DriverContacts;
 use App\Driver\Data\DriverFullName;
-use App\Driver\Events\VehicleAddedToAggregate;
+use App\Driver\Events\VehicleAdded;
 use App\DriverDocument\Data\DriverDocument;
 use App\DriverDocument\Data\DriverDocumentId;
 use App\DriverDocument\Data\DriverDocuments;
 use App\DriverDocument\Data\DriverDocumentType;
-use App\Driver\Events\DocumentAddedToAggregate;
-use App\Driver\Events\DriverAggregateCreated;
+use App\Driver\Events\DocumentAdded;
+use App\Driver\Events\DriverCreated;
 use App\Vehicle\VehicleId;
-use Desperado\ServiceBus\EventSourcing\Aggregate;
+use ServiceBus\EventSourcing\Aggregate;
 
 /**
  * Driver aggregate
@@ -57,6 +57,8 @@ final class Driver extends Aggregate
     private $vehicles = [];
 
     /**
+     * @noinspection PhpDocMissingThrowsInspection
+     *
      * @param string      $phone
      * @param string      $email
      * @param string      $firstName
@@ -67,10 +69,11 @@ final class Driver extends Aggregate
      */
     public static function register(string $phone, string $email, string $firstName, string $lastName, ?string $patronymic): self
     {
-        $self = new self(DriverId::new(__CLASS__));
+        $self = new self(DriverId::new());
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $self->raise(
-            DriverAggregateCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName, $patronymic)
+            DriverCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName, $patronymic)
         );
 
         return $self;
@@ -78,6 +81,8 @@ final class Driver extends Aggregate
 
     /**
      * Attach new document
+     *
+     * @noinspection PhpDocMissingThrowsInspection
      *
      * @param string             $imagePath
      * @param DriverDocumentType $type
@@ -89,13 +94,16 @@ final class Driver extends Aggregate
         /** @var DriverId $id */
         $id = $this->id();
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $this->raise(
-            DocumentAddedToAggregate::create($id, DriverDocumentId::new(), $type, $imagePath)
+            DocumentAdded::create($id, DriverDocumentId::new(), $type, $imagePath)
         );
     }
 
     /**
      * Add new vehicle
+     *
+     * @noinspection PhpDocMissingThrowsInspection
      *
      * @param VehicleId $vehicleId
      *
@@ -106,47 +114,48 @@ final class Driver extends Aggregate
         /** @var DriverId $id */
         $id = $this->id();
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $this->raise(
-            VehicleAddedToAggregate::create($id, $vehicleId)
+            VehicleAdded::create($id, $vehicleId)
         );
     }
 
     /**
      * @noinspection PhpUnusedPrivateMethodInspection
      *
-     * @param DriverAggregateCreated $event
+     * @param DriverCreated $event
      *
      * @return void
      */
-    private function onDriverAggregateCreated(DriverAggregateCreated $event): void
+    private function onDriverCreated(DriverCreated $event): void
     {
-        $this->contacts  = new DriverContacts($event->email, $event->phone);
-        $this->fullName  = new DriverFullName($event->firstName, $event->lastName, $event->patronymic);
+        $this->contacts  = DriverContacts::create($event->email, $event->phone);
+        $this->fullName  = DriverFullName::create($event->firstName, $event->lastName, $event->patronymic);
         $this->documents = new DriverDocuments();
     }
 
     /**
      * @noinspection PhpUnusedPrivateMethodInspection
      *
-     * @param DocumentAddedToAggregate $event
+     * @param DocumentAdded $event
      *
      * @return void
      */
-    private function onDocumentAddedToAggregate(DocumentAddedToAggregate $event): void
+    private function onDocumentAddedToAggregate(DocumentAdded $event): void
     {
         $this->documents->add(
-            new DriverDocument($event->documentId, $event->imagePath, $event->type)
+            DriverDocument::create($event->documentId, $event->imagePath, $event->type)
         );
     }
 
     /**
      * @noinspection PhpUnusedPrivateMethodInspection
      *
-     * @param VehicleAddedToAggregate $event
+     * @param VehicleAdded $event
      *
      * @return void
      */
-    private function onVehicleAddedToAggregate(VehicleAddedToAggregate $event): void
+    private function onVehicleAdded(VehicleAdded $event): void
     {
         $vehicleId = (string) $event->vehicleId;
 

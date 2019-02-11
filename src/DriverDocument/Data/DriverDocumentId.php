@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Data;
 
-use function Desperado\ServiceBus\Common\uuid;
+use function ServiceBus\Common\uuid;
 
 /**
  * Uploaded document id

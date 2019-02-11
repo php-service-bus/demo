@@ -8,6 +8,7 @@ use App\DriverDocument\Data\DriverDocumentType;
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 
+/** @noinspection PhpUnhandledExceptionInspection */
 $publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
 $publisher->sendMessage(
     AddDriverDocument::create(

@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\Driver;
 
-use Desperado\ServiceBus\EventSourcing\AggregateId;
+use ServiceBus\EventSourcing\AggregateId;
 
 /**
  * Driver aggregate id

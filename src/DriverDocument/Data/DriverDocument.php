@@ -11,10 +11,14 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Data;
 
-use function Desperado\ServiceBus\Common\datetimeInstantiator;
+use function ServiceBus\Common\datetimeInstantiator;
 
 /**
- *
+ * @property-read DriverDocumentId     $id
+ * @property-read string               $imagePath
+ * @property-read DriverDocumentType   $type
+ * @property-read DriverDocumentStatus $status
+ * @property-read \DateTimeImmutable   $createdAt
  */
 final class DriverDocument
 {
@@ -23,44 +27,61 @@ final class DriverDocument
      *
      * @var DriverDocumentId
      */
-    private $id;
+    public $id;
 
     /**
      * Absolute path to the loaded document
      *
      * @var string
      */
-    private $imagePath;
+    public $imagePath;
 
     /**
      * Document type
      *
      * @var DriverDocumentType
      */
-    private $type;
+    public $type;
 
     /**
      * Document status
      *
      * @var DriverDocumentStatus
      */
-    private $status;
+    public $status;
 
     /**
      * Creation date
      *
      * @var \DateTimeImmutable
      */
-    private $createdAt;
+    public $createdAt;
 
     /**
-     * @param DriverDocumentId     $id
-     * @param string               $imagePath
-     * @param DriverDocumentType   $type
+     * @param DriverDocumentId   $id
+     * @param string             $imagePath
+     * @param DriverDocumentType $type
+     *
+     * @return self
      */
-    public function __construct(DriverDocumentId $id, string $imagePath, DriverDocumentType $type)
+    public static function create(DriverDocumentId $id, string $imagePath, DriverDocumentType $type): self
     {
-        /** @var \DateTimeImmutable $currentDate */
+        return new self($id, $imagePath, $type);
+    }
+
+    /**
+     * @noinspection PhpDocMissingThrowsInspection
+     *
+     * @param DriverDocumentId   $id
+     * @param string             $imagePath
+     * @param DriverDocumentType $type
+     */
+    private function __construct(DriverDocumentId $id, string $imagePath, DriverDocumentType $type)
+    {
+        /**
+         * @noinspection PhpUnhandledExceptionInspection
+         * @var \DateTimeImmutable $currentDate
+         */
         $currentDate = datetimeInstantiator('NOW');
 
         $this->id        = $id;
@@ -68,55 +89,5 @@ final class DriverDocument
         $this->type      = $type;
         $this->status    = DriverDocumentStatus::moderation();
         $this->createdAt = $currentDate;
-    }
-
-    /**
-     * Receive uploaded document id
-     *
-     * @return DriverDocumentId
-     */
-    public function id(): DriverDocumentId
-    {
-        return $this->id;
-    }
-
-    /**
-     * Receive uploaded image path
-     *
-     * @return string
-     */
-    public function imagePath(): string
-    {
-        return $this->imagePath;
-    }
-
-    /**
-     * Receive document type
-     *
-     * @return DriverDocumentType
-     */
-    public function type(): DriverDocumentType
-    {
-        return $this->type;
-    }
-
-    /**
-     * Receive document status
-     *
-     * @return DriverDocumentStatus
-     */
-    public function status(): DriverDocumentStatus
-    {
-        return $this->status;
-    }
-
-    /**
-     * Receive document creation date
-     *
-     * @return \DateTimeImmutable
-     */
-    public function createdAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
     }
 }

@@ -13,6 +13,9 @@ namespace App\Customer\Data;
 
 /**
  * Customer contact details
+ *
+ * @property-read string $email
+ * @property-read string $phone
  */
 final class CustomerContacts
 {
@@ -21,42 +24,33 @@ final class CustomerContacts
      *
      * @var string
      */
-    private $email;
+    public $email;
 
     /**
      * Phone number
      *
      * @var string
      */
-    private $phone;
+    public $phone;
+
+    /**
+     * @param string $email
+     * @param string $phone
+     *
+     * @return self
+     */
+    public static function create(string $email, string $phone): self
+    {
+        return new self($email, $phone);
+    }
 
     /**
      * @param string $email
      * @param string $phone
      */
-    public function __construct(string $email, string $phone)
+    private function __construct(string $email, string $phone)
     {
         $this->email = $email;
         $this->phone = $phone;
-    }
-
-    /**
-     * Receive email address
-     *
-     * @return string
-     */
-    public function email(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * Receive phone number
-     *
-     * @return string
-     */
-    public function phone(): string
-    {
-        return $this->phone;
     }
 }

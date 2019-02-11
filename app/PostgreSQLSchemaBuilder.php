@@ -4,30 +4,33 @@ declare(strict_types = 1);
 
 use function Amp\call;
 use Amp\Promise;
-use Desperado\ServiceBus\Infrastructure\Storage\StorageAdapter;
+use ServiceBus\Storage\Common\DatabaseAdapter;
+use ServiceBus\Sagas\Module\SqlSchemaCreator as SagasSchemaCreator;
+use ServiceBus\EventSourcingModule\SqlSchemaCreator as EventSourcingSqlSchemaCreator;
 
 /**
  * Generate PostgreSQL schema for service-bus components
  */
 final class PostgreSQLSchemaBuilder
 {
+    private const FIXTURES = [
+        __DIR__ . '/schema/customer.sql'               => false,
+        __DIR__ . '/schema/vehicle_brand.sql'          => false,
+        __DIR__ . '/schema/vehicle_brand_fixtures.sql' => true,
+
+    ];
+
     /**
-     * @var StorageAdapter
+     * @var DatabaseAdapter
      */
     private $adapter;
 
     /**
-     * @var string
+     * @param DatabaseAdapter $adapter
      */
-    private $serviceBusDirectory;
-
-    /**
-     * @param StorageAdapter $adapter
-     */
-    public function __construct(StorageAdapter $adapter)
+    public function __construct(DatabaseAdapter $adapter)
     {
-        $this->adapter             = $adapter;
-        $this->serviceBusDirectory = __DIR__ . '/../vendor/mmasiukevich/service-bus';
+        $this->adapter = $adapter;
     }
 
     /**
@@ -37,80 +40,22 @@ final class PostgreSQLSchemaBuilder
      */
     public function build(): Promise
     {
+        /** @psalm-suppress InvalidArgument */
         return call(
-            function(): \Generator
+            function(array $fixtures): \Generator
             {
-                yield $this->enableUid();
-                yield $this->eventSourcing();
-                yield $this->sagas();
-                yield $this->indexer();
-                yield $this->scheduler();
-            }
+                yield $this->adapter->execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+
+                yield (new SagasSchemaCreator($this->adapter))->import();
+                yield (new EventSourcingSqlSchemaCreator($this->adapter))->import();
+
+                foreach($fixtures as $path => $multiple)
+                {
+                    yield $this->importFixture($path, $multiple);
+                }
+            },
+            self::FIXTURES
         );
-    }
-
-    /**
-     * Enable uuid extension
-     *
-     * @return Promise
-     */
-    public function enableUid(): Promise
-    {
-        return $this->adapter->execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-    }
-
-    /**
-     * Create Events Sourcing schema
-     *
-     * @return Promise
-     */
-    public function eventSourcing(): Promise
-    {
-        return call(
-            function(): \Generator
-            {
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/event_store_stream.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/event_store_stream_events.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/event_store_snapshots.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/EventSourcing/EventStreamStore/Sql/schema/indexes.sql', true);
-            }
-        );
-    }
-
-    /**
-     * Create Sagas schema
-     *
-     * @return Promise
-     */
-    public function sagas(): Promise
-    {
-        return call(
-            function(): \Generator
-            {
-                yield $this->importFixture($this->serviceBusDirectory . '/src/Sagas/SagaStore/Sql/schema/sagas_store.sql');
-                yield $this->importFixture($this->serviceBusDirectory . '/src/Sagas/SagaStore/Sql/schema/indexes.sql', true);
-            }
-        );
-    }
-
-    /**
-     * Create Indexer schema
-     *
-     * @return Promise
-     */
-    public function indexer(): Promise
-    {
-        return $this->importFixture($this->serviceBusDirectory . '/src/Index/Storage/Sql/schema/event_sourcing_indexes.sql');
-    }
-
-    /**
-     * Create Scheduler schema
-     *
-     * @return Promise
-     */
-    public function scheduler(): Promise
-    {
-        return $this->importFixture($this->serviceBusDirectory . '/src/Scheduler/Store/Sql/schema/scheduler_registry.sql');
     }
 
     /**
@@ -121,7 +66,7 @@ final class PostgreSQLSchemaBuilder
      */
     public function importFixture(string $fileName, bool $multipleQuery = false): Promise
     {
-        /** @psalm-suppress InvalidArgument Incorrect psalm unpack parameters (...$args) */
+        /** @psalm-suppress InvalidArgument */
         return call(
             function(string $fileName, bool $multipleQuery): \Generator
             {

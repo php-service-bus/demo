@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\DriverRegistration\Contracts;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +21,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see DriverRegistered
  * @see RegisterDriverValidationFailed
  * @see DriverRegistrationFailed
+ *
+ * @property-read string      $phone
+ * @property-read string      $email
+ * @property-read string      $firstName
+ * @property-read string      $lastName
+ * @property-read string|null $patronymic
  */
 final class RegisterDriver implements Command
 {
@@ -85,18 +91,28 @@ final class RegisterDriver implements Command
         ?string $patronymic
     ): self
     {
-        $self = new self();
-
-        $self->phone         = $phone;
-        $self->email         = $email;
-        $self->firstName     = $firstName;
-        $self->lastName      = $lastName;
-        $self->patronymic    = $patronymic;
-
-        return $self;
+        return new self($phone, $email, $firstName, $lastName, $patronymic);
     }
 
-    private function __construct()
+    /**
+     * @param string      $phone
+     * @param string      $email
+     * @param string      $firstName
+     * @param string      $lastName
+     * @param string|null $patronymic
+     */
+    private function __construct(
+        string $phone,
+        string $email,
+        string $firstName,
+        string $lastName,
+        ?string $patronymic
+    )
     {
+        $this->phone      = $phone;
+        $this->email      = $email;
+        $this->firstName  = $firstName;
+        $this->lastName   = $lastName;
+        $this->patronymic = $patronymic;
     }
 }

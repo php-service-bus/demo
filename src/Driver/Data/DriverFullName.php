@@ -13,6 +13,10 @@ namespace App\Driver\Data;
 
 /**
  * Driver full name data
+ *
+ * @property-read string      $first
+ * @property-read string      $last
+ * @property-read string|null $patronymic
  */
 final class DriverFullName
 {
@@ -21,61 +25,43 @@ final class DriverFullName
      *
      * @var string
      */
-    private $first;
+    public $first;
 
     /**
      * Last name
      *
      * @var string
      */
-    private $last;
+    public $last;
 
     /**
      * Patronymic
      *
      * @var string|null
      */
-    private $patronymic;
+    public $patronymic;
+
+    /**
+     * @param string      $first
+     * @param string      $last
+     * @param string|null $patronymic
+     *
+     * @return self
+     */
+    public static function create(string $first, string $last, ?string $patronymic): self
+    {
+        return new self($first, $last, $patronymic);
+    }
 
     /**
      * @param string      $first
      * @param string      $last
      * @param string|null $patronymic
      */
-    public function __construct(string $first, string $last, ?string $patronymic)
+    private function __construct(string $first, string $last, ?string $patronymic)
     {
         $this->first      = $first;
         $this->last       = $last;
         $this->patronymic = $patronymic;
-    }
-
-    /**
-     * Receive first name
-     *
-     * @return string
-     */
-    public function first(): string
-    {
-        return $this->first;
-    }
-
-    /**
-     * Receive last name
-     *
-     * @return string
-     */
-    public function last(): string
-    {
-        return $this->last;
-    }
-
-    /**
-     * Receive patronymic
-     *
-     * @return string|null
-     */
-    public function patronymic(): ?string
-    {
-        return $this->patronymic;
     }
 }

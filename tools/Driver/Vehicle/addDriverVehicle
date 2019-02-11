@@ -7,6 +7,7 @@ use App\DriverVehicle\Contract\Manage\AddDriverVehicle;
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 
+/** @noinspection PhpUnhandledExceptionInspection */
 $publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
 $publisher->sendMessage(
     AddDriverVehicle::create(

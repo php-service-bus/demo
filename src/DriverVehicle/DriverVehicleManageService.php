@@ -12,17 +12,17 @@ declare(strict_types = 1);
 namespace App\DriverVehicle;
 
 use Amp\Promise;
-use App\Driver\Events\VehicleAddedToAggregate;
+use App\Driver\Events\VehicleAdded;
 use App\DriverVehicle\Commands\AddVehicleToDriverProfile;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicle;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicleFailed;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicleValidationFailed;
 use App\DriverVehicle\Contract\Manage\VehicleAddedToDriver;
-use Desperado\ServiceBus\Application\KernelContext;
-use Desperado\ServiceBus\EventSourcingProvider;
-use Desperado\ServiceBus\SagaProvider;
-use Desperado\ServiceBus\Services\Annotations\CommandHandler;
-use Desperado\ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Context\KernelContext;
+use ServiceBus\EventSourcingModule\EventSourcingProvider;
+use ServiceBus\Sagas\Module\SagasProvider;
+use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Annotations\EventListener;
 
 /**
  *
@@ -40,11 +40,13 @@ final class DriverVehicleManageService
      *
      * @param AddDriverVehicle $command
      * @param KernelContext    $context
-     * @param SagaProvider     $sagaProvider
+     * @param SagasProvider    $sagaProvider
      *
      * @return \Generator
+     *
+     * @throws \Throwable
      */
-    public function add(AddDriverVehicle $command, KernelContext $context, SagaProvider $sagaProvider): \Generator
+    public function add(AddDriverVehicle $command, KernelContext $context, SagasProvider $sagaProvider): \Generator
     {
         yield $sagaProvider->start(
             new AddDriverVehicleSagaId($context->traceId(), AddDriverVehicleSaga::class),
@@ -63,6 +65,8 @@ final class DriverVehicleManageService
      * @param EventSourcingProvider     $eventSourcingProvider
      *
      * @return \Generator
+     *
+     * @throws \Throwable
      */
     public function processAdd(
         AddVehicleToDriverProfile $command,
@@ -88,12 +92,12 @@ final class DriverVehicleManageService
     /**
      * @EventListener()
      *
-     * @param VehicleAddedToAggregate $event
-     * @param KernelContext           $context
+     * @param VehicleAdded  $event
+     * @param KernelContext $context
      *
      * @return Promise
      */
-    public function whenVehicleAddedToAggregate(VehicleAddedToAggregate $event, KernelContext $context): Promise
+    public function whenVehicleAdded(VehicleAdded $event, KernelContext $context): Promise
     {
         return $context->delivery(
             VehicleAddedToDriver::create($context->traceId(), (string) $event->driverId, (string) $event->vehicleId)

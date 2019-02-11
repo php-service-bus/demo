@@ -7,18 +7,19 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
+
 declare(strict_types = 1);
 
 use function Amp\Promise\wait;
-use Desperado\ServiceBus\Common\Contract\Messages\Message;
-use function Desperado\ServiceBus\Common\uuid;
-use Desperado\ServiceBus\Infrastructure\MessageSerialization\MessageEncoder;
-use Desperado\ServiceBus\Infrastructure\MessageSerialization\Symfony\SymfonyMessageSerializer;
-use Desperado\ServiceBus\Infrastructure\Transport\Implementation\Amqp\AmqpConnectionConfiguration;
-use Desperado\ServiceBus\Infrastructure\Transport\Implementation\Amqp\AmqpTransportLevelDestination;
-use Desperado\ServiceBus\Infrastructure\Transport\Implementation\BunnyRabbitMQ\BunnyRabbitMqTransport;
-use Desperado\ServiceBus\Infrastructure\Transport\Package\OutboundPackage;
-use Desperado\ServiceBus\Infrastructure\Transport\Transport;
+use ServiceBus\Common\Messages\Message;
+use function ServiceBus\Common\uuid;
+use ServiceBus\MessageSerializer\MessageEncoder;
+use ServiceBus\MessageSerializer\Symfony\SymfonyMessageSerializer;
+use ServiceBus\Transport\Amqp\AmqpConnectionConfiguration;
+use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
+use ServiceBus\Transport\Common\Package\OutboundPackage;
+use ServiceBus\Transport\Common\Transport;
+use ServiceBus\Transport\PhpInnacle\PhpInnacleTransport;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
@@ -40,6 +41,8 @@ final class ToolsPublisher
 
     /**
      * @param string $envPath
+     *
+     * @throws \Throwable
      */
     public function __construct(string $envPath)
     {
@@ -68,10 +71,11 @@ final class ToolsPublisher
         /** @noinspection PhpUnhandledExceptionInspection */
         wait(
             $this->transport()->send(
-                new OutboundPackage(
+                OutboundPackage::create(
                     $this->encoder->encode($message),
                     [Transport::SERVICE_BUS_TRACE_HEADER => $traceId ?? uuid()],
-                    new AmqpTransportLevelDestination($topic, $routingKey)
+                    new AmqpTransportLevelDestination($topic, $routingKey),
+                    uuid()
                 )
             )
         );
@@ -81,12 +85,14 @@ final class ToolsPublisher
      * @noinspection PhpDocMissingThrowsInspection
      *
      * @return Transport
+     *
+     * @throws \Throwable
      */
     private function transport(): Transport
     {
         if(null === $this->transport)
         {
-            $this->transport = new BunnyRabbitMqTransport(
+            $this->transport = new PhpInnacleTransport(
                 new AmqpConnectionConfiguration(\getenv('TRANSPORT_CONNECTION_DSN'))
             );
 

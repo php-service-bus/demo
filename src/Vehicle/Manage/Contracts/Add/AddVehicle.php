@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\Vehicle\Manage\Contracts\Add;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +21,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see VehicleAdded
  * @see AddVehicleValidationFailed
  * @see AddVehicleFailed
+ *
+ * @property-read string $brand
+ * @property-read string $model
+ * @property-read int    $year
+ * @property-read string $registrationNumber
+ * @property-read string $color
  */
 final class AddVehicle implements Command
 {
@@ -79,27 +85,24 @@ final class AddVehicle implements Command
      *
      * @return self
      */
-    public static function create(
-        string $brand,
-        string $model,
-        int $year,
-        string $registrationNumber,
-        string $color
-    ): self
+    public static function create(string $brand, string $model, int $year, string $registrationNumber, string $color): self
     {
-        $self = new self();
-
-        $self->brand              = $brand;
-        $self->model              = $model;
-        $self->year               = $year;
-        $self->registrationNumber = $registrationNumber;
-        $self->color              = $color;
-
-        return $self;
+        return new self($brand, $model, $year, $registrationNumber, $color);
     }
 
-    private function __construct()
+    /**
+     * @param string $brand
+     * @param string $model
+     * @param int    $year
+     * @param string $registrationNumber
+     * @param string $color
+     */
+    private function __construct(string $brand, string $model, int $year, string $registrationNumber, string $color)
     {
-
+        $this->brand              = $brand;
+        $this->model              = $model;
+        $this->year               = $year;
+        $this->registrationNumber = $registrationNumber;
+        $this->color              = $color;
     }
 }

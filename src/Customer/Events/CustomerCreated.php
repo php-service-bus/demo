@@ -11,14 +11,20 @@ declare(strict_types = 1);
 
 namespace App\Customer\Events;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * Customer aggregate created
  *
  * internal event
+ *
+ * @property-read string $id
+ * @property-read string $phone
+ * @property-read string $email
+ * @property-read string $firstName
+ * @property-read string $lastName
  */
-final class CustomerAggregateCreated implements Event
+final class CustomerCreated implements Event
 {
     /**
      * Customer aggregate id
@@ -66,19 +72,24 @@ final class CustomerAggregateCreated implements Event
      */
     public static function create(string $id, string $phone, string $email, string $firstName, string $lastName): self
     {
-        $self = new self();
-
-        $self->id        = $id;
-        $self->phone     = $phone;
-        $self->email     = $email;
-        $self->firstName = $firstName;
-        $self->lastName  = $lastName;
-
-        return $self;
+        return new self($id, $phone, $email, $firstName, $lastName);
     }
 
-    private function __construct()
+    /**
+     * @param string $id
+     * @param string $phone
+     * @param string $email
+     * @param string $firstName
+     * @param string $lastName
+     */
+    private function __construct(string $id, string $phone, string $email, string $firstName, string $lastName)
     {
-
+        $this->id        = $id;
+        $this->phone     = $phone;
+        $this->email     = $email;
+        $this->firstName = $firstName;
+        $this->lastName  = $lastName;
     }
+
+
 }

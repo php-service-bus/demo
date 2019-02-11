@@ -11,13 +11,17 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle\Contract\Manage;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * Vehicle successfully added
  *
  * @api
  * @see AddDriverVehicle
+ *
+ * @property-read string $correlationId
+ * @property-read string $driverId
+ * @property-read string $vehicleId
  */
 final class VehicleAddedToDriver implements Event
 {
@@ -49,23 +53,20 @@ final class VehicleAddedToDriver implements Event
      *
      * @return self
      */
-    public static function create(
-        string $correlationId,
-        string $driverId,
-        string $vehicleId
-    ): self
+    public static function create(string $correlationId, string $driverId, string $vehicleId): self
     {
-        $self = new self();
-
-        $self->correlationId = $correlationId;
-        $self->driverId      = $driverId;
-        $self->vehicleId     = $vehicleId;
-
-        return $self;
+        return new self($correlationId, $driverId, $vehicleId);
     }
 
-    private function __construct()
+    /**
+     * @param string $correlationId
+     * @param string $driverId
+     * @param string $vehicleId
+     */
+    private function __construct(string $correlationId, string $driverId, string $vehicleId)
     {
-
+        $this->correlationId = $correlationId;
+        $this->driverId      = $driverId;
+        $this->vehicleId     = $vehicleId;
     }
 }

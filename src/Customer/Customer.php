@@ -13,8 +13,8 @@ namespace App\Customer;
 
 use App\Customer\Data\CustomerContacts;
 use App\Customer\Data\CustomerFullName;
-use App\Customer\Events\CustomerAggregateCreated;
-use Desperado\ServiceBus\EventSourcing\Aggregate;
+use App\Customer\Events\CustomerCreated;
+use ServiceBus\EventSourcing\Aggregate;
 
 /**
  * Customer aggregate
@@ -38,6 +38,8 @@ final class Customer extends Aggregate
     /**
      * Create new customer aggregate
      *
+     * @noinspection PhpDocMissingThrowsInspection
+     *
      * @param string $phone
      * @param string $email
      * @param string $firstName
@@ -47,9 +49,10 @@ final class Customer extends Aggregate
      */
     public static function register(string $phone, string $email, string $firstName, string $lastName): self
     {
-        $self = new self(CustomerId::new(__CLASS__));
+        $self = new self(CustomerId::new());
 
-        $self->raise(CustomerAggregateCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName));
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $self->raise(CustomerCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName));
 
         return $self;
     }
@@ -57,13 +60,13 @@ final class Customer extends Aggregate
     /**
      * @noinspection PhpUnusedPrivateMethodInspection
      *
-     * @param CustomerAggregateCreated $event
+     * @param CustomerCreated $event
      *
      * @return void
      */
-    private function onCustomerAggregateCreated(CustomerAggregateCreated $event): void
+    private function onCustomerCreated(CustomerCreated $event): void
     {
-        $this->contacts = new CustomerContacts($event->email, $event->phone);
-        $this->fullName = new CustomerFullName($event->firstName, $event->lastName);
+        $this->contacts = CustomerContacts::create($event->email, $event->phone);
+        $this->fullName = CustomerFullName::create($event->firstName, $event->lastName);
     }
 }

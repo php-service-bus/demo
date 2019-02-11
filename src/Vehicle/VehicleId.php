@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\Vehicle;
 
-use Desperado\ServiceBus\EventSourcing\AggregateId;
+use ServiceBus\EventSourcing\AggregateId;
 
 /**
  * Vehicle aggregate id

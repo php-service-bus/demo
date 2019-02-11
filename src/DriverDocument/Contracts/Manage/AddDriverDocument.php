@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Contracts\Manage;
 
-use Desperado\ServiceBus\Common\Contract\Messages\Command;
+use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +21,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see DriverDocumentAdded
  * @see AddDriverDocumentFailure
  * @see AddDriverDocumentValidationFailed
+ *
+ * @property-read string $type
+ * @property-read string $payload
+ * @property-read string $driverId
  */
 final class AddDriverDocument implements Command
 {
@@ -71,17 +75,18 @@ final class AddDriverDocument implements Command
      */
     public static function create(string $type, string $payload, string $driverId): self
     {
-        $self = new self();
-
-         $self->type          = $type;
-        $self->payload       = $payload;
-        $self->driverId      = $driverId;
-
-        return $self;
+        return new self($type, $payload, $driverId);
     }
 
-    private function __construct()
+    /**
+     * @param string $type
+     * @param string $payload
+     * @param string $driverId
+     */
+    private function __construct(string $type, string $payload, string $driverId)
     {
-
+        $this->type     = $type;
+        $this->payload  = $payload;
+        $this->driverId = $driverId;
     }
 }

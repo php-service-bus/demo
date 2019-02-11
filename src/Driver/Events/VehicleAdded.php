@@ -13,14 +13,14 @@ namespace App\Driver\Events;
 
 use App\Driver\DriverId;
 use App\Vehicle\VehicleId;
-use Desperado\ServiceBus\Common\Contract\Messages\Event;
+use ServiceBus\Common\Messages\Event;
 
 /**
  * Vehicle successfully added to driver profile
  *
  * internal event
  */
-final class VehicleAddedToAggregate implements Event
+final class VehicleAdded implements Event
 {
     /**
      * Driver id
