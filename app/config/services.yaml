@@ -30,7 +30,7 @@ services:
 
   # Echo stream handler
   service_bus.logger.handlers.stdout_handler:
-    class: Desperado\ServiceBus\Infrastructure\Logger\Handlers\StdOut\StdOutHandler
+    class: ServiceBus\Infrastructure\Logger\Handlers\StdOut\StdOutHandler
 
   # Default logger instance
   service_bus.logger:

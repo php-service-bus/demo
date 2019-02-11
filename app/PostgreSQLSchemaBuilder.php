@@ -46,8 +46,8 @@ final class PostgreSQLSchemaBuilder
             {
                 yield $this->adapter->execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
-                yield (new SagasSchemaCreator($this->adapter))->import();
-                yield (new EventSourcingSqlSchemaCreator($this->adapter))->import();
+                yield (new SagasSchemaCreator($this->adapter, __DIR__ . '/../vendor/php-service-bus/sagas/'))->import();
+                yield (new EventSourcingSqlSchemaCreator($this->adapter, __DIR__ . '/../vendor/php-service-bus/event-sourcing/'))->import();
 
                 foreach($fixtures as $path => $multiple)
                 {

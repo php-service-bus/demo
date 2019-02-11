@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Demo application, remotely similar to Uber
+ * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <desperado@minsk-info.ru>
+ * @author  Maksim Masiukevich <dev@async-php.com>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -42,13 +42,13 @@ final class DriverVehicleManageService
      * @param KernelContext    $context
      * @param SagasProvider    $sagaProvider
      *
-     * @return \Generator
+     * @return Promise
      *
      * @throws \Throwable
      */
-    public function add(AddDriverVehicle $command, KernelContext $context, SagasProvider $sagaProvider): \Generator
+    public function add(AddDriverVehicle $command, KernelContext $context, SagasProvider $sagaProvider): Promise
     {
-        yield $sagaProvider->start(
+        return $sagaProvider->start(
             new AddDriverVehicleSagaId($context->traceId(), AddDriverVehicleSaga::class),
             $command,
             $context

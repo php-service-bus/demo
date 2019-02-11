@@ -1134,12 +1134,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "bdf3e32d07a8978c713a726d9bc60b7fa6b4dbff"
+                "reference": "6f9810e194acace22e360a1398cf228132e5b4b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/bdf3e32d07a8978c713a726d9bc60b7fa6b4dbff",
-                "reference": "bdf3e32d07a8978c713a726d9bc60b7fa6b4dbff",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/6f9810e194acace22e360a1398cf228132e5b4b2",
+                "reference": "6f9810e194acace22e360a1398cf228132e5b4b2",
                 "shasum": ""
             },
             "require": {
@@ -1209,7 +1209,7 @@
                 "riak",
                 "xcache"
             ],
-            "time": "2018-12-27 18:07:28"
+            "time": "2019-02-11 09:43:22"
         },
         {
             "name": "doctrine/lexer",
@@ -1544,12 +1544,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/active-record.git",
-                "reference": "c781584b67e82c1bc51bbc766a99bbc01322c9e2"
+                "reference": "a02a8e244db46e1f8b4c64ad19e6c3a384ac6e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/active-record/zipball/c781584b67e82c1bc51bbc766a99bbc01322c9e2",
-                "reference": "c781584b67e82c1bc51bbc766a99bbc01322c9e2",
+                "url": "https://api.github.com/repos/php-service-bus/active-record/zipball/a02a8e244db46e1f8b4c64ad19e6c3a384ac6e5c",
+                "reference": "a02a8e244db46e1f8b4c64ad19e6c3a384ac6e5c",
                 "shasum": ""
             },
             "require": {
@@ -1594,7 +1594,7 @@
                 "postgresql",
                 "sql"
             ],
-            "time": "2019-02-07 11:51:12"
+            "time": "2019-02-11 12:45:12"
         },
         {
             "name": "php-service-bus/annotations-reader",
@@ -1908,12 +1908,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/module-event-sourcing.git",
-                "reference": "9112de79ecce0f54a240317560c56670f2d94c8e"
+                "reference": "0cc4a0b893452c8cf22631f511c996ddac20e686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/module-event-sourcing/zipball/9112de79ecce0f54a240317560c56670f2d94c8e",
-                "reference": "9112de79ecce0f54a240317560c56670f2d94c8e",
+                "url": "https://api.github.com/repos/php-service-bus/module-event-sourcing/zipball/0cc4a0b893452c8cf22631f511c996ddac20e686",
+                "reference": "0cc4a0b893452c8cf22631f511c996ddac20e686",
                 "shasum": ""
             },
             "require": {
@@ -1952,7 +1952,7 @@
                 "event-sourcing",
                 "messaging"
             ],
-            "time": "2019-02-07 15:41:03"
+            "time": "2019-02-11 12:04:58"
         },
         {
             "name": "php-service-bus/module-phpinnacle-transport",
@@ -2012,12 +2012,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/module-sagas.git",
-                "reference": "a8b5a4e16d3fb20747384d3fab7e51f4fa76be11"
+                "reference": "76b7935ca75f305a54097fe6a3ea8d2842a37356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/module-sagas/zipball/a8b5a4e16d3fb20747384d3fab7e51f4fa76be11",
-                "reference": "a8b5a4e16d3fb20747384d3fab7e51f4fa76be11",
+                "url": "https://api.github.com/repos/php-service-bus/module-sagas/zipball/76b7935ca75f305a54097fe6a3ea8d2842a37356",
+                "reference": "76b7935ca75f305a54097fe6a3ea8d2842a37356",
                 "shasum": ""
             },
             "require": {
@@ -2058,7 +2058,7 @@
                 "messaging",
                 "sagas"
             ],
-            "time": "2019-02-08 07:42:49"
+            "time": "2019-02-11 11:50:40"
         },
         {
             "name": "php-service-bus/module-storage-sql",
@@ -3986,12 +3986,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "8c8c1afee0f929f17528fe1721de5d58e15f71c7"
+                "reference": "66b52fbf47a3a9dd623cdc1212677cdfbcc142fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8c8c1afee0f929f17528fe1721de5d58e15f71c7",
-                "reference": "8c8c1afee0f929f17528fe1721de5d58e15f71c7",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/66b52fbf47a3a9dd623cdc1212677cdfbcc142fe",
+                "reference": "66b52fbf47a3a9dd623cdc1212677cdfbcc142fe",
                 "shasum": ""
             },
             "require": {
@@ -4033,7 +4033,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2018-10-15 11:30:00"
+            "time": "2019-02-11 09:44:09"
         },
         {
             "name": "felixfbecker/advanced-json-rpc",
@@ -5038,12 +5038,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/code-unit-reverse-lookup.git",
-                "reference": "61b90af21579f042c2da1fca4feefc236c9dcdd8"
+                "reference": "383c44e104c1fd46ecc915f55145bd2831318747"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/61b90af21579f042c2da1fca4feefc236c9dcdd8",
-                "reference": "61b90af21579f042c2da1fca4feefc236c9dcdd8",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/383c44e104c1fd46ecc915f55145bd2831318747",
+                "reference": "383c44e104c1fd46ecc915f55145bd2831318747",
                 "shasum": ""
             },
             "require": {
@@ -5075,7 +5075,7 @@
             ],
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
-            "time": "2019-02-08 13:54:19"
+            "time": "2019-02-11 12:48:46"
         },
         {
             "name": "sebastian/comparator",
@@ -5421,12 +5421,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-reflector.git",
-                "reference": "5801ed541ebb2c182ee05a489ab182572db176b8"
+                "reference": "fae17b5d19ab523c9e821e5559d27e4c8a5bdee1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/5801ed541ebb2c182ee05a489ab182572db176b8",
-                "reference": "5801ed541ebb2c182ee05a489ab182572db176b8",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/fae17b5d19ab523c9e821e5559d27e4c8a5bdee1",
+                "reference": "fae17b5d19ab523c9e821e5559d27e4c8a5bdee1",
                 "shasum": ""
             },
             "require": {
@@ -5458,7 +5458,7 @@
             ],
             "description": "Allows reflection of object attributes, including inherited and non-public ones",
             "homepage": "https://github.com/sebastianbergmann/object-reflector/",
-            "time": "2019-02-08 13:55:27"
+            "time": "2019-02-11 12:48:12"
         },
         {
             "name": "sebastian/recursion-context",
@@ -5466,12 +5466,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "2eea4d5dcc949fe79c755d28857e6af166c9184f"
+                "reference": "87b0893f697db6d75943e26d50bf91c82796a371"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/2eea4d5dcc949fe79c755d28857e6af166c9184f",
-                "reference": "2eea4d5dcc949fe79c755d28857e6af166c9184f",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/87b0893f697db6d75943e26d50bf91c82796a371",
+                "reference": "87b0893f697db6d75943e26d50bf91c82796a371",
                 "shasum": ""
             },
             "require": {
@@ -5511,7 +5511,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2019-02-08 13:54:57"
+            "time": "2019-02-11 12:48:28"
         },
         {
             "name": "sebastian/resource-operations",

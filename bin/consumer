@@ -12,29 +12,58 @@ use ServiceBus\Transport\Amqp\AmqpExchange;
 use ServiceBus\Transport\Amqp\AmqpQueue;
 use ServiceBus\Transport\Common\QueueBind;
 use ServiceBus\Transport\Module\PhpInnacleTransportModule;
-
+use ServiceBus\EventSourcingModule\EventSourcingModule;
 
 /** Use https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh instead sleep() function for RabbitMQ */
 \sleep(8);
 
 include __DIR__ . '/../vendor/autoload.php';
 
-/** @var \Symfony\Component\DependencyInjection\Container $container */
-$container = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
+$sqlStorageModule = SqlStorageModule::postgreSQL((string) \getenv('DATABASE_CONNECTION_DSN'));
+
+/** @noinspection PhpUnhandledExceptionInspection */
+$sagaModule = SagaModule::withSqlStorage(DatabaseAdapter::class);
+$sagaModule->enableAutoImportSagas([__DIR__ . '/../src']);
+
+$eventSourcingModule = EventSourcingModule::withSqlStorage(DatabaseAdapter::class);
+
+$transportModule = new PhpInnacleTransportModule(
+    (string) \getenv('TRANSPORT_CONNECTION_DSN'),
+    (string) \getenv('SENDER_DESTINATION_TOPIC'),
+    (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
+);
+
+/** @noinspection PhpUnhandledExceptionInspection */
+$bootstrap = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addExtensions(new \AppExtension())
     ->importParameters(['app.log_level' => (string) \getenv('LOG_LEVEL')])
     ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
     ->applyModules(
-        SqlStorageModule::postgreSQL((string) \getenv('DATABASE_CONNECTION_DSN')),
-        SagaModule::withSqlStorage(DatabaseAdapter::class),
-        new PhpInnacleTransportModule(
-            (string) \getenv('TRANSPORT_CONNECTION_DSN'),
-            (string) \getenv('SENDER_DESTINATION_TOPIC'),
-            (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
-        )
+        $sqlStorageModule,
+        $sagaModule,
+        $eventSourcingModule,
+        $transportModule
     )
-    ->boot();
+    ->importParameters([
+        'app.log_level'                   => (string) \getenv('LOG_LEVEL'),
+        'app.driver.document.images_path' => __DIR__ . '/../storage'
+    ]);
+
+/** @noinspection PhpUnhandledExceptionInspection */
+$bootstrap->applyModules(
+    SqlStorageModule::postgreSQL((string) \getenv('DATABASE_CONNECTION_DSN')),
+    SagaModule::withSqlStorage(DatabaseAdapter::class)->enableAutoImportSagas([__DIR__ . '/../src']),
+    EventSourcingModule::withSqlStorage(DatabaseAdapter::class),
+    new PhpInnacleTransportModule(
+        (string) \getenv('TRANSPORT_CONNECTION_DSN'),
+        (string) \getenv('SENDER_DESTINATION_TOPIC'),
+        (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
+    )
+);
+
+/** @noinspection PhpUnhandledExceptionInspection */
+$container = $bootstrap->boot();
 
 Loop::run(
     static function() use ($container): \Generator
