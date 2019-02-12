@@ -13,33 +13,3 @@ services:
   App\Vehicle\Brand\VehicleBrandFinder:
     arguments:
       $adapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
-
-  # Psr log message processor
-  service_bus.logger.processors.psr_message:
-    class: Monolog\Processor\PsrLogMessageProcessor
-
-  # Memory usage logger processor
-  service_bus.logger.processors.memory_usage:
-    class: Monolog\Processor\MemoryUsageProcessor
-    arguments:
-      $realUsage: true
-
-  # Process id logger processor
-  service_bus.logger.processors.process_id:
-    class: Monolog\Processor\ProcessIdProcessor
-
-  # Echo stream handler
-  service_bus.logger.handlers.stdout_handler:
-    class: ServiceBus\Infrastructure\Logger\Handlers\StdOut\StdOutHandler
-
-  # Default logger instance
-  service_bus.logger:
-    class: Monolog\Logger
-    arguments:
-      $name: '%service_bus.entry_point%'
-      $handlers:
-        - '@service_bus.logger.handlers.stdout_handler'
-      $processors:
-        - '@service_bus.logger.processors.memory_usage'
-        - '@service_bus.logger.processors.process_id'
-        - '@service_bus.logger.processors.psr_message'

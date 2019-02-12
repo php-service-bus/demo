@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c938252cc31078f7e11989062b2efe62",
+    "hash": "ff20c4fce408d2d6cbe083281c4ab8e6",
     "content-hash": "b156253cafcf1370af81996809c78534",
     "packages": [
         {
@@ -250,33 +250,31 @@
         },
         {
             "name": "amphp/dns",
-            "version": "v0.9.13",
+            "version": "v0.9.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/dns.git",
-                "reference": "4647e5f58263ffdeff7da5c269f517cb48cff84f"
+                "reference": "1ccd6337f72107ba422ae72a5812687739d214c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/dns/zipball/4647e5f58263ffdeff7da5c269f517cb48cff84f",
-                "reference": "4647e5f58263ffdeff7da5c269f517cb48cff84f",
+                "url": "https://api.github.com/repos/amphp/dns/zipball/1ccd6337f72107ba422ae72a5812687739d214c8",
+                "reference": "1ccd6337f72107ba422ae72a5812687739d214c8",
                 "shasum": ""
             },
             "require": {
                 "amphp/amp": "^2",
                 "amphp/byte-stream": "^1.1",
                 "amphp/cache": "^1.2",
-                "amphp/file": "^0.2 || ^0.3",
                 "amphp/parser": "^1",
-                "amphp/uri": "^0.1",
                 "amphp/windows-registry": "^0.3",
                 "daverandom/libdns": "^2.0.1",
                 "ext-filter": "*",
                 "php": ">=7.0"
             },
             "require-dev": {
+                "amphp/php-cs-fixer-config": "dev-master",
                 "amphp/phpunit-util": "^1",
-                "friendsofphp/php-cs-fixer": "^2.3",
                 "phpunit/phpunit": "^6"
             },
             "type": "library",
@@ -324,7 +322,7 @@
                 "dns",
                 "resolve"
             ],
-            "time": "2018-05-01 18:08:54"
+            "time": "2019-01-25 04:12:31"
         },
         {
             "name": "amphp/file",
@@ -1544,12 +1542,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/active-record.git",
-                "reference": "a02a8e244db46e1f8b4c64ad19e6c3a384ac6e5c"
+                "reference": "dd23418545e39f256a6d9046a198ecaa63865102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/active-record/zipball/a02a8e244db46e1f8b4c64ad19e6c3a384ac6e5c",
-                "reference": "a02a8e244db46e1f8b4c64ad19e6c3a384ac6e5c",
+                "url": "https://api.github.com/repos/php-service-bus/active-record/zipball/dd23418545e39f256a6d9046a198ecaa63865102",
+                "reference": "dd23418545e39f256a6d9046a198ecaa63865102",
                 "shasum": ""
             },
             "require": {
@@ -1594,7 +1592,7 @@
                 "postgresql",
                 "sql"
             ],
-            "time": "2019-02-11 12:45:12"
+            "time": "2019-02-11 14:48:14"
         },
         {
             "name": "php-service-bus/annotations-reader",
@@ -2012,12 +2010,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/module-sagas.git",
-                "reference": "76b7935ca75f305a54097fe6a3ea8d2842a37356"
+                "reference": "6ec9f42d47ec8f34dd38ebe8a3d817f25b815994"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/module-sagas/zipball/76b7935ca75f305a54097fe6a3ea8d2842a37356",
-                "reference": "76b7935ca75f305a54097fe6a3ea8d2842a37356",
+                "url": "https://api.github.com/repos/php-service-bus/module-sagas/zipball/6ec9f42d47ec8f34dd38ebe8a3d817f25b815994",
+                "reference": "6ec9f42d47ec8f34dd38ebe8a3d817f25b815994",
                 "shasum": ""
             },
             "require": {
@@ -2058,7 +2056,7 @@
                 "messaging",
                 "sagas"
             ],
-            "time": "2019-02-11 11:50:40"
+            "time": "2019-02-12 07:42:13"
         },
         {
             "name": "php-service-bus/module-storage-sql",
@@ -2066,12 +2064,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/module-storage-sql.git",
-                "reference": "9759b94556a801649728780a8306895ff809069a"
+                "reference": "872fb09af571fe6b7818494a85f3f403042db599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/module-storage-sql/zipball/9759b94556a801649728780a8306895ff809069a",
-                "reference": "9759b94556a801649728780a8306895ff809069a",
+                "url": "https://api.github.com/repos/php-service-bus/module-storage-sql/zipball/872fb09af571fe6b7818494a85f3f403042db599",
+                "reference": "872fb09af571fe6b7818494a85f3f403042db599",
                 "shasum": ""
             },
             "require": {
@@ -2113,7 +2111,7 @@
                 "postgresql",
                 "sql"
             ],
-            "time": "2019-02-07 12:28:57"
+            "time": "2019-02-11 15:18:56"
         },
         {
             "name": "php-service-bus/sagas",
@@ -2178,12 +2176,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/service-bus.git",
-                "reference": "3045359b23d1e4285d095b4e767a51d2188d21fa"
+                "reference": "1c91bc9686b9b78cdd326cce2fc933ccf1b96bec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/service-bus/zipball/3045359b23d1e4285d095b4e767a51d2188d21fa",
-                "reference": "3045359b23d1e4285d095b4e767a51d2188d21fa",
+                "url": "https://api.github.com/repos/php-service-bus/service-bus/zipball/1c91bc9686b9b78cdd326cce2fc933ccf1b96bec",
+                "reference": "1c91bc9686b9b78cdd326cce2fc933ccf1b96bec",
                 "shasum": ""
             },
             "require": {
@@ -2238,7 +2236,7 @@
                 "messaging",
                 "saga"
             ],
-            "time": "2019-02-11 08:15:59"
+            "time": "2019-02-12 10:23:00"
         },
         {
             "name": "php-service-bus/storage-common",
@@ -2246,12 +2244,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/storage-common.git",
-                "reference": "276d1f37699b0cbf028b3077b0d8d4ba8b2d20a6"
+                "reference": "6ee58724072711bcb568d83831ce5bb95f677d2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/storage-common/zipball/276d1f37699b0cbf028b3077b0d8d4ba8b2d20a6",
-                "reference": "276d1f37699b0cbf028b3077b0d8d4ba8b2d20a6",
+                "url": "https://api.github.com/repos/php-service-bus/storage-common/zipball/6ee58724072711bcb568d83831ce5bb95f677d2d",
+                "reference": "6ee58724072711bcb568d83831ce5bb95f677d2d",
                 "shasum": ""
             },
             "require": {
@@ -2286,7 +2284,7 @@
                 "command-bus",
                 "messaging"
             ],
-            "time": "2019-02-07 11:21:00"
+            "time": "2019-02-11 14:16:18"
         },
         {
             "name": "php-service-bus/storage-sql",
@@ -2294,12 +2292,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-service-bus/storage-sql.git",
-                "reference": "3511bbaf9ebfcb68b607369e6eb96934e6542e0b"
+                "reference": "58595114bc31728eb0c1a9fbf579b7775959b0cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-service-bus/storage-sql/zipball/3511bbaf9ebfcb68b607369e6eb96934e6542e0b",
-                "reference": "3511bbaf9ebfcb68b607369e6eb96934e6542e0b",
+                "url": "https://api.github.com/repos/php-service-bus/storage-sql/zipball/58595114bc31728eb0c1a9fbf579b7775959b0cb",
+                "reference": "58595114bc31728eb0c1a9fbf579b7775959b0cb",
                 "shasum": ""
             },
             "require": {
@@ -2346,7 +2344,7 @@
                 "postgresql",
                 "sql"
             ],
-            "time": "2019-02-07 11:36:23"
+            "time": "2019-02-11 14:36:34"
         },
         {
             "name": "php-service-bus/transport-amqp",
@@ -4654,12 +4652,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "04b140e4bab2ab0dc4517fc8921d4e10ca2f0151"
+                "reference": "5e99c0ea25f1eb9bd4d7380499788302984dd77b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/04b140e4bab2ab0dc4517fc8921d4e10ca2f0151",
-                "reference": "04b140e4bab2ab0dc4517fc8921d4e10ca2f0151",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/5e99c0ea25f1eb9bd4d7380499788302984dd77b",
+                "reference": "5e99c0ea25f1eb9bd4d7380499788302984dd77b",
                 "shasum": ""
             },
             "require": {
@@ -4696,7 +4694,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2019-02-08 13:51:39"
+            "time": "2019-02-11 12:49:18"
         },
         {
             "name": "phpunit/php-text-template",
@@ -4745,12 +4743,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "4893d49525d2617cf6fae6a9b1c168030e4a22ea"
+                "reference": "95a6897c75ecd816e8990aa5e9c671d76eea9ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/4893d49525d2617cf6fae6a9b1c168030e4a22ea",
-                "reference": "4893d49525d2617cf6fae6a9b1c168030e4a22ea",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/95a6897c75ecd816e8990aa5e9c671d76eea9ba7",
+                "reference": "95a6897c75ecd816e8990aa5e9c671d76eea9ba7",
                 "shasum": ""
             },
             "require": {
@@ -4786,7 +4784,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2019-02-08 13:52:14"
+            "time": "2019-02-11 12:49:33"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -4794,12 +4792,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "3b4fd1acbed15018b8aadd7baade410e09c3f684"
+                "reference": "cca9f57a2c7bb3d1e294f2aae84083ffe83dfa92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3b4fd1acbed15018b8aadd7baade410e09c3f684",
-                "reference": "3b4fd1acbed15018b8aadd7baade410e09c3f684",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/cca9f57a2c7bb3d1e294f2aae84083ffe83dfa92",
+                "reference": "cca9f57a2c7bb3d1e294f2aae84083ffe83dfa92",
                 "shasum": ""
             },
             "require": {
@@ -4835,7 +4833,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2019-02-08 13:49:56"
+            "time": "2019-02-11 12:50:48"
         },
         {
             "name": "phpunit/phpunit",
@@ -5083,12 +5081,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "1e89162579560751d8829899d7d451b6cdb919f1"
+                "reference": "17ef3ffcdab9194ad7a2715a9fb1235f1361a366"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/1e89162579560751d8829899d7d451b6cdb919f1",
-                "reference": "1e89162579560751d8829899d7d451b6cdb919f1",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/17ef3ffcdab9194ad7a2715a9fb1235f1361a366",
+                "reference": "17ef3ffcdab9194ad7a2715a9fb1235f1361a366",
                 "shasum": ""
             },
             "require": {
@@ -5139,7 +5137,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2019-02-08 13:49:41"
+            "time": "2019-02-11 12:51:04"
         },
         {
             "name": "sebastian/diff",
@@ -5147,12 +5145,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "1b417bfb2a5fc3cc4321a2ab47447871734e02ee"
+                "reference": "d4193340fc9bebb17533e00bc82f61da28fe7125"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/1b417bfb2a5fc3cc4321a2ab47447871734e02ee",
-                "reference": "1b417bfb2a5fc3cc4321a2ab47447871734e02ee",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/d4193340fc9bebb17533e00bc82f61da28fe7125",
+                "reference": "d4193340fc9bebb17533e00bc82f61da28fe7125",
                 "shasum": ""
             },
             "require": {
@@ -5195,7 +5193,7 @@
                 "unidiff",
                 "unified diff"
             ],
-            "time": "2019-02-08 13:47:37"
+            "time": "2019-02-11 12:50:35"
         },
         {
             "name": "sebastian/environment",
@@ -5203,12 +5201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "2226206818a2f28d0a7b1c71729eeb63d67aa689"
+                "reference": "dbf7b0d103084622e8a5015452a2650dcb248758"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/2226206818a2f28d0a7b1c71729eeb63d67aa689",
-                "reference": "2226206818a2f28d0a7b1c71729eeb63d67aa689",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/dbf7b0d103084622e8a5015452a2650dcb248758",
+                "reference": "dbf7b0d103084622e8a5015452a2650dcb248758",
                 "shasum": ""
             },
             "require": {
@@ -5248,7 +5246,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2019-02-08 13:48:16"
+            "time": "2019-02-11 12:51:52"
         },
         {
             "name": "sebastian/exporter",
@@ -5256,12 +5254,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "a871eb6bbaab51d96d40cf5a15ccd3e98975c06d"
+                "reference": "8be786b3b65fbe706733d44a4b4a53d5391a4772"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/a871eb6bbaab51d96d40cf5a15ccd3e98975c06d",
-                "reference": "a871eb6bbaab51d96d40cf5a15ccd3e98975c06d",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/8be786b3b65fbe706733d44a4b4a53d5391a4772",
+                "reference": "8be786b3b65fbe706733d44a4b4a53d5391a4772",
                 "shasum": ""
             },
             "require": {
@@ -5315,7 +5313,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2019-02-08 13:51:00"
+            "time": "2019-02-11 12:49:46"
         },
         {
             "name": "sebastian/global-state",
@@ -5374,12 +5372,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-enumerator.git",
-                "reference": "f1d829de6d59d8bc0709fe4d9cac4ae0a67e9c2f"
+                "reference": "41af86e2a7b06e7e364c81a705b1f7caf6110218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/f1d829de6d59d8bc0709fe4d9cac4ae0a67e9c2f",
-                "reference": "f1d829de6d59d8bc0709fe4d9cac4ae0a67e9c2f",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/41af86e2a7b06e7e364c81a705b1f7caf6110218",
+                "reference": "41af86e2a7b06e7e364c81a705b1f7caf6110218",
                 "shasum": ""
             },
             "require": {
@@ -5413,7 +5411,7 @@
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2019-02-08 13:50:19"
+            "time": "2019-02-11 12:50:05"
         },
         {
             "name": "sebastian/object-reflector",
