@@ -8,12 +8,16 @@ use ServiceBus\Application\ServiceBusKernel;
 use ServiceBus\Sagas\Module\SagaModule;
 use ServiceBus\Storage\Common\DatabaseAdapter;
 use ServiceBus\Storage\Module\SqlStorageModule;
+use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
 use ServiceBus\Transport\Amqp\AmqpExchange;
 use ServiceBus\Transport\Amqp\AmqpQueue;
 use ServiceBus\Transport\Common\QueueBind;
+use ServiceBus\Transport\Common\TopicBind;
 use ServiceBus\Transport\Module\PhpInnacleTransportModule;
 use ServiceBus\EventSourcingModule\EventSourcingModule;
 use ServiceBus\Application\DependencyInjection\Compiler\Logger\StdOutLoggerCompilerPass;
+use ServiceBus\Scheduler\Module\SchedulerModule;
+use ServiceBus\Scheduler\Contract\EmitSchedulerOperation;
 
 /** Use https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh instead sleep() function for RabbitMQ */
 \sleep(8);
@@ -35,6 +39,7 @@ $bootstrap->applyModules(
     SqlStorageModule::postgreSQL((string) \getenv('DATABASE_CONNECTION_DSN')),
     SagaModule::withSqlStorage(DatabaseAdapter::class)->enableAutoImportSagas([__DIR__ . '/../src']),
     EventSourcingModule::withSqlStorage(DatabaseAdapter::class),
+    SchedulerModule::rabbitMqWithSqlStorage(DatabaseAdapter::class),
     new PhpInnacleTransportModule(
         (string) \getenv('TRANSPORT_CONNECTION_DSN'),
         (string) \getenv('SENDER_DESTINATION_TOPIC'),
@@ -57,9 +62,25 @@ Loop::run(
         $kernel = (new ServiceBusKernel($container))
             ->useDefaultStopSignalHandler(3);
 
+        /** Listen queue */
         yield $kernel->createQueue(
             $mainQueue,
             QueueBind::create($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
+        );
+
+        /** Scheduler exchange */
+        yield $kernel->createTopic(
+            AmqpExchange::delayed((string) \getenv('SCHEDULER_TOPIC')),
+            TopicBind::create($mainExchange, \getenv('TRANSPORT_ROUTING_KEY'))
+        );
+
+        /** Add custom message route for scheduled operations */
+        $kernel->registerDestinationForMessages(
+            new AmqpTransportLevelDestination(
+                    (string) \getenv('SCHEDULER_TOPIC'),
+                    (string) \getenv('TRANSPORT_ROUTING_KEY')
+            ),
+            EmitSchedulerOperation::class
         );
 
         yield $schemaBuilder->build();

@@ -14,10 +14,10 @@ use ServiceBus\EventSourcingModule\SqlSchemaCreator as EventSourcingSqlSchemaCre
 final class PostgreSQLSchemaBuilder
 {
     private const FIXTURES = [
-        __DIR__ . '/schema/customer.sql'               => false,
-        __DIR__ . '/schema/vehicle_brand.sql'          => false,
-        __DIR__ . '/schema/vehicle_brand_fixtures.sql' => true,
-
+        __DIR__ . '/schema/customer.sql'                                                         => false,
+        __DIR__ . '/schema/vehicle_brand.sql'                                                    => false,
+        __DIR__ . '/schema/vehicle_brand_fixtures.sql'                                           => true,
+        __DIR__ . '/../vendor/php-service-bus/scheduler/src/Store/schema/scheduler_registry.sql' => false
     ];
 
     /**
