@@ -11,14 +11,12 @@ declare(strict_types = 1);
 
 namespace App\Driver\Events;
 
-use ServiceBus\Common\Messages\Event;
-
 /**
  * Driver aggregate created
  *
  * internal event
  */
-final class DriverCreated implements Event
+final class DriverCreated
 {
     /**
      * Driver aggregate id

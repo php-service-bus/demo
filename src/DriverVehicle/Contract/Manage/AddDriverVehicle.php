@@ -11,7 +11,6 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle\Contract\Manage;
 
-use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @property-read string $vehicleRegistrationNumber
  * @property-read string $vehicleColor
  */
-final class AddDriverVehicle implements Command
+final class AddDriverVehicle
 {
     /**
      * Driver identifier

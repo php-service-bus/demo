@@ -11,7 +11,6 @@ declare(strict_types = 1);
 
 namespace App\CustomerRegistration\Contracts;
 
-use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @property-read string $firstName
  * @property-read string $lastName
  */
-final class RegisterCustomer implements Command
+final class RegisterCustomer
 {
     /**
      * Phone number

@@ -11,7 +11,6 @@ declare(strict_types = 1);
 
 namespace App\Vehicle\Manage\Contracts\Add;
 
-use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @property-read string $registrationNumber
  * @property-read string $color
  */
-final class AddVehicle implements Command
+final class AddVehicle
 {
     /**
      * Vehicle brand

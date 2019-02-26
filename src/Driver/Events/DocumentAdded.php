@@ -14,7 +14,6 @@ namespace App\Driver\Events;
 use App\DriverDocument\Data\DriverDocumentId;
 use App\DriverDocument\Data\DriverDocumentType;
 use App\Driver\DriverId;
-use ServiceBus\Common\Messages\Event;
 
 /**
  * Document successfully added to aggregate
@@ -26,7 +25,7 @@ use ServiceBus\Common\Messages\Event;
  * @property-read DriverDocumentType $type
  * @property-read string             $imagePath
  */
-final class DocumentAdded implements Event
+final class DocumentAdded
 {
     /**
      * Driver id

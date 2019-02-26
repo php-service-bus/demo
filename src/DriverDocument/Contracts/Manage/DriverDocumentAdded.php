@@ -11,8 +11,6 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Contracts\Manage;
 
-use ServiceBus\Common\Messages\Event;
-
 /**
  * Document successfully added
  *
@@ -23,7 +21,7 @@ use ServiceBus\Common\Messages\Event;
  * @property-read string $driverId
  * @property-read string $documentId
  */
-final class DriverDocumentAdded implements Event
+final class DriverDocumentAdded
 {
     /**
      * Request operation id

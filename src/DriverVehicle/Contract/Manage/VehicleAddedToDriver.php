@@ -11,8 +11,6 @@ declare(strict_types = 1);
 
 namespace App\DriverVehicle\Contract\Manage;
 
-use ServiceBus\Common\Messages\Event;
-
 /**
  * Vehicle successfully added
  *
@@ -23,7 +21,7 @@ use ServiceBus\Common\Messages\Event;
  * @property-read string $driverId
  * @property-read string $vehicleId
  */
-final class VehicleAddedToDriver implements Event
+final class VehicleAddedToDriver
 {
     /**
      * Request operation id

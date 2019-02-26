@@ -13,7 +13,6 @@ namespace App\DriverVehicle\Commands;
 
 use App\Driver\DriverId;
 use App\Vehicle\VehicleId;
-use ServiceBus\Common\Messages\Command;
 
 /**
  * Add vehicle to driver aggregate
@@ -23,7 +22,7 @@ use ServiceBus\Common\Messages\Command;
  * @property-read DriverId  $driverId
  * @property-read VehicleId $vehicleId
  */
-final class AddVehicleToDriverProfile implements Command
+final class AddVehicleToDriverProfile
 {
     /**
      * Driver aggregate id

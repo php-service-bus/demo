@@ -14,7 +14,6 @@ namespace App\Vehicle\Events;
 use App\Vehicle\Brand\VehicleBrand;
 use App\Vehicle\VehicleId;
 use App\Vehicle\VehicleStatus;
-use ServiceBus\Common\Messages\Event;
 
 /**
  *
@@ -26,7 +25,7 @@ use ServiceBus\Common\Messages\Event;
  * @property-read string        $color
  * @property-read VehicleStatus $status
  */
-final class VehicleAggregateCreated implements Event
+final class VehicleAggregateCreated
 {
     /**
      * Aggregate identifier

@@ -11,8 +11,6 @@ declare(strict_types = 1);
 
 namespace App\DriverRegistration\Contracts;
 
-use ServiceBus\Common\Messages\Event;
-
 /**
  * New driver successful registered
  *
@@ -22,7 +20,7 @@ use ServiceBus\Common\Messages\Event;
  * @property-read string $correlationId
  * @property-read string $driverId
  */
-final class DriverRegistered implements Event
+final class DriverRegistered
 {
     /**
      * Request operation id

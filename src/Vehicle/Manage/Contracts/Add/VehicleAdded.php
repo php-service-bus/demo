@@ -11,8 +11,6 @@ declare(strict_types = 1);
 
 namespace App\Vehicle\Manage\Contracts\Add;
 
-use ServiceBus\Common\Messages\Event;
-
 /**
  * vehicle successful stored
  *
@@ -25,7 +23,7 @@ use ServiceBus\Common\Messages\Event;
  * @property-read string $model
  * @property-read string $registrationNumber
  */
-final class VehicleAdded implements Event
+final class VehicleAdded
 {
     /**
      * Request operation id

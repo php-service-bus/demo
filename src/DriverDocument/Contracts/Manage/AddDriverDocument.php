@@ -11,7 +11,6 @@ declare(strict_types = 1);
 
 namespace App\DriverDocument\Contracts\Manage;
 
-use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @property-read string $payload
  * @property-read string $driverId
  */
-final class AddDriverDocument implements Command
+final class AddDriverDocument
 {
     /**
      * Document type

@@ -11,7 +11,6 @@ declare(strict_types = 1);
 
 namespace App\DriverRegistration\Contracts;
 
-use ServiceBus\Common\Messages\Command;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @property-read string      $lastName
  * @property-read string|null $patronymic
  */
-final class RegisterDriver implements Command
+final class RegisterDriver
 {
     /**
      * Phone number

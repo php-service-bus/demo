@@ -11,8 +11,6 @@ declare(strict_types = 1);
 
 namespace App\Customer\Events;
 
-use ServiceBus\Common\Messages\Event;
-
 /**
  * Customer aggregate created
  *
@@ -24,7 +22,7 @@ use ServiceBus\Common\Messages\Event;
  * @property-read string $firstName
  * @property-read string $lastName
  */
-final class CustomerCreated implements Event
+final class CustomerCreated
 {
     /**
      * Customer aggregate id

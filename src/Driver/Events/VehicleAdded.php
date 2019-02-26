@@ -13,14 +13,13 @@ namespace App\Driver\Events;
 
 use App\Driver\DriverId;
 use App\Vehicle\VehicleId;
-use ServiceBus\Common\Messages\Event;
 
 /**
  * Vehicle successfully added to driver profile
  *
  * internal event
  */
-final class VehicleAdded implements Event
+final class VehicleAdded
 {
     /**
      * Driver id

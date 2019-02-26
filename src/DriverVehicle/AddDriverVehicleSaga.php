@@ -18,7 +18,6 @@ use App\DriverVehicle\Contract\Manage\VehicleAddedToDriver;
 use App\Vehicle\Manage\Contracts as VehicleManageContracts;
 use App\DriverVehicle\Contract\Manage\AddDriverVehicleValidationFailed;
 use App\Vehicle\VehicleId;
-use ServiceBus\Common\Messages\Command;
 use ServiceBus\Sagas\Saga;
 use ServiceBus\Sagas\Configuration\Annotations\SagaHeader;
 use ServiceBus\Sagas\Configuration\Annotations\SagaEventListener;
@@ -96,7 +95,7 @@ final class AddDriverVehicleSaga extends Saga
     /**
      * @inheritDoc
      */
-    public function start(Command $command): void
+    public function start(object $command): void
     {
         /**
          * @noinspection PhpUnhandledExceptionInspection

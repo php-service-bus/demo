@@ -10,7 +10,6 @@
 declare(strict_types = 1);
 
 use function Amp\Promise\wait;
-use ServiceBus\Common\Messages\Message;
 use function ServiceBus\Common\uuid;
 use ServiceBus\MessageSerializer\MessageEncoder;
 use ServiceBus\MessageSerializer\Symfony\SymfonyMessageSerializer;
@@ -55,14 +54,14 @@ final class ToolsPublisher
      *
      * @noinspection PhpDocMissingThrowsInspection
      *
-     * @param Message     $message
+     * @param object      $message
      * @param string|null $traceId
      * @param string|null $topic
      * @param string|null $routingKey
      *
      * @return void
      */
-    public function sendMessage(Message $message, string $traceId = null, ?string $topic = null, ?string $routingKey = null): void
+    public function sendMessage(object $message, string $traceId = null, ?string $topic = null, ?string $routingKey = null): void
     {
         $topic      = (string) ($topic ?? \getenv('SENDER_DESTINATION_TOPIC'));
         $routingKey = (string) ($routingKey ?? \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY'));
