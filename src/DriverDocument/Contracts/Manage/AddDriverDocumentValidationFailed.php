@@ -46,10 +46,7 @@ final class AddDriverDocumentValidationFailed implements ValidationFailedEvent
     public $violations;
 
     /**
-     * @param string                            $correlationId
-     * @param array<string, array<int, string>> $violations
-     *
-     * @return self
+     * @inheritDoc
      */
     public static function create(string $correlationId, array $violations): ValidationFailedEvent
     {

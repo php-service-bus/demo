@@ -39,14 +39,11 @@ final class AddDriverVehicleFailed implements ExecutionFailedEvent
     public $reason;
 
     /**
-     * @param string $correlationId
-     * @param string $reason
-     *
-     * @return self
+     * @inheritDoc
      */
-    public static function create(string $correlationId, string $reason): ExecutionFailedEvent
+    public static function create(string $correlationId, string $errorMessage): ExecutionFailedEvent
     {
-        return new self($correlationId, $reason);
+        return new self($correlationId, $errorMessage);
     }
 
     /**

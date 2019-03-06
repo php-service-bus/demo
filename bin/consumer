@@ -18,6 +18,7 @@ use ServiceBus\EventSourcingModule\EventSourcingModule;
 use ServiceBus\Application\DependencyInjection\Compiler\Logger\StdOutLoggerCompilerPass;
 use ServiceBus\Scheduler\Module\SchedulerModule;
 use ServiceBus\Scheduler\Contract\EmitSchedulerOperation;
+use ServiceBus\Application\Bootstrap;
 
 /** Use https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh instead sleep() function for RabbitMQ */
 \sleep(8);
@@ -25,7 +26,7 @@ use ServiceBus\Scheduler\Contract\EmitSchedulerOperation;
 include __DIR__ . '/../vendor/autoload.php';
 
 /** @noinspection PhpUnhandledExceptionInspection */
-$bootstrap = \ServiceBus\Application\Bootstrap::withDotEnv(__DIR__ . '/../.env')
+$bootstrap = Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->useCustomCacheDirectory(__DIR__ . '/../cache')
     ->addCompilerPasses(new StdOutLoggerCompilerPass())
     ->addExtensions(new \AppExtension())

@@ -39,7 +39,7 @@ final class CustomerRegistrationFailed implements ExecutionFailedEvent
     public $reason;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public static function create(string $correlationId, string $errorMessage): ExecutionFailedEvent
     {

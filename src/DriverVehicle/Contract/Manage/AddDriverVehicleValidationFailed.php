@@ -46,10 +46,7 @@ final class AddDriverVehicleValidationFailed implements ValidationFailedEvent
     public $violations;
 
     /**
-     * @param string                            $correlationId
-     * @param array<string, array<int, string>> $violations
-     *
-     * @return ValidationFailedEvent
+     * @inheritDoc
      */
     public static function create(string $correlationId, array $violations): ValidationFailedEvent
     {
