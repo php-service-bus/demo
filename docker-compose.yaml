@@ -25,6 +25,8 @@ services:
       POSTGRES_USER: uber
     ports:
       - 5432:5432
+    volumes:
+      - ./docker/postgres/schema.sql:/docker-entrypoint-initdb.d/init.sql
 
   app:
     build:

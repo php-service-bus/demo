@@ -54,9 +54,6 @@ $container = $bootstrap->boot();
 Loop::run(
     static function() use ($container): \Generator
     {
-        /** @var PostgreSQLSchemaBuilder $schemaBuilder */
-        $schemaBuilder = $container->get('postgresql_schema_builder');
-
         $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
         $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
 
@@ -84,7 +81,6 @@ Loop::run(
             EmitSchedulerOperation::class
         );
 
-        yield $schemaBuilder->build();
         yield $kernel->run($mainQueue);
     }
 );

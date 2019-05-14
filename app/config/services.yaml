@@ -1,11 +1,4 @@
 services:
-  # Generate PostgreSQL schema for service-bus components
-  postgresql_schema_builder:
-    class: PostgreSQLSchemaBuilder
-    public: true
-    arguments:
-      $adapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
-
   App\DriverDocument\DocumentFileManager:
     arguments:
       $storageDirectory: '%app.driver.document.images_path%'
