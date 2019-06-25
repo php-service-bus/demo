@@ -4,7 +4,7 @@ This component is part of the [PHP Service Bus](https://github.com/php-service-b
 
 ## Usage
 ```
-git clone git@github.com:php-service-bus/storage-sql.git service-bus-demo
+git clone git@github.com:php-service-bus/demo.git service-bus-demo
 cd service-bus-demo
 docker-compose up --build
 ```
