@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnusedPrivateMethodInspection */
 
 /**
  * PHP Service Bus demo application
@@ -12,11 +12,13 @@ declare(strict_types = 1);
 namespace App\Vehicle;
 
 use App\Vehicle\Brand\VehicleBrand;
-use App\Vehicle\Events\VehicleAggregateCreated;
+use App\Vehicle\Events\VehicleCreated;
 use ServiceBus\EventSourcing\Aggregate;
 
 /**
  * Vehicle aggregate
+ *
+ * @method VehicleId id()
  */
 final class Vehicle extends Aggregate
 {
@@ -62,46 +64,31 @@ final class Vehicle extends Aggregate
      */
     private $status;
 
-    /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param VehicleBrand $brand
-     * @param string       $model
-     * @param int          $year
-     * @param string       $registrationNumber
-     * @param string       $color
-     *
-     * @return self
-     */
     public static function create(
         VehicleBrand $brand,
         string $model,
         int $year,
         string $registrationNumber,
         string $color
-    ): self
-    {
-        $id   = VehicleId::new();
-        $self = new self($id);
+    ): self {
+        $self = new self(VehicleId::new());
 
-        /** @noinspection PhpUnhandledExceptionInspection */
         $self->raise(
-            VehicleAggregateCreated::create(
-                $id, $brand, $model, $year, $registrationNumber, $color, VehicleStatus::moderation()
+            new VehicleCreated(
+                $self->id(),
+                $brand,
+                $model,
+                $year,
+                $registrationNumber,
+                $color,
+                VehicleStatus::moderation()
             )
         );
 
         return $self;
     }
 
-    /**
-     * @noinspection PhpUnusedPrivateMethodInspection
-     *
-     * @param VehicleAggregateCreated $event
-     *
-     * @return void
-     */
-    private function onVehicleAggregateCreated(VehicleAggregateCreated $event): void
+    private function onVehicleCreated(VehicleCreated $event): void
     {
         $this->brand              = $event->brand;
         $this->model              = $event->model;

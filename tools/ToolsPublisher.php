@@ -1,12 +1,5 @@
 <?php
 
-/**
- * PHP Service Bus demo application
- *
- * @author  Maksim Masiukevich <dev@async-php.com>
- * @license MIT
- * @license https://opensource.org/licenses/MIT
- */
 declare(strict_types = 1);
 
 use function Amp\Promise\wait;
@@ -17,13 +10,13 @@ use ServiceBus\Transport\Amqp\AmqpConnectionConfiguration;
 use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
 use ServiceBus\Transport\Common\Package\OutboundPackage;
 use ServiceBus\Transport\Common\Transport;
-use ServiceBus\Transport\PhpInnacle\PhpInnacleTransport;
+use ServiceBus\Transport\Amqp\PhpInnacle\PhpInnacleTransport;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
- * Tools message publisher
+ * Tools message publisher.
  *
- * For tests only
+ * For tests/debug only
  */
 final class ToolsPublisher
 {
@@ -38,28 +31,18 @@ final class ToolsPublisher
     private $encoder;
 
     /**
-     * @param string $envPath
-     *
-     * @throws \Throwable
+     * @throws \Symfony\Component\Dotenv\Exception\FormatException
+     * @throws \Symfony\Component\Dotenv\Exception\PathException
      */
     public function __construct(string $envPath)
     {
-        (new Dotenv())->load($envPath);
+        (new Dotenv())->usePutenv(true)->load($envPath);
 
         $this->encoder = new SymfonyMessageSerializer();
     }
 
     /**
-     * Send message to queue
-     *
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param object      $message
-     * @param string|null $traceId
-     * @param string|null $topic
-     * @param string|null $routingKey
-     *
-     * @return void
+     * Send message to queue.
      */
     public function sendMessage(object $message, string $traceId = null, ?string $topic = null, ?string $routingKey = null): void
     {
@@ -69,7 +52,7 @@ final class ToolsPublisher
         /** @noinspection PhpUnhandledExceptionInspection */
         wait(
             $this->transport()->send(
-                OutboundPackage::create(
+                new OutboundPackage(
                     $this->encoder->encode($message),
                     [Transport::SERVICE_BUS_TRACE_HEADER => $traceId ?? uuid()],
                     new AmqpTransportLevelDestination($topic, $routingKey),
@@ -79,16 +62,9 @@ final class ToolsPublisher
         );
     }
 
-    /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @return Transport
-     *
-     * @throws \Throwable
-     */
     private function transport(): Transport
     {
-        if(null === $this->transport)
+        if (null === $this->transport)
         {
             $this->transport = new PhpInnacleTransport(
                 new AmqpConnectionConfiguration(\getenv('TRANSPORT_CONNECTION_DSN'))

@@ -11,19 +11,16 @@ declare(strict_types = 1);
 
 namespace App\Driver\Events;
 
-use App\DriverDocument\Data\DriverDocumentId;
-use App\DriverDocument\Data\DriverDocumentType;
 use App\Driver\DriverId;
+use App\Driver\ManageDocument\DriverDocumentType;
+use App\Filesystem\DocumentId;
 
 /**
  * Document successfully added to aggregate
  *
- * internal event
+ * @internal
  *
- * @property-read DriverId           $driverId
- * @property-read DriverDocumentId   $documentId
- * @property-read DriverDocumentType $type
- * @property-read string             $imagePath
+ * @psalm-immutable
  */
 final class DocumentAdded
 {
@@ -37,7 +34,7 @@ final class DocumentAdded
     /**
      * Uploaded document id
      *
-     * @var DriverDocumentId
+     * @var DocumentId
      */
     public $documentId;
 
@@ -48,42 +45,10 @@ final class DocumentAdded
      */
     public $type;
 
-    /**
-     * Absolute path to image
-     *
-     * @var string
-     */
-    public $imagePath;
-
-    /**
-     * @param DriverId           $driverId
-     * @param DriverDocumentId   $documentId
-     * @param DriverDocumentType $type
-     * @param string             $imagePath
-     *
-     * @return self
-     */
-    public static function create(
-        DriverId $driverId,
-        DriverDocumentId $documentId,
-        DriverDocumentType $type,
-        string $imagePath
-    ): self
+    public function __construct(DriverId $driverId, DocumentId $documentId, DriverDocumentType $type)
     {
-        return new self($driverId, $documentId, $type, $imagePath);
-    }
-
-    /**
-     * @param DriverId           $driverId
-     * @param DriverDocumentId   $documentId
-     * @param DriverDocumentType $type
-     * @param string             $imagePath
-     */
-    private function __construct(DriverId $driverId, DriverDocumentId $documentId, DriverDocumentType $type, string $imagePath)
-    {
-        $this->driverId   = $driverId;
-        $this->documentId = $documentId;
-        $this->type       = $type;
-        $this->imagePath  = $imagePath;
+        $this->driverId   = clone $driverId;
+        $this->documentId = clone $documentId;
+        $this->type       = clone $type;
     }
 }

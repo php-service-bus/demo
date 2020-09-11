@@ -11,119 +11,54 @@ declare(strict_types = 1);
 
 namespace App\Vehicle\Brand;
 
-use function Amp\call;
 use Amp\Promise;
-use ServiceBus\Storage\Common\DatabaseAdapter;
+use ServiceBus\Storage\Sql\Finder\SqlFinder;
+use function Amp\call;
 use function ServiceBus\Storage\Sql\equalsCriteria;
-use function ServiceBus\Storage\Sql\fetchOne;
-use function ServiceBus\Storage\Sql\selectQuery;
 
 /**
  *
  */
 final class VehicleBrandFinder
 {
-    private const TABLE_NAME = 'vehicle_brand';
+    /** @var SqlFinder */
+    private $finder;
 
-    /**
-     * @var DatabaseAdapter
-     */
-    private $adapter;
-
-    /**
-     * @param DatabaseAdapter $adapter
-     */
-    public function __construct(DatabaseAdapter $adapter)
+    public function __construct(SqlFinder $finder)
     {
-        $this->adapter = $adapter;
+        $this->finder = $finder;
     }
 
-    /**
-     * Find car by brand title
-     *
-     * @psalm-suppress MixedTypeCoercion
-     *
-     * @param string $title
-     *
-     * @return Promise<\App\Vehicle\Brand\VehicleBrand|null>
-     */
     public function findOneByTitle(string $title): Promise
     {
-        /** @psalm-suppress InvalidArgument Incorrect psalm unpack parameters (...$args) */
-        return call(
-            function(string $title): \Generator
-            {
-                $sql = \sprintf('SELECT * FROM %s WHERE title ILIKE ?', self::TABLE_NAME);
+        return $this->find([equalsCriteria('title', $title)]);
+    }
 
-                /** @var \ServiceBus\Storage\Common\ResultSet $resultSet */
-                $resultSet = yield $this->adapter->execute($sql, [$title]);
-
-                /** @var array{id:string, title:string}|null $data */
-                $data = yield fetchOne($resultSet);
-
-                unset($resultSet);
-
-                if(null !== $data)
-                {
-                    return VehicleBrand::create($data['id'], $data['title']);
-                }
-            },
-            $title
-        );
+    public function findOneById(string $id): Promise
+    {
+        return $this->find([equalsCriteria('id', $id)]);
     }
 
     /**
-     * Find car by brand id
-     *
-     * @psalm-suppress MixedTypeCoercion
-     *
-     * @param string $id
+     * @param \Latitude\QueryBuilder\CriteriaInterface[] $criteria
      *
      * @return Promise<\App\Vehicle\Brand\VehicleBrand|null>
      */
-    public function findOneById(string $id): Promise
+    private function find(array $criteria): Promise
     {
-        /** @psalm-suppress InvalidArgument Incorrect psalm unpack parameters (...$args) */
         return call(
-            function(string $id): \Generator
+            function () use ($criteria): \Generator
             {
-                return yield from $this->findOneBy('id', $id);
-            },
-            $id
+                /**
+                 * @psalm-var array{title: string, id: string}|null $result
+                 */
+                $result = yield $this->finder->findOneBy($criteria);
+
+                if ($result !== null)
+                {
+                    return new VehicleBrand($result['id'], $result['title']);
+                }
+            }
         );
-    }
-
-    /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param string $key
-     * @param string $value
-     *
-     * @return \Generator
-     * @throws \ServiceBus\Storage\Common\Exceptions\ConnectionFailed
-     * @throws \ServiceBus\Storage\Common\Exceptions\InvalidConfigurationOptions
-     * @throws \ServiceBus\Storage\Common\Exceptions\ResultSetIterationFailed
-     * @throws \ServiceBus\Storage\Common\Exceptions\StorageInteractingFailed
-     */
-    private function findOneBy(string $key, string $value): \Generator
-    {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $selectQuery   = selectQuery(self::TABLE_NAME)->where(equalsCriteria($key, $value));
-        $compiledQuery = $selectQuery->compile();
-
-        /** @var \ServiceBus\Storage\Common\ResultSet $resultSet */
-        $resultSet = /** @noinspection PhpUnhandledExceptionInspection */
-            yield $this->adapter->execute($compiledQuery->sql(), $compiledQuery->params());
-
-        /** @var array{id:string, title:string}|null $data */
-        $data = /** @noinspection PhpUnhandledExceptionInspection */
-            yield fetchOne($resultSet);
-
-        unset($resultSet);
-
-        if(null !== $data)
-        {
-            return VehicleBrand::create($data['id'], $data['title']);
-        }
     }
 }

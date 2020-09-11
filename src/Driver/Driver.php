@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnusedPrivateMethodInspection */
 
 /**
  * PHP Service Bus demo application
@@ -11,69 +11,58 @@ declare(strict_types = 1);
 
 namespace App\Driver;
 
-use App\Driver\Data\DriverContacts;
-use App\Driver\Data\DriverFullName;
-use App\Driver\Events\VehicleAdded;
-use App\DriverDocument\Data\DriverDocument;
-use App\DriverDocument\Data\DriverDocumentId;
-use App\DriverDocument\Data\DriverDocuments;
-use App\DriverDocument\Data\DriverDocumentType;
 use App\Driver\Events\DocumentAdded;
 use App\Driver\Events\DriverCreated;
+use App\Driver\Events\VehicleAdded;
+use App\Driver\ManageDocument\DriverDocument;
+use App\Driver\ManageDocument\DriverDocumentStatus;
 use App\Vehicle\VehicleId;
 use ServiceBus\EventSourcing\Aggregate;
 
 /**
  * Driver aggregate
+ *
+ * @method DriverId id()
  */
 final class Driver extends Aggregate
 {
     /**
-     * Contact information
-     *
-     * @var DriverContacts
-     */
-    private $contacts;
-
-    /**
-     * Driver full name data
+     * Driver name
      *
      * @var DriverFullName
      */
     private $fullName;
 
     /**
-     * Uploaded documents collection
+     * Driver contacts
      *
-     * @var DriverDocuments
+     * @var DriverContacts
      */
-    private $documents;
+    private $contacts;
+
+    /**
+     * Attached documents
+     *
+     * @var DriverDocument[]
+     */
+    private $documents = [];
 
     /**
      * Vehicle collection
      *
-     * @var array<string, \App\Vehicle\VehicleId>
+     * @var VehicleId[]
      */
     private $vehicles = [];
 
     /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param string      $phone
-     * @param string      $email
-     * @param string      $firstName
-     * @param string      $lastName
-     * @param string|null $patronymic
-     *
-     * @return self
+     * Create a new driver
      */
-    public static function register(string $phone, string $email, string $firstName, string $lastName, ?string $patronymic): self
+    public static function register(DriverFullName $fullName, DriverContacts $contacts): self
     {
         $self = new self(DriverId::new());
 
-        /** @noinspection PhpUnhandledExceptionInspection */
         $self->raise(
-            DriverCreated::create((string) $self->id(), $phone, $email, $firstName, $lastName, $patronymic)
+            new DriverCreated($self->id(), $fullName, $contacts)
         );
 
         return $self;
@@ -82,86 +71,49 @@ final class Driver extends Aggregate
     /**
      * Attach new document
      *
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param string             $imagePath
-     * @param DriverDocumentType $type
-     *
-     * @return void
+     * @throws \InvalidArgumentException
      */
-    public function attachDocument(string $imagePath, DriverDocumentType $type): void
+    public function attachDocument(DriverDocument $document): void
     {
-        /** @var DriverId $id */
-        $id = $this->id();
+        if (isset($this->documents[$document->id->toString()]) === false)
+        {
+            $this->raise(
+                new DocumentAdded($this->id(), $document->id, $document->type)
+            );
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $this->raise(
-            DocumentAdded::create($id, DriverDocumentId::new(), $type, $imagePath)
-        );
+            return;
+        }
+
+        throw new \InvalidArgumentException(\sprintf('File `%s` already attached', $document->id->toString()));
     }
 
     /**
      * Add new vehicle
-     *
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param VehicleId $vehicleId
-     *
-     * @return void
      */
     public function addVehicle(VehicleId $vehicleId): void
     {
-        /** @var DriverId $id */
-        $id = $this->id();
-
-        /** @noinspection PhpUnhandledExceptionInspection */
         $this->raise(
-            VehicleAdded::create($id, $vehicleId)
+            new  VehicleAdded($this->id(), $vehicleId)
         );
     }
 
-    /**
-     * @noinspection PhpUnusedPrivateMethodInspection
-     *
-     * @param DriverCreated $event
-     *
-     * @return void
-     */
-    private function onDriverCreated(DriverCreated $event): void
-    {
-        $this->contacts  = DriverContacts::create($event->email, $event->phone);
-        $this->fullName  = DriverFullName::create($event->firstName, $event->lastName, $event->patronymic);
-        $this->documents = new DriverDocuments();
-    }
-
-    /**
-     * @noinspection PhpUnusedPrivateMethodInspection
-     *
-     * @param DocumentAdded $event
-     *
-     * @return void
-     */
-    private function onDocumentAddedToAggregate(DocumentAdded $event): void
-    {
-        $this->documents->add(
-            DriverDocument::create($event->documentId, $event->imagePath, $event->type)
-        );
-    }
-
-    /**
-     * @noinspection PhpUnusedPrivateMethodInspection
-     *
-     * @param VehicleAdded $event
-     *
-     * @return void
-     */
     private function onVehicleAdded(VehicleAdded $event): void
     {
-        $vehicleId = (string) $event->vehicleId;
+        $this->vehicles[] = $event->vehicleId;
+    }
 
-        if(false === isset($this->vehicles[$vehicleId]))
-        {
-            $this->vehicles[$vehicleId] = $event->vehicleId;
-        }
+    private function onDocumentAdded(DocumentAdded $event): void
+    {
+        $this->documents[$event->documentId->toString()] = new DriverDocument(
+            $event->documentId,
+            $event->type,
+            DriverDocumentStatus::moderation()
+        );
+    }
+
+    private function onDriverCreated(DriverCreated $event): void
+    {
+        $this->fullName = $event->fullName;
+        $this->contacts = $event->contacts;
     }
 }

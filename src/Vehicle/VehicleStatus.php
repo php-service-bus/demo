@@ -29,15 +29,16 @@ final class VehicleStatus
     ];
 
     /**
-     * @param string $status
-     *
-     * @return self
-     *
+     * @var string
+     */
+    private $value;
+
+    /**
      * @throws \App\Vehicle\Exceptions\IncorrectVehicleStatusSpecified
      */
     public static function create(string $status): self
     {
-        if(true === isset(self::CHOICES[$status]))
+        if (isset(self::CHOICES[$status]))
         {
             return new self($status);
         }
@@ -57,8 +58,6 @@ final class VehicleStatus
 
     /**
      * Vehicle status: confirmed
-     *
-     * @return self
      */
     public static function confirmed(): self
     {
@@ -67,8 +66,6 @@ final class VehicleStatus
 
     /**
      * Vehicle status: moderated
-     *
-     * @return self
      */
     public static function moderation(): self
     {
@@ -77,36 +74,21 @@ final class VehicleStatus
 
     /**
      * Receive a phrase for current status
-     *
-     * @return string
      */
     public function phrase(): string
     {
         return self::CHOICES[$this->value];
     }
 
-    /**
-     * @param VehicleStatus $status
-     *
-     * @return bool
-     */
     public function equals(VehicleStatus $status): bool
     {
         return $this->value === $status->value;
     }
 
-    /**
-     * @return bool
-     */
     public function active(): bool
     {
         return self::CONFIRMED === $this->value;
     }
-
-    /**
-     * @var string
-     */
-    private $value;
 
     /**
      * @param string $value

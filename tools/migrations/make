@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+$version  = \date('YmdHi');
+$template = \str_replace(
+    '{version}',
+    $version,
+    \file_get_contents(__DIR__ . '/../../vendor/php-service-bus/storage/src/Sql/Migration/templates/migration_template')
+);
+
+$expectedFilePath = \sprintf('%s/Version%s.php', __DIR__ . '/../../app/migrations', $version);
+
+if(\file_exists($expectedFilePath) === true)
+{
+    echo \sprintf('Migration file `%s` already exists', $expectedFilePath), \PHP_EOL;
+    exit;
+}
+
+\file_put_contents($expectedFilePath, $template);
+
+echo \sprintf('Created: %s', $expectedFilePath), \PHP_EOL;

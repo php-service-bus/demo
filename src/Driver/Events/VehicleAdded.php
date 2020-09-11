@@ -17,7 +17,7 @@ use App\Vehicle\VehicleId;
 /**
  * Vehicle successfully added to driver profile
  *
- * internal event
+ * @internal
  */
 final class VehicleAdded
 {
@@ -35,24 +35,9 @@ final class VehicleAdded
      */
     public $vehicleId;
 
-    /**
-     * @param DriverId  $driverId
-     * @param VehicleId $vehicleId
-     *
-     * @return self
-     */
-    public static function create(DriverId $driverId, VehicleId $vehicleId): self
+    public function __construct(DriverId $driverId, VehicleId $vehicleId)
     {
-        $self = new self();
-
-        $self->driverId  = $driverId;
-        $self->vehicleId = $vehicleId;
-
-        return $self;
-    }
-
-    private function __construct()
-    {
-
+        $this->driverId  = $driverId;
+        $this->vehicleId = $vehicleId;
     }
 }

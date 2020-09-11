@@ -5,20 +5,20 @@ declare(strict_types = 1);
 
 use Amp\Loop;
 use ServiceBus\Application\ServiceBusKernel;
-use ServiceBus\Sagas\Module\SagaModule;
-use ServiceBus\Storage\Common\DatabaseAdapter;
-use ServiceBus\Storage\Module\SqlStorageModule;
-use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
 use ServiceBus\Transport\Amqp\AmqpExchange;
 use ServiceBus\Transport\Amqp\AmqpQueue;
 use ServiceBus\Transport\Common\QueueBind;
-use ServiceBus\Transport\Common\TopicBind;
 use ServiceBus\Transport\Module\PhpInnacleTransportModule;
-use ServiceBus\EventSourcingModule\EventSourcingModule;
 use ServiceBus\Application\DependencyInjection\Compiler\Logger\StdOutLoggerCompilerPass;
-use ServiceBus\Scheduler\Module\SchedulerModule;
-use ServiceBus\Scheduler\Contract\EmitSchedulerOperation;
 use ServiceBus\Application\Bootstrap;
+use ServiceBus\Storage\Module\SqlStorageModule;
+use ServiceBus\Sagas\Module\SagaModule;
+use ServiceBus\Storage\Common\DatabaseAdapter;
+use ServiceBus\Scheduler\Module\SchedulerModule;
+use ServiceBus\Transport\Common\TopicBind;
+use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
+use ServiceBus\Scheduler\Contract\EmitSchedulerOperation;
+use ServiceBus\EventSourcing\Module\EventSourcingModule;
 
 /** Use https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh instead sleep() function for RabbitMQ */
 \sleep(8);
@@ -31,22 +31,20 @@ $bootstrap = Bootstrap::withDotEnv(__DIR__ . '/../.env')
     ->addCompilerPasses(new StdOutLoggerCompilerPass())
     ->addExtensions(new \AppExtension())
     ->enableAutoImportMessageHandlers([__DIR__ . '/../src'])
-    ->importParameters([
-        'app.driver.document.images_path' => __DIR__ . '/../storage'
-    ]);
-
-/** @noinspection PhpUnhandledExceptionInspection */
-$bootstrap->applyModules(
-    SqlStorageModule::postgreSQL((string) \getenv('DATABASE_CONNECTION_DSN')),
-    SagaModule::withSqlStorage(DatabaseAdapter::class)->enableAutoImportSagas([__DIR__ . '/../src']),
-    EventSourcingModule::withSqlStorage(DatabaseAdapter::class),
-    SchedulerModule::rabbitMqWithSqlStorage(DatabaseAdapter::class),
-    new PhpInnacleTransportModule(
-        (string) \getenv('TRANSPORT_CONNECTION_DSN'),
-        (string) \getenv('SENDER_DESTINATION_TOPIC'),
-        (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
+    ->applyModules(
+        SqlStorageModule::postgreSQL((string) \getenv('DATABASE_CONNECTION_DSN')),
+        SagaModule::withSqlStorage(DatabaseAdapter::class)->enableAutoImportSagas([__DIR__ . '/../src']),
+        EventSourcingModule::withSqlStorage(DatabaseAdapter::class),
+        SchedulerModule::rabbitMqWithSqlStorage(DatabaseAdapter::class),
+        new PhpInnacleTransportModule(
+            (string) \getenv('TRANSPORT_CONNECTION_DSN'),
+            (string) \getenv('SENDER_DESTINATION_TOPIC'),
+            (string) \getenv('SENDER_DESTINATION_TOPIC_ROUTING_KEY')
+        )
     )
-);
+    ->importParameters([
+        'app.filesystem.storage_path' => __DIR__ . '/../storage'
+    ]);
 
 /** @noinspection PhpUnhandledExceptionInspection */
 $container = $bootstrap->boot();
@@ -54,33 +52,40 @@ $container = $bootstrap->boot();
 Loop::run(
     static function() use ($container): \Generator
     {
-        $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
-        $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
+        try
+        {
+            $mainExchange = AmqpExchange::direct((string) \getenv('TRANSPORT_TOPIC'), true);
+            $mainQueue    = AmqpQueue::default((string) \getenv('TRANSPORT_QUEUE'), true);
 
-        $kernel = (new ServiceBusKernel($container))
-            ->useDefaultStopSignalHandler(3);
+            $kernel = (new ServiceBusKernel($container))
+                ->useDefaultStopSignalHandler(3);
 
-        /** Listen queue */
-        yield $kernel->createQueue(
-            $mainQueue,
-            QueueBind::create($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
-        );
+            yield $kernel->createQueue(
+                $mainQueue,
+                new QueueBind($mainExchange, (string) \getenv('TRANSPORT_ROUTING_KEY'))
+            );
 
-        /** Scheduler exchange */
-        yield $kernel->createTopic(
-            AmqpExchange::delayed((string) \getenv('SCHEDULER_TOPIC')),
-            TopicBind::create($mainExchange, \getenv('TRANSPORT_ROUTING_KEY'))
-        );
+            /** Scheduler exchange */
+            yield $kernel->createTopic(
+                AmqpExchange::delayed((string) \getenv('SCHEDULER_TOPIC')),
+                new TopicBind($mainExchange, \getenv('TRANSPORT_ROUTING_KEY'))
+            );
 
-        /** Add custom message route for scheduled operations */
-        $kernel->registerDestinationForMessages(
-            new AmqpTransportLevelDestination(
+            /** Add custom message route for scheduled operations */
+            $kernel->registerDestinationForMessages(
+                new AmqpTransportLevelDestination(
                     (string) \getenv('SCHEDULER_TOPIC'),
                     (string) \getenv('TRANSPORT_ROUTING_KEY')
-            ),
-            EmitSchedulerOperation::class
-        );
+                ),
+                EmitSchedulerOperation::class
+            );
 
-        yield $kernel->run($mainQueue);
+            yield $kernel->run($mainQueue);
+        }
+        catch(\Throwable $throwable)
+        {
+            echo $throwable->getMessage(), \PHP_EOL;
+            exit;
+        }
     }
 );

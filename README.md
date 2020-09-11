@@ -6,9 +6,9 @@ This component is part of the [PHP Service Bus](https://github.com/php-service-b
 ```
 git clone git@github.com:php-service-bus/demo.git service-bus-demo
 cd service-bus-demo
-docker-compose up --build
+make start consumer-logs
 ```
-Once launched, you can execute commands from the [tools](https://github.com/php-service-bus/demo/tree/v3.0/tools) directory
+Once launched, you can execute commands from the [tools](https://github.com/php-service-bus/demo/tree/v4.1/tools) directory via `Make`
 
 ## Support
 * [Telegram chat (RU)](https://t.me/php_service_bus)

@@ -1,0 +1,55 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use Amp\ByteStream\ResourceOutputStream;
+use Amp\Log\StreamHandler;
+use Monolog\Logger;
+use Monolog\Processor\PsrLogMessageProcessor;
+use Psr\Log\LogLevel;
+use ServiceBus\Storage\Common\StorageConfiguration;
+use ServiceBus\Storage\Sql\AmpPosgreSQL\AmpPostgreSQLAdapter;
+use ServiceBus\Storage\Sql\Migration\SqlMigrationProcessor;
+use ServiceBus\Storage\Sql\Migration\SqlMigrationLoader;
+use function Amp\Promise\wait;
+use function ServiceBus\Common\throwableDetails;
+use Symfony\Component\Dotenv\Dotenv;
+
+include __DIR__ . '/../../vendor/autoload.php';
+
+$direction = \strtolower((string) ($argv[1] ?? ''));
+
+if(\in_array($direction, ['up', 'down'], true) === false)
+{
+    exit(\PHP_EOL . 'Incorrect direction' . PHP_EOL);
+}
+
+(new Dotenv(true))->load(__DIR__ . '/../../.env');
+
+$logHandler = new StreamHandler(new ResourceOutputStream(\STDOUT), LogLevel::DEBUG);
+$logHandler->pushProcessor(new PsrLogMessageProcessor());
+
+$logger = new Logger('migrations', [$logHandler]);
+
+try
+{
+    $databaseClient = new AmpPostgreSQLAdapter(
+        new StorageConfiguration((string) \getenv('DATABASE_CONNECTION_DSN')),
+        $logger
+    );
+
+    $processor = new SqlMigrationProcessor(
+        $databaseClient,
+        new SqlMigrationLoader(__DIR__ . '/../../app/migrations'),
+        $logger
+    );
+
+    wait($processor->up());
+
+    $logger->debug('complete');
+}
+catch(\Throwable $throwable)
+{
+    $logger->debug($throwable->getMessage(), throwableDetails($throwable));
+}

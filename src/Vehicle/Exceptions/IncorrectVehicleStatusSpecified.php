@@ -14,15 +14,6 @@ namespace App\Vehicle\Exceptions;
 /**
  *
  */
-final class IncorrectVehicleStatusSpecified extends \RuntimeException
+final class IncorrectVehicleStatusSpecified extends \InvalidArgumentException
 {
-    /**
-     * @param string $status
-     */
-    public function __construct(string $status)
-    {
-        parent::__construct(
-            \sprintf('Invalid vehicle status indicated ("%s")', $status)
-        );
-    }
 }

@@ -14,8 +14,7 @@ namespace App\Vehicle\Brand;
 /**
  * Vehicle brand
  *
- * @property-read string $id
- * @property-read string $title
+ * @psalm-immutable
  */
 final class VehicleBrand
 {
@@ -31,22 +30,7 @@ final class VehicleBrand
      */
     public $title;
 
-    /**
-     * @param string $id
-     * @param string $title
-     *
-     * @return self
-     */
-    public static function create(string $id, string $title): self
-    {
-        return new self($id, $title);
-    }
-
-    /**
-     * @param string $id
-     * @param string $title
-     */
-    private function __construct(string $id, string $title)
+    public function __construct(string $id, string $title)
     {
         $this->id    = $id;
         $this->title = $title;

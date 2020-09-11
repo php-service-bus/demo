@@ -1,8 +1,2 @@
 services:
-  App\DriverDocument\DocumentFileManager:
-    arguments:
-      $storageDirectory: '%app.driver.document.images_path%'
-
-  App\Vehicle\Brand\VehicleBrandFinder:
-    arguments:
-      $adapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
+  # ... Some custom service definitions

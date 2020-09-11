@@ -1,0 +1,7 @@
+services:
+  # Store for files
+  App\Filesystem\Store\DocumentStore:
+    class: App\Filesystem\Store\FilesystemDocumentStore
+    arguments:
+      $store: '@ServiceBus\Storage\Common\DatabaseAdapter'
+      $toDirectory: '%app.filesystem.storage_path%'

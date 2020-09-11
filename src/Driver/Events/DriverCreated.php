@@ -11,81 +11,44 @@ declare(strict_types = 1);
 
 namespace App\Driver\Events;
 
+use App\Driver\DriverContacts;
+use App\Driver\DriverFullName;
+use App\Driver\DriverId;
+
 /**
  * Driver aggregate created
  *
- * internal event
+ * @internal
+ *
+ * @psalm-immutable
  */
 final class DriverCreated
 {
     /**
      * Driver aggregate id
      *
-     * @var string
+     * @var DriverId
      */
     public $id;
 
     /**
-     * Phone number
+     * Driver full name
      *
-     * @var string
+     * @var DriverFullName
      */
-    public $phone;
+    public $fullName;
 
     /**
-     * Email address
+     * Driver contacts
      *
-     * @var string
+     * @var DriverContacts
      */
-    public $email;
+    public $contacts;
 
-    /**
-     * First name
-     *
-     * @var string
-     */
-    public $firstName;
-
-    /**
-     * Last name
-     *
-     * @var string
-     */
-    public $lastName;
-
-    /**
-     * Patronymic
-     *
-     * @var string|null
-     */
-    public $patronymic;
-
-    /**
-     * @param string      $id
-     * @param string      $phone
-     * @param string      $email
-     * @param string      $firstName
-     * @param string      $lastName
-     * @param string|null $patronymic
-     *
-     * @return self
-     */
-    public static function create(string $id, string $phone, string $email, string $firstName, string $lastName, ?string $patronymic): self
+    public function __construct(DriverId $id, DriverFullName $fullName, DriverContacts $contacts)
     {
-        $self = new self();
-
-        $self->id         = $id;
-        $self->phone      = $phone;
-        $self->email      = $email;
-        $self->firstName  = $firstName;
-        $self->lastName   = $lastName;
-        $self->patronymic = $patronymic;
-
-        return $self;
-    }
-
-    private function __construct()
-    {
-
+        $this->id       = clone $id;
+        $this->fullName = clone $fullName;
+        $this->contacts = clone $contacts;
     }
 }

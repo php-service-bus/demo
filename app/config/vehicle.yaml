@@ -1,0 +1,13 @@
+services:
+
+  # Cached vehicle brand finder
+  app.vehicle.vehicle_brand_cached_finder:
+    class: ServiceBus\Storage\Sql\Finder\CachedSqlFinder
+    arguments:
+      $collectionName: 'vehicle_brand'
+      $databaseAdapter: '@ServiceBus\Storage\Common\DatabaseAdapter'
+      $cacheAdapter: ~
+
+  App\Vehicle\Brand\VehicleBrandFinder:
+    arguments:
+      $finder: '@app.vehicle.vehicle_brand_cached_finder'

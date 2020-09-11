@@ -1,35 +1,28 @@
 {
-  "name": "php-service-bus/demo",
-  "description": "Attempt to implement an application like Uber to demonstrate the capabilities of the framework",
+  "name": "php-service-bus/skeleton",
+  "description": "PHP Service Bus skeleton",
   "type": "project",
-  "authors": [
-    {
-      "name": "Masiukevich Maksim",
-      "email": "dev@async-php.com",
-      "homepage": "https://github.com/mmasiukevich",
-      "role": "Developer"
-    }
-  ],
   "license": "MIT",
   "minimum-stability": "stable",
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
     "ext-json": "*",
-    "php-service-bus/service-bus": "^v3.1",
-    "php-service-bus/module-storage-sql": "^v3.1",
-    "php-service-bus/module-phpinnacle-transport": "^v3.0",
-    "php-service-bus/module-event-sourcing": "^v3.1",
-    "php-service-bus/module-sagas": "^v3.1",
-    "php-service-bus/module-scheduler": "^v3.1"
+    "php-service-bus/service-bus": "v4.1.*",
+    "php-service-bus/storage": "v4.1.*",
+    "php-service-bus/transport": "v4.1.*",
+    "php-service-bus/active-record": "v4.1.*",
+    "php-service-bus/event-sourcing": "v4.2.*",
+    "php-service-bus/sagas": "v4.2.*",
+    "php-service-bus/scheduler": "v4.2.*",
+    "symfony/validator": "v5.1.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8",
-    "vimeo/psalm": "^3"
+    "php-service-bus/code-style-config": "v1.2.*",
+    "phpunit/phpunit": "v9.1.*",
+    "vimeo/psalm": "v3.11.*",
+    "phpstan/phpstan": "v0.12.*"
   },
   "config": {
-    "preferred-install": {
-      "*": "dist"
-    },
     "sort-packages": true,
     "optimize-autoloader": true
   },
@@ -53,10 +46,11 @@
   },
   "scripts": {
     "psalm": "./vendor/bin/psalm --config=psalm.xml",
-    "phpunit": "./vendor/bin/phpunit --configuration phpunit.xml --verbose",
+    "phpstan": "./vendor/bin/phpstan analyse src --level 7",
+    "tests": "./vendor/bin/phpunit --configuration phpunit.xml --verbose",
     "coverage": "./vendor/bin/phpunit --configuration phpunit.xml --coverage-html ./coverage --verbose",
-    "test": [
-      "@phpunit"
-    ]
+    "cs-check": "./vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run",
+    "cs-fix": "./vendor/bin/php-cs-fixer fix --allow-risky=yes",
+    "pre-commit": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky=yes && ./vendor/bin/psalm --config=psalm.xml && ./vendor/bin/phpstan analyse src --level 7 && ./vendor/bin/phpunit --configuration phpunit.xml --verbose"
   }
 }

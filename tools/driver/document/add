@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use App\Driver\ManageDocument\Add\Contract\AddDriverDocument;
+
+include_once __DIR__ . '/../../../vendor/autoload.php';
+
+$publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
+$publisher->sendMessage(
+    new AddDriverDocument(
+        'password',
+        'passport.jpg',
+        'image/jpeg',
+        \base64_encode(\file_get_contents(__DIR__ . '/docs/passport.jpg')),
+        '0da419b4-90fe-4f88-b870-b4008a06ea1a'
+    )
+);

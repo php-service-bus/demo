@@ -1,5 +1,5 @@
 #!/bin/ash
 
-cd /var/www && composer install --optimize-autoloader --no-scripts --no-dev --no-suggest
+cd /var/www && composer install --optimize-autoloader --no-scripts --no-suggest
 
 /var/www/bin/consumer

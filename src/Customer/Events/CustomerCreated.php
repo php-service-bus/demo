@@ -11,83 +11,44 @@ declare(strict_types = 1);
 
 namespace App\Customer\Events;
 
+use App\Customer\CustomerContacts;
+use App\Customer\CustomerFullName;
+use App\Customer\CustomerId;
+
 /**
  * Customer aggregate created
  *
- * internal event
+ * @internal
  *
- * @property-read string $id
- * @property-read string $phone
- * @property-read string $email
- * @property-read string $firstName
- * @property-read string $lastName
+ * @psalm-immutable
  */
 final class CustomerCreated
 {
     /**
      * Customer aggregate id
      *
-     * @var string
+     * @var CustomerId
      */
     public $id;
 
     /**
-     * Phone number
+     * Customer full name
      *
-     * @var string
+     * @var CustomerFullName
      */
-    public $phone;
+    public $fullName;
 
     /**
-     * Email address
+     * Customer contacts
      *
-     * @var string
+     * @var CustomerContacts
      */
-    public $email;
+    public $contacts;
 
-    /**
-     * First name
-     *
-     * @var string
-     */
-    public $firstName;
-
-    /**
-     * Last name
-     *
-     * @var string
-     */
-    public $lastName;
-
-    /**
-     * @param string $id
-     * @param string $phone
-     * @param string $email
-     * @param string $firstName
-     * @param string $lastName
-     *
-     * @return self
-     */
-    public static function create(string $id, string $phone, string $email, string $firstName, string $lastName): self
+    public function __construct(CustomerId $id, CustomerFullName $fullName, CustomerContacts $contacts)
     {
-        return new self($id, $phone, $email, $firstName, $lastName);
+        $this->id       = clone $id;
+        $this->fullName = clone $fullName;
+        $this->contacts = clone $contacts;
     }
-
-    /**
-     * @param string $id
-     * @param string $phone
-     * @param string $email
-     * @param string $firstName
-     * @param string $lastName
-     */
-    private function __construct(string $id, string $phone, string $email, string $firstName, string $lastName)
-    {
-        $this->id        = $id;
-        $this->phone     = $phone;
-        $this->email     = $email;
-        $this->firstName = $firstName;
-        $this->lastName  = $lastName;
-    }
-
-
 }

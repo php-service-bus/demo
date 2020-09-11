@@ -18,5 +18,4 @@ use ServiceBus\EventSourcing\AggregateId;
  */
 final class VehicleId extends AggregateId
 {
-
 }

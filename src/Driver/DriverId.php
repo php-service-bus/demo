@@ -14,9 +14,8 @@ namespace App\Driver;
 use ServiceBus\EventSourcing\AggregateId;
 
 /**
- * Driver aggregate id
+ * Driver id
  */
 final class DriverId extends AggregateId
 {
-
 }
