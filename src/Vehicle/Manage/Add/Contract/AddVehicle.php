@@ -47,7 +47,6 @@ final class AddVehicle
      * Year of release
      *
      * @Assert\NotBlank(message="Year of release must be specified")
-     * @Assert\Type("integer", message="Wrong year")
      *
      * @var int
      */
