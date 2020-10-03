@@ -48,7 +48,7 @@ final class VehicleAddedToDriver
     public function __construct(string $correlationId, DriverId $driverId, VehicleId $vehicleId)
     {
         $this->correlationId = $correlationId;
-        $this->driverId      = clone $driverId;
+        $this->driverId      = $driverId;
         $this->vehicleId     = clone $vehicleId;
     }
 }

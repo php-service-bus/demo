@@ -15,6 +15,9 @@ use ServiceBus\EventSourcing\AggregateId;
 
 /**
  * Vehicle aggregate id
+ * 
+ * @psalm-immutable
+ * @psalm-suppress MutableDependency parent class already immutable, but not explicitly marked as immutable
  */
 final class VehicleId extends AggregateId
 {

@@ -15,6 +15,9 @@ use ServiceBus\EventSourcing\AggregateId;
 
 /**
  * Customer identifier
+ * 
+ * @psalm-immutable
+ * @psalm-suppress MutableDependency parent class already immutable, but not explicitly marked as immutable
  */
 final class CustomerId extends AggregateId
 {

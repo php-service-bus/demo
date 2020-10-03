@@ -47,7 +47,7 @@ final class DocumentAdded
 
     public function __construct(DriverId $driverId, DocumentId $documentId, DriverDocumentType $type)
     {
-        $this->driverId   = clone $driverId;
+        $this->driverId   = $driverId;
         $this->documentId = clone $documentId;
         $this->type       = clone $type;
     }

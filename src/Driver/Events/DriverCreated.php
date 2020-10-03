@@ -47,7 +47,7 @@ final class DriverCreated
 
     public function __construct(DriverId $id, DriverFullName $fullName, DriverContacts $contacts)
     {
-        $this->id       = clone $id;
+        $this->id       = $id;
         $this->fullName = clone $fullName;
         $this->contacts = clone $contacts;
     }

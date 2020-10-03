@@ -47,7 +47,7 @@ final class CustomerCreated
 
     public function __construct(CustomerId $id, CustomerFullName $fullName, CustomerContacts $contacts)
     {
-        $this->id       = clone $id;
+        $this->id       = $id;
         $this->fullName = clone $fullName;
         $this->contacts = clone $contacts;
     }

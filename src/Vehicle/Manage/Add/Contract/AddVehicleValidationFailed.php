@@ -70,7 +70,7 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
         return new self(
             $correlationId,
             ['registrationNumber' => ['The car with the specified registration number is already registered']],
-            clone $vehicleId
+            $vehicleId
         );
     }
 
@@ -81,7 +81,6 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
     {
         $this->correlationId = $correlationId;
         $this->violations    = $violations;
-        /** @psalm-suppress ImpurePropertyAssignment */
         $this->vehicleId     = $vehicleId;
     }
 

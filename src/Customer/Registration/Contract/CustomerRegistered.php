@@ -40,6 +40,6 @@ final class CustomerRegistered
     public function __construct(string $correlationId, CustomerId $customerId)
     {
         $this->correlationId = $correlationId;
-        $this->customerId    = clone $customerId;
+        $this->customerId    = $customerId;
     }
 }

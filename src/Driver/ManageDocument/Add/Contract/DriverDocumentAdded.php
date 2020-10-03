@@ -48,7 +48,7 @@ final class DriverDocumentAdded
     public function __construct(string $correlationId, DriverId $driverId, DocumentId $documentId)
     {
         $this->correlationId = $correlationId;
-        $this->driverId      = clone $driverId;
+        $this->driverId      = $driverId;
         $this->documentId    = clone $documentId;
     }
 }

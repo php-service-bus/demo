@@ -15,6 +15,8 @@ use App\Vehicle\Exceptions\IncorrectVehicleStatusSpecified;
 
 /**
  * Vehicle status
+ * 
+ * @psalm-immutable
  */
 final class VehicleStatus
 {

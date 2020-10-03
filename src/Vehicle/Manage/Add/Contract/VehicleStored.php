@@ -67,7 +67,7 @@ final class VehicleStored
         string $registrationNumber
     ) {
         $this->correlationId      = $correlationId;
-        $this->id                 = clone $id;
+        $this->id                 = $id;
         $this->brand              = clone $brand;
         $this->model              = $model;
         $this->registrationNumber = $registrationNumber;

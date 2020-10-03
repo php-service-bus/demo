@@ -20,7 +20,7 @@ use App\Vehicle\VehicleStatus;
  *
  * @internal
  *
- * @@psalm-immutable
+ * @psalm-immutable
  */
 final class VehicleCreated
 {

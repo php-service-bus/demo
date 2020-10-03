@@ -15,6 +15,9 @@ use ServiceBus\EventSourcing\AggregateId;
 
 /**
  * Driver id
+ * 
+ * @psalm-immutable
+ * @psalm-suppress MutableDependency parent class already immutable, but not explicitly marked as immutable
  */
 final class DriverId extends AggregateId
 {
