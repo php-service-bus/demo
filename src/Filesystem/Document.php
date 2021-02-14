@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -21,6 +21,8 @@ final class Document
     /**
      * Original file name
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $fileName;
@@ -28,12 +30,16 @@ final class Document
     /**
      * Document metadata
      *
+     * @psalm-readonly
+     *
      * @var DocumentMetadata
      */
     public $metadata;
 
     /**
      * Binary file data
+     *
+     * @psalm-readonly
      *
      * @var string
      */

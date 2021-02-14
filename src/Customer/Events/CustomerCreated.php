@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -27,6 +27,8 @@ final class CustomerCreated
     /**
      * Customer aggregate id
      *
+     * @psalm-readonly
+     *
      * @var CustomerId
      */
     public $id;
@@ -34,12 +36,16 @@ final class CustomerCreated
     /**
      * Customer full name
      *
+     * @psalm-readonly
+     *
      * @var CustomerFullName
      */
     public $fullName;
 
     /**
      * Customer contacts
+     *
+     * @psalm-readonly
      *
      * @var CustomerContacts
      */

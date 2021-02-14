@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -11,7 +11,8 @@ declare(strict_types = 1);
 
 namespace App\Customer\Registration\Contract;
 
-use ServiceBus\Services\Contracts\ValidationFailedEvent;
+use ServiceBus\Common\Context\ValidationViolation;
+use ServiceBus\Common\Context\ValidationViolations;
 
 /**
  * Invalid registration data
@@ -21,10 +22,12 @@ use ServiceBus\Services\Contracts\ValidationFailedEvent;
  *
  * @psalm-immutable
  */
-final class RegisterCustomerValidationFailed implements ValidationFailedEvent
+final class RegisterCustomerValidationFailed
 {
     /**
      * Registration request Id
+     *
+     * @psalm-readonly
      *
      * @var string
      */
@@ -33,45 +36,29 @@ final class RegisterCustomerValidationFailed implements ValidationFailedEvent
     /**
      * List of validate violations
      *
-     * [
-     *    'propertyPath' => [
-     *        0 => 'some message',
-     *        ....
-     *    ]
-     * ]
+     * @psalm-readonly
      *
-     * @psalm-var array<string, array<int, string>>
-     *
-     * @var array
+     * @var ValidationViolations
      */
     public $violations;
 
-    public static function create(string $correlationId, array $violations): ValidationFailedEvent
-    {
-        return new self($correlationId, $violations);
-    }
-
     public static function duplicatePhoneNumber(string $correlationId): self
     {
-        return new self($correlationId, ['phone' => ['Customer with the specified phone number is already registered']]);
+        return new self(
+            $correlationId,
+            new ValidationViolations([
+                    new ValidationViolation(
+                        property: 'phone',
+                        message: 'Customer with the specified phone number is already registered'
+                    )
+                ]
+            )
+        );
     }
 
-    /**
-     * @psalm-param array<string, array<int, string>> $violations
-     */
-    public function __construct(string $correlationId, array $violations)
+    public function __construct(string $correlationId, ValidationViolations $violations)
     {
         $this->correlationId = $correlationId;
         $this->violations    = $violations;
-    }
-
-    public function correlationId(): string
-    {
-        return $this->correlationId;
-    }
-
-    public function violations(): array
-    {
-        return $this->violations;
     }
 }

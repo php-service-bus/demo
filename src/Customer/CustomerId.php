@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -15,6 +15,8 @@ use ServiceBus\EventSourcing\AggregateId;
 
 /**
  * Customer identifier
+ *
+ * @psalm-immutable
  */
 final class CustomerId extends AggregateId
 {

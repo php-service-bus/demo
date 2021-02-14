@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -13,23 +13,19 @@ namespace App\Driver\Vehicle\Add;
 
 use App\Driver\Vehicle\Add\Contract\AddDriverVehicleValidationFailed;
 use ServiceBus\Common\Context\ServiceBusContext;
-use ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Services\Attributes\EventListener;
 
 /**
  *
  */
 final class WhenAddDriverVehicleValidationFailed
 {
-    /**
-     * @EventListener()
-     */
+    #[EventListener]
     public function on(AddDriverVehicleValidationFailed $event, ServiceBusContext $context): void
     {
-        $context->logContextMessage(
+        $context->logger()->info(
             'Validation error in the process of saving the vehicle for the driver',
-            [
-                'violations' => $event->violations
-            ]
+            [ 'violations' => $event->violations->violations]
         );
     }
 }

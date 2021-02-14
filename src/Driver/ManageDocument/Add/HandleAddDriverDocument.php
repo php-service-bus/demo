@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -25,7 +25,7 @@ use App\Filesystem\DocumentMimeType;
 use App\Filesystem\Store\DocumentStore;
 use ServiceBus\Common\Context\ServiceBusContext;
 use ServiceBus\EventSourcing\EventSourcingProvider;
-use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Attributes\CommandHandler;
 use function Amp\call;
 
 /**
@@ -33,30 +33,36 @@ use function Amp\call;
  */
 final class HandleAddDriverDocument
 {
-    /**
-     * @CommandHandler(
-     *     description="Add document to driver",
-     *     validate=true,
-     *     defaultValidationFailedEvent="App\Driver\ManageDocument\Add\Contract\AddDriverDocumentValidationFailed",
-     *     defaultThrowableEvent="App\Driver\ManageDocument\Add\Contract\AddDriverDocumentFailure"
-     * )
-     */
+    #[CommandHandler(
+        description: 'Add document to driver',
+        validationEnabled: true
+    )]
     public function handle(
         AddDriverDocument $command,
         ServiceBusContext $context,
         EventSourcingProvider $eventSourcingProvider,
         DocumentStore $documentStore
-    ): Promise {
+    ): Promise
+    {
         return call(
-            function () use ($command, $context, $eventSourcingProvider, $documentStore): \Generator
+            function() use ($command, $context, $eventSourcingProvider, $documentStore): \Generator
             {
+                $violations = $context->violations();
+
+                if($violations !== null)
+                {
+                    return yield $context->delivery(
+                        new AddDriverDocumentValidationFailed($context->metadata()->traceId(), $violations)
+                    );
+                }
+
                 /** @var Driver|null $driver */
                 $driver = yield $eventSourcingProvider->load(new DriverId($command->driverId));
 
-                if ($driver === null)
+                if($driver === null)
                 {
                     return yield $context->delivery(
-                        AddDriverDocumentValidationFailed::driverNotFound($context->traceId())
+                        AddDriverDocumentValidationFailed::driverNotFound($context->metadata()->traceId())
                     );
                 }
 
@@ -76,22 +82,17 @@ final class HandleAddDriverDocument
         );
     }
 
-    /**
-     * @todo
-     *
-     * @throws \InvalidArgumentException
-     */
     private function createDocument(AddDriverDocument $command): Document
     {
         $fileNameParts = \explode('.', $command->filename);
         $mimeParts     = \explode('/', $command->mimeType);
 
-        if (\count($mimeParts) !== 2)
+        if(\count($mimeParts) !== 2)
         {
             throw new \InvalidArgumentException('Incorrect mime type');
         }
 
-        if (\count($fileNameParts) !== 2)
+        if(\count($fileNameParts) !== 2)
         {
             throw new \InvalidArgumentException('Filename must contain extension');
         }

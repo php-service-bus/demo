@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -16,7 +16,7 @@ use App\Driver\Commands\AddVehicleToDriver;
 use App\Driver\Vehicle\Add\Contract\AddDriverVehicleValidationFailed;
 use ServiceBus\Common\Context\ServiceBusContext;
 use ServiceBus\EventSourcing\EventSourcingProvider;
-use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Attributes\CommandHandler;
 use function Amp\call;
 
 /**
@@ -24,11 +24,9 @@ use function Amp\call;
  */
 final class HandleAddVehicleToDriver
 {
-    /**
-     * @CommandHandler(
-     *     description="Add vehicle to driver aggregate"
-     * )
-     */
+    #[CommandHandler(
+        description: 'Add vehicle to driver aggregate'
+    )]
     public function handle(
         AddVehicleToDriver $command,
         ServiceBusContext $context,
@@ -48,7 +46,7 @@ final class HandleAddVehicleToDriver
                 }
 
                 return yield $context->delivery(
-                    AddDriverVehicleValidationFailed::driverNotFound($context->traceId())
+                    AddDriverVehicleValidationFailed::driverNotFound($context->metadata()->traceId())
                 );
             }
         );

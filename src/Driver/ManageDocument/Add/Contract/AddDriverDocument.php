@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -28,6 +28,8 @@ final class AddDriverDocument
     /**
      * Document type
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="Document type must be specified")
      * @Assert\Choice(
      *     choices={
@@ -48,6 +50,8 @@ final class AddDriverDocument
     /**
      * Document file name (with extension)
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="Document file name must be specified")
      *
      * @var string
@@ -56,6 +60,8 @@ final class AddDriverDocument
 
     /**
      * Document media type
+     *
+     * @psalm-readonly
      *
      * @Assert\NotBlank(message="Document media type must be specified")
      *
@@ -66,6 +72,8 @@ final class AddDriverDocument
     /**
      * Bas64-encoded image
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="Bas64-encoded image must be specified")
      *
      * @var string
@@ -74,6 +82,8 @@ final class AddDriverDocument
 
     /**
      * Driver identifier
+     *
+     * @psalm-readonly
      *
      * @Assert\NotBlank(message="Driver id must be specified")
      *

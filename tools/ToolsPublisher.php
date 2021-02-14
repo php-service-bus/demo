@@ -4,8 +4,9 @@ declare(strict_types = 1);
 
 use function Amp\Promise\wait;
 use function ServiceBus\Common\uuid;
-use ServiceBus\MessageSerializer\MessageEncoder;
-use ServiceBus\MessageSerializer\Symfony\SymfonyMessageSerializer;
+use ServiceBus\Metadata\ServiceBusMetadata;
+use ServiceBus\MessageSerializer\MessageSerializer;
+use ServiceBus\MessageSerializer\Symfony\SymfonySerializer;
 use ServiceBus\Transport\Amqp\AmqpConnectionConfiguration;
 use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
 use ServiceBus\Transport\Common\Package\OutboundPackage;
@@ -26,7 +27,7 @@ final class ToolsPublisher
     private $transport;
 
     /**
-     * @var MessageEncoder
+     * @var MessageSerializer
      */
     private $encoder;
 
@@ -38,7 +39,7 @@ final class ToolsPublisher
     {
         (new Dotenv())->usePutenv(true)->load($envPath);
 
-        $this->encoder = new SymfonyMessageSerializer();
+        $this->encoder = new SymfonySerializer();
     }
 
     /**
@@ -53,10 +54,10 @@ final class ToolsPublisher
         wait(
             $this->transport()->send(
                 new OutboundPackage(
-                    $this->encoder->encode($message),
-                    [Transport::SERVICE_BUS_TRACE_HEADER => $traceId ?? uuid()],
-                    new AmqpTransportLevelDestination($topic, $routingKey),
-                    uuid()
+                    traceId: $traceId ?? uuid(),
+                    payload: $this->encoder->encode($message),
+                    headers: [ServiceBusMetadata::SERVICE_BUS_MESSAGE_TYPE => \get_class($message)],
+                    destination: new AmqpTransportLevelDestination($topic, $routingKey)
                 )
             )
         );
@@ -64,7 +65,7 @@ final class ToolsPublisher
 
     private function transport(): Transport
     {
-        if (null === $this->transport)
+        if($this->transport === null)
         {
             $this->transport = new PhpInnacleTransport(
                 new AmqpConnectionConfiguration(\getenv('TRANSPORT_CONNECTION_DSN'))

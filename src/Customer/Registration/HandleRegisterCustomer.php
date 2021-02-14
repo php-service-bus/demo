@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -22,7 +22,7 @@ use ServiceBus\EventSourcing\EventSourcingProvider;
 use ServiceBus\EventSourcing\Indexes\IndexKey;
 use ServiceBus\EventSourcing\Indexes\IndexValue;
 use ServiceBus\EventSourcing\IndexProvider;
-use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Attributes\CommandHandler;
 use function Amp\call;
 
 /**
@@ -30,23 +30,29 @@ use function Amp\call;
  */
 final class HandleRegisterCustomer
 {
-    /**
-     * @CommandHandler(
-     *     description="New customer registration",
-     *     validate=true,
-     *     defaultValidationFailedEvent="App\Customer\Registration\Contract\RegisterCustomerValidationFailed",
-     *     defaultThrowableEvent="App\Customer\Registration\Contract\CustomerRegistrationFailed"
-     * )
-     */
+    #[CommandHandler(
+        description: "New customer registration",
+        validationEnabled: true
+    )]
     public function handle(
         RegisterCustomer $command,
         ServiceBusContext $context,
         IndexProvider $indexProvider,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise {
+    ): Promise
+    {
         return call(
-            static function () use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
+            static function() use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
             {
+                $violations = $context->violations();
+
+                if($violations !== null)
+                {
+                  return yield $context->delivery(
+                        new RegisterCustomerValidationFailed($context->metadata()->traceId(), $violations)
+                    );
+                }
+
                 $customer = Customer::register(
                     new CustomerFullName($command->firstName, $command->lastName),
                     new CustomerContacts($command->phone, $command->email)
@@ -59,13 +65,13 @@ final class HandleRegisterCustomer
                 );
 
                 /** Check the uniqueness of the phone number */
-                if ($canBeRegistered)
+                if($canBeRegistered)
                 {
                     return yield $eventSourcingProvider->save($customer, $context);
                 }
 
                 return yield $context->delivery(
-                    RegisterCustomerValidationFailed::duplicatePhoneNumber($context->traceId())
+                    RegisterCustomerValidationFailed::duplicatePhoneNumber($context->metadata()->traceId())
                 );
             }
         );

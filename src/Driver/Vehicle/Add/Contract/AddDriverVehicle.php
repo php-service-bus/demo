@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -28,6 +28,8 @@ final class AddDriverVehicle
     /**
      * Driver identifier
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="Driver id must be specified")
      *
      * @var string
@@ -36,6 +38,8 @@ final class AddDriverVehicle
 
     /**
      * Vehicle brand
+     *
+     * @psalm-readonly
      *
      * @Assert\NotBlank(message="Vehicle brand must be specified")
      *
@@ -46,6 +50,8 @@ final class AddDriverVehicle
     /**
      * Vehicle model name
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="Vehicle model must be specified")
      *
      * @var string
@@ -54,6 +60,8 @@ final class AddDriverVehicle
 
     /**
      * Year of release
+     *
+     * @psalm-readonly
      *
      * @Assert\NotBlank(message="Year of release must be specified")
      * @Assert\Type("integer", message="Wrong year")
@@ -65,6 +73,8 @@ final class AddDriverVehicle
     /**
      * State registration number
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="State registration number must be specified")
      *
      * @var string
@@ -73,6 +83,8 @@ final class AddDriverVehicle
 
     /**
      * Vehicle color
+     *
+     * @psalm-readonly
      *
      * @Assert\NotBlank(message="Car color must be specified")
      *

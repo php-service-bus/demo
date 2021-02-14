@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -11,7 +11,8 @@ declare(strict_types = 1);
 
 namespace App\Driver\Vehicle\Add\Contract;
 
-use ServiceBus\Services\Contracts\ValidationFailedEvent;
+use ServiceBus\Common\Context\ValidationViolation;
+use ServiceBus\Common\Context\ValidationViolations;
 
 /**
  * Validation failed
@@ -21,10 +22,12 @@ use ServiceBus\Services\Contracts\ValidationFailedEvent;
  *
  * @psalm-immutable
  */
-final class AddDriverVehicleValidationFailed implements ValidationFailedEvent
+final class AddDriverVehicleValidationFailed
 {
     /**
      * Request operation id
+     *
+     * @psalm-readonly
      *
      * @var string
      */
@@ -33,45 +36,29 @@ final class AddDriverVehicleValidationFailed implements ValidationFailedEvent
     /**
      * List of validate violations
      *
-     * [
-     *    'propertyPath' => [
-     *        0 => 'some message',
-     *        ....
-     *    ]
-     * ]
+     * @psalm-readonly
      *
-     * @psalm-var array<string, array<int, string>>
-     *
-     * @var array
+     * @var ValidationViolations
      */
     public $violations;
 
-    public static function create(string $correlationId, array $violations): ValidationFailedEvent
+    public static function driverNotFound(string $correlationId): self
     {
-        return new self($correlationId, $violations);
+        return new self(
+            $correlationId,
+            new ValidationViolations([
+                    new ValidationViolation(
+                        property: 'driverId',
+                        message: 'Specified driver not found'
+                    )
+                ]
+            )
+        );
     }
 
-    public static function driverNotFound(string $correlationId): ValidationFailedEvent
-    {
-        return new self($correlationId, ['driverId' => ['Specified driver not found']]);
-    }
-
-    /**
-     * @psalm-param array<string, array<int, string>> $violations
-     */
-    public function __construct(string $correlationId, array $violations)
+    public function __construct(string $correlationId, ValidationViolations $violations)
     {
         $this->correlationId = $correlationId;
         $this->violations    = $violations;
-    }
-
-    public function correlationId(): string
-    {
-        return $this->correlationId;
-    }
-
-    public function violations(): array
-    {
-        return $this->violations;
     }
 }

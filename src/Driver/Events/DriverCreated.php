@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -27,6 +27,8 @@ final class DriverCreated
     /**
      * Driver aggregate id
      *
+     * @psalm-readonly
+     *
      * @var DriverId
      */
     public $id;
@@ -34,12 +36,16 @@ final class DriverCreated
     /**
      * Driver full name
      *
+     * @psalm-readonly
+     *
      * @var DriverFullName
      */
     public $fullName;
 
     /**
      * Driver contacts
+     *
+     * @psalm-readonly
      *
      * @var DriverContacts
      */

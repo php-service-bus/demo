@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -22,7 +22,7 @@ use ServiceBus\EventSourcing\EventSourcingProvider;
 use ServiceBus\EventSourcing\Indexes\IndexKey;
 use ServiceBus\EventSourcing\Indexes\IndexValue;
 use ServiceBus\EventSourcing\IndexProvider;
-use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Attributes\CommandHandler;
 use function Amp\call;
 
 /**
@@ -30,30 +30,36 @@ use function Amp\call;
  */
 final class HandleAddVehicle
 {
-    /**
-     * @CommandHandler(
-     *     description="Add new vehicle",
-     *     validate=true,
-     *     defaultValidationFailedEvent="App\Vehicle\Manage\Add\Contract\AddVehicleValidationFailed",
-     *     defaultThrowableEvent="App\Vehicle\Manage\Add\Contract\AddVehicleFailed"
-     * )
-     */
+    #[CommandHandler(
+        description: 'Add new vehicle',
+        validationEnabled: true
+    )]
     public function handle(
         AddVehicle $command,
         ServiceBusContext $context,
         VehicleBrandFinder $vehicleBrandFinder,
         IndexProvider $indexProvider,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise {
+    ): Promise
+    {
         return call(
-            static function () use ($command, $context, $vehicleBrandFinder, $indexProvider, $eventSourcingProvider): \Generator
+            static function() use ($command, $context, $vehicleBrandFinder, $indexProvider, $eventSourcingProvider): \Generator
             {
+                $violations = $context->violations();
+
+                if($violations !== null)
+                {
+                    return yield $context->delivery(
+                        new AddVehicleValidationFailed($context->metadata()->traceId(), $violations)
+                    );
+                }
+
                 /** @var \App\Vehicle\Brand\VehicleBrand|null $brand */
                 $brand = yield $vehicleBrandFinder->findOneByTitle($command->brand);
 
-                if ($brand === null)
+                if($brand === null)
                 {
-                    return $context->delivery(AddVehicleValidationFailed::invalidBrand($context->traceId()));
+                    return $context->delivery(AddVehicleValidationFailed::invalidBrand($context->metadata()->traceId()));
                 }
 
                 $vehicle = Vehicle::create(
@@ -70,7 +76,7 @@ final class HandleAddVehicle
                 $storedValue = yield $indexProvider->get($indexKey);
 
                 /** Vehicle doesn`t exist  */
-                if ($storedValue === null)
+                if($storedValue === null)
                 {
                     yield $indexProvider->add($indexKey, new IndexValue($vehicle->id()->toString()));
 
@@ -79,7 +85,7 @@ final class HandleAddVehicle
 
                 return yield $context->delivery(
                     AddVehicleValidationFailed::duplicateStateRegistrationNumber(
-                        $context->traceId(),
+                        $context->metadata()->traceId(),
                         new VehicleId((string) $storedValue->value)
                     )
                 );

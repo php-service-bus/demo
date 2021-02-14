@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -16,6 +16,8 @@ use App\Driver\DriverId;
 /**
  * New driver successful registered
  *
+ * @psalm-immutable
+ *
  * @api
  * @see RegisterDriver
  */
@@ -24,12 +26,16 @@ final class DriverRegistered
     /**
      * Request operation id
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $correlationId;
 
     /**
      * Driver identifier
+     *
+     * @psalm-readonly
      *
      * @var DriverId
      */

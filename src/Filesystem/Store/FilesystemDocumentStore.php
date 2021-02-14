@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -124,6 +124,8 @@ final class FilesystemDocumentStore implements DocumentStore
                         \sprintf('Could not find saved file `%s`', $result['file_path'])
                     );
                 }
+
+                return null;
             }
         );
     }
@@ -143,7 +145,7 @@ final class FilesystemDocumentStore implements DocumentStore
                         yield $this->removeFile($filePath);
                     }
                 }
-                catch (\Throwable $throwable)
+                catch (\Throwable)
                 {
                     /** Not interests */
                 }
@@ -235,7 +237,7 @@ final class FilesystemDocumentStore implements DocumentStore
                 {
                     yield unlink($filePath);
                 }
-                catch (\Throwable $throwable)
+                catch (\Throwable)
                 {
                     /** Not interests */
                 }
@@ -306,6 +308,8 @@ final class FilesystemDocumentStore implements DocumentStore
 
                         return $payload;
                     }
+
+                    return null;
                 }
                 catch (\Throwable $throwable)
                 {

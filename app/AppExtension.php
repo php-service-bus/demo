@@ -9,11 +9,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class AppExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Exception
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator());

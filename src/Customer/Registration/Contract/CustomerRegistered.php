@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -26,12 +26,16 @@ final class CustomerRegistered
     /**
      * Request operation id
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $correlationId;
 
     /**
      * Customer identifier
+     *
+     * @psalm-readonly
      *
      * @var CustomerId
      */

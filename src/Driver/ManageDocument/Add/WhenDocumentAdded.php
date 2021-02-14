@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -15,19 +15,17 @@ use Amp\Promise;
 use App\Driver\Events\DocumentAdded;
 use App\Driver\ManageDocument\Add\Contract\DriverDocumentAdded;
 use ServiceBus\Common\Context\ServiceBusContext;
-use ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Services\Attributes\EventListener;
 
 /**
  * Document successful attached to driver
  */
 final class WhenDocumentAdded
 {
-    /**
-     * @EventListener()
-     */
+    #[EventListener]
     public function on(DocumentAdded $event, ServiceBusContext $context): Promise
     {
-        $context->logContextMessage(
+        $context->logger()->info(
             'Document "{driverDocumentId}" successful added to driver "{driverId}"',
             [
                 'driverDocumentId' => $event->documentId->toString(),
@@ -36,7 +34,7 @@ final class WhenDocumentAdded
         );
 
         return $context->delivery(
-            new DriverDocumentAdded($context->traceId(), $event->driverId, $event->documentId)
+            new DriverDocumentAdded($context->metadata()->traceId(), $event->driverId, $event->documentId)
         );
     }
 }

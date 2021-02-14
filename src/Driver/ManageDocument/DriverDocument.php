@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -15,20 +15,28 @@ use App\Filesystem\DocumentId;
 
 /**
  * Attached document
+ *
+ * @psalm-immutable
  */
 final class DriverDocument
 {
     /**
+     * @psalm-readonly
+     *
      * @var DocumentId
      */
     public $id;
 
     /**
+     * @psalm-readonly
+     *
      * @var DriverDocumentType
      */
     public $type;
 
     /**
+     * @psalm-readonly
+     *
      * @var DriverDocumentStatus
      */
     public $status;

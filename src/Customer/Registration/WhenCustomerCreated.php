@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -15,7 +15,7 @@ use Amp\Promise;
 use App\Customer\Events\CustomerCreated;
 use App\Customer\Registration\Contract\CustomerRegistered;
 use ServiceBus\Common\Context\ServiceBusContext;
-use ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Services\Attributes\EventListener;
 use function Amp\call;
 
 /**
@@ -23,9 +23,7 @@ use function Amp\call;
  */
 final class WhenCustomerCreated
 {
-    /**
-     * @EventListener()
-     */
+    #[EventListener]
     public function on(CustomerCreated $event, ServiceBusContext $context): Promise
     {
         return call(
@@ -34,17 +32,17 @@ final class WhenCustomerCreated
                 try
                 {
                     yield $context->delivery(
-                        new CustomerRegistered($context->traceId(), $event->id)
+                        new CustomerRegistered($context->metadata()->traceId(), $event->id)
                     );
 
-                    $context->logContextMessage(
+                    $context->logger()->info(
                         'Customer with id "{customerId}" successfully added',
                         ['customerId' => $event->id->toString()]
                     );
                 }
                 catch (\Throwable $throwable)
                 {
-                    $context->logContextThrowable($throwable);
+                    $context->logger()->throwable($throwable);
                 }
             }
         );

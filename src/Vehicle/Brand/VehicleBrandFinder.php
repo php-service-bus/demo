@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -21,7 +21,9 @@ use function ServiceBus\Storage\Sql\equalsCriteria;
  */
 final class VehicleBrandFinder
 {
-    /** @var SqlFinder */
+    /**
+     * @var SqlFinder
+     */
     private $finder;
 
     public function __construct(SqlFinder $finder)
@@ -58,6 +60,8 @@ final class VehicleBrandFinder
                 {
                     return new VehicleBrand($result['id'], $result['title']);
                 }
+
+                return null;
             }
         );
     }

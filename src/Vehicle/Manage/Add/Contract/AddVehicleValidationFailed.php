@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -12,7 +12,8 @@ declare(strict_types = 1);
 namespace App\Vehicle\Manage\Add\Contract;
 
 use App\Vehicle\VehicleId;
-use ServiceBus\Services\Contracts\ValidationFailedEvent;
+use ServiceBus\Common\Context\ValidationViolation;
+use ServiceBus\Common\Context\ValidationViolations;
 
 /**
  * Invalid vehicle details
@@ -22,10 +23,12 @@ use ServiceBus\Services\Contracts\ValidationFailedEvent;
  *
  * @psalm-immutable
  */
-final class AddVehicleValidationFailed implements ValidationFailedEvent
+final class AddVehicleValidationFailed
 {
     /**
      * Request operation id
+     *
+     * @psalm-readonly
      *
      * @var string
      */
@@ -34,16 +37,9 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
     /**
      * List of validate violations
      *
-     * [
-     *    'propertyPath' => [
-     *        0 => 'some message',
-     *        ....
-     *    ]
-     * ]
+     * @psalm-readonly
      *
-     * @psalm-var array<string, array<int, string>>
-     *
-     * @var array
+     * @var ValidationViolations
      */
     public $violations;
 
@@ -55,43 +51,40 @@ final class AddVehicleValidationFailed implements ValidationFailedEvent
      */
     public $vehicleId;
 
-    public static function create(string $correlationId, array $violations): ValidationFailedEvent
-    {
-        return new self($correlationId, $violations);
-    }
-
     public static function invalidBrand(string $correlationId): self
     {
-        return new self($correlationId, ['brand' => ['Car brand not found']]);
+        return new self(
+            $correlationId,
+            new ValidationViolations([
+                    new ValidationViolation(
+                        property: 'brand',
+                        message: 'Car brand not found'
+                    )
+                ]
+            )
+        );
     }
 
     public static function duplicateStateRegistrationNumber(string $correlationId, VehicleId $vehicleId): self
     {
         return new self(
             $correlationId,
-            ['registrationNumber' => ['The car with the specified registration number is already registered']],
+            new ValidationViolations([
+                    new ValidationViolation(
+                        property: 'registrationNumber',
+                        message: 'The car with the specified registration number is already registered'
+                    )
+                ]
+            ),
             clone $vehicleId
         );
     }
 
-    /**
-     * @psalm-param array<string, array<int, string>> $violations
-     */
-    public function __construct(string $correlationId, array $violations, ?VehicleId $vehicleId = null)
+    public function __construct(string $correlationId, ValidationViolations $violations, ?VehicleId $vehicleId = null)
     {
         $this->correlationId = $correlationId;
         $this->violations    = $violations;
-        /** @psalm-suppress ImpurePropertyAssignment */
-        $this->vehicleId     = $vehicleId;
+        $this->vehicleId = $vehicleId;
     }
 
-    public function correlationId(): string
-    {
-        return $this->correlationId;
-    }
-
-    public function violations(): array
-    {
-        return $this->violations;
-    }
 }

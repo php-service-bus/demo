@@ -15,11 +15,11 @@ Once launched, you can execute commands from the [tools](https://github.com/php-
 * Create issue [https://github.com/php-service-bus/service-bus/issues](https://github.com/php-service-bus/service-bus/issues)
 
 ## Contacts
-* [`dev@async-php.com`](mailto:dev@async-php.com)
+* [`contacts@desperado.dev`](mailto:dev@async-php.com)
 
 ## Security
 
-If you discover any security related issues, please email [`dev@async-php.com`](mailto:dev@async-php.com) instead of using the issue tracker.
+If you discover any security related issues, please email [`contacts@desperado.dev`](mailto:contacts@desperado.dev) instead of using the issue tracker.
 
 ## License
 

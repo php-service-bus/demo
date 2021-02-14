@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -27,12 +27,16 @@ final class VehicleCreated
     /**
      * Aggregate identifier
      *
+     * @psalm-readonly
+     *
      * @var VehicleId
      */
     public $id;
 
     /**
      * Vehicle brand
+     *
+     * @psalm-readonly
      *
      * @var VehicleBrand
      */
@@ -41,12 +45,16 @@ final class VehicleCreated
     /**
      * Vehicle model name
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $model;
 
     /**
      * Year of release
+     *
+     * @psalm-readonly
      *
      * @var int
      */
@@ -55,6 +63,8 @@ final class VehicleCreated
     /**
      * State registration number
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $registrationNumber;
@@ -62,12 +72,16 @@ final class VehicleCreated
     /**
      * Car color
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $color;
 
     /**
      * Car status
+     *
+     * @psalm-readonly
      *
      * @var VehicleStatus
      */

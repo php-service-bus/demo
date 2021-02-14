@@ -14,5 +14,6 @@ $publisher->sendMessage(
         'desperado@minsk-info.ru',
         'Maksim',
         'Masiukevich'
-    )
+    ),
+    'cacaa66d-f7fa-4f12-82cb-2e4358dc955d'
 );

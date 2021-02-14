@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -14,7 +14,7 @@ namespace App\Driver\Vehicle\Add;
 use ServiceBus\Sagas\SagaId;
 
 /**
- *
+ * @psalm-immutable
  */
 final class AddDriverVehicleSagaId extends SagaId
 {

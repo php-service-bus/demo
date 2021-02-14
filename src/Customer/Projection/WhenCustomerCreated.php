@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -14,7 +14,7 @@ namespace App\Customer\Projection;
 use Amp\Promise;
 use App\Customer\Events\CustomerCreated;
 use ServiceBus\Common\Context\ServiceBusContext;
-use ServiceBus\Services\Annotations\EventListener;
+use ServiceBus\Services\Attributes\EventListener;
 use ServiceBus\Storage\Common\DatabaseAdapter;
 use function Amp\call;
 use function ServiceBus\Common\jsonEncode;
@@ -24,9 +24,7 @@ use function ServiceBus\Common\jsonEncode;
  */
 final class WhenCustomerCreated
 {
-    /**
-     * @EventListener()
-     */
+    #[EventListener]
     public function on(CustomerCreated $event, ServiceBusContext $context, DatabaseAdapter $storage): Promise
     {
         return call(
@@ -46,7 +44,7 @@ final class WhenCustomerCreated
                 }
                 catch (\Throwable $throwable)
                 {
-                    $context->logContextThrowable($throwable);
+                    $context->logger()->throwable($throwable);
                 }
             }
         );

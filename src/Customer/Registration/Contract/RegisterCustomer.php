@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -28,6 +28,8 @@ final class RegisterCustomer
     /**
      * Phone number
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="Phone number must be specified")
      *
      * @var string
@@ -36,6 +38,8 @@ final class RegisterCustomer
 
     /**
      * Email address
+     *
+     * @psalm-readonly
      *
      * @Assert\NotBlank(message="Email address must be specified")
      * @Assert\Email(message="Incorrect email address")
@@ -47,6 +51,8 @@ final class RegisterCustomer
     /**
      * First name
      *
+     * @psalm-readonly
+     *
      * @Assert\NotBlank(message="First name must be specified")
      *
      * @var string
@@ -55,6 +61,8 @@ final class RegisterCustomer
 
     /**
      * Last name
+     *
+     * @psalm-readonly
      *
      * @Assert\NotBlank(message="First name must be specified")
      *

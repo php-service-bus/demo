@@ -14,6 +14,6 @@ $publisher->sendMessage(
         'passport.jpg',
         'image/jpeg',
         \base64_encode(\file_get_contents(__DIR__ . '/docs/passport.jpg')),
-        '0da419b4-90fe-4f88-b870-b4008a06ea1a'
+        '56e91e9b-5283-4f6e-b6a8-da93533217e6'
     )
 );

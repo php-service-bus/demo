@@ -10,10 +10,11 @@ include_once __DIR__ . '/../../vendor/autoload.php';
 $publisher = new ToolsPublisher(__DIR__ . '/../../.env');
 $publisher->sendMessage(
     new RegisterDriver(
-        '8-800-888-88-88',
+        '8-800-888-88-28',
         'desperado@minsk-info.ru',
         'Maksim',
         'Masiukevich',
         'Andreevich'
-    )
+    ),
+    'cacaa66d-f7fa-4f12-82cb-2e4358dc955d'
 );

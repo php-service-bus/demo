@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -17,6 +17,7 @@ use App\Vehicle\VehicleId;
 /**
  * Add vehicle to driver aggregate
  *
+ * @psalm-immutable
  * @internal
  */
 final class AddVehicleToDriver
@@ -24,12 +25,16 @@ final class AddVehicleToDriver
     /**
      * Driver aggregate id
      *
+     * @psalm-readonly
+     *
      * @var DriverId
      */
     public $driverId;
 
     /**
      * Vehicle aggregate id
+     *
+     * @psalm-readonly
      *
      * @var VehicleId
      */

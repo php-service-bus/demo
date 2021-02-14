@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -22,7 +22,7 @@ use ServiceBus\EventSourcing\EventSourcingProvider;
 use ServiceBus\EventSourcing\Indexes\IndexKey;
 use ServiceBus\EventSourcing\Indexes\IndexValue;
 use ServiceBus\EventSourcing\IndexProvider;
-use ServiceBus\Services\Annotations\CommandHandler;
+use ServiceBus\Services\Attributes\CommandHandler;
 use function Amp\call;
 
 /**
@@ -30,23 +30,29 @@ use function Amp\call;
  */
 final class HandleRegisterDriver
 {
-    /**
-     * @CommandHandler(
-     *     description="Execute driver registration",
-     *     validate=true,
-     *     defaultValidationFailedEvent="App\Driver\Registration\Contract\RegisterDriverValidationFailed",
-     *     defaultThrowableEvent="App\Driver\Registration\Contract\DriverRegistrationFailed"
-     * )
-     */
+    #[CommandHandler(
+        description: 'Execute driver registration',
+        validationEnabled: true
+    )]
     public function handle(
         RegisterDriver $command,
         ServiceBusContext $context,
         IndexProvider $indexProvider,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise {
+    ): Promise
+    {
         return call(
-            static function () use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
+            static function() use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
             {
+                $violations = $context->violations();
+
+                if($violations !== null)
+                {
+                    return yield $context->delivery(
+                        new RegisterDriverValidationFailed($context->metadata()->traceId(), $violations)
+                    );
+                }
+
                 $driver = Driver::register(
                     new DriverFullName($command->firstName, $command->lastName, $command->patronymic),
                     new DriverContacts($command->phone, $command->email)
@@ -59,13 +65,13 @@ final class HandleRegisterDriver
                 );
 
                 /** Check the uniqueness of the phone number */
-                if ($canBeRegistered)
+                if($canBeRegistered)
                 {
                     return yield $eventSourcingProvider->save($driver, $context);
                 }
 
                 return yield $context->delivery(
-                    RegisterDriverValidationFailed::duplicatePhoneNumber($context->traceId())
+                    RegisterDriverValidationFailed::duplicatePhoneNumber($context->metadata()->traceId())
                 );
             }
         );

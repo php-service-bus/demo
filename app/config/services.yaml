@@ -1,2 +1,5 @@
+parameters:
+  app.filesystem.storage_path: '%service_bus.root_directory%/storage'
+
 services:
   # ... Some custom service definitions

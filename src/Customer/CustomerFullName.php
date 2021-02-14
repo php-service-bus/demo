@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -17,11 +17,15 @@ namespace App\Customer;
 final class CustomerFullName
 {
     /**
+     * @psalm-readonly
+     *
      * @var string
      */
     public $firstName;
 
     /**
+     * @psalm-readonly
+     *
      * @var string
      */
     public $lastName;

@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -21,12 +21,16 @@ final class VehicleBrand
     /**
      * Brand identifier
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $id;
 
     /**
      * @var string
+     *
+     * @psalm-readonly
      */
     public $title;
 

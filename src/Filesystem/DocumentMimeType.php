@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -13,15 +13,21 @@ namespace App\Filesystem;
 
 /**
  * Document media type
+ *
+ * @psalm-immutable
  */
 final class DocumentMimeType
 {
     /**
+     * @psalm-readonly
+     *
      * @var string
      */
     public $base;
 
     /**
+     * @psalm-readonly
+     *
      * @var string
      */
     public $subType;

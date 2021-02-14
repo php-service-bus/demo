@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -13,31 +13,26 @@ namespace App\Driver\Vehicle\Add;
 
 use App\Driver\Commands\AddVehicleToDriver;
 use App\Driver\DriverId;
-use App\Driver\Vehicle\Add\Contract\AddDriverVehicleFailed;
 use App\Driver\Vehicle\Add\Contract\AddDriverVehicleValidationFailed;
 use App\Driver\Vehicle\Add\Contract\VehicleAddedToDriver;
 use App\Vehicle\Manage\Add\Contract\AddVehicle;
 use App\Vehicle\Manage\Add\Contract\AddVehicleValidationFailed;
 use App\Vehicle\Manage\Add\Contract\VehicleStored;
 use App\Vehicle\VehicleId;
-use ServiceBus\Sagas\Configuration\Annotations\SagaEventListener;
-use ServiceBus\Sagas\Configuration\Annotations\SagaHeader;
+use ServiceBus\Sagas\Configuration\Attributes\SagaEventListener;
+use ServiceBus\Sagas\Configuration\Attributes\SagaHeader;
 use ServiceBus\Sagas\Saga;
 
 /**
  * The saga of adding a car to the driver's profile
- *
- * @SagaHeader(
- *    idClass="App\Driver\Vehicle\Add\AddDriverVehicleSagaId",
- *    containingIdProperty="correlationId",
- *    expireDateModifier="+5 minutes"
- * )
  */
+#[SagaHeader(
+    idClass: AddDriverVehicleSagaId::class,
+    containingIdProperty: 'correlationId',
+    expireDateModifier: '+5 minutes'
+)]
 final class AddDriverVehicleSaga extends Saga
 {
-    /** Maximum number of attempts to save a vehicle in the driver's profile  */
-    private const MAX_STORE_ATTEMPTS = 5;
-
     /**
      * Driver identifier
      *
@@ -124,11 +119,9 @@ final class AddDriverVehicleSaga extends Saga
         );
     }
 
-    /**
-     * Vehicle successfully stored
-     *
-     * @SagaEventListener()
-     */
+    #[SagaEventListener(
+        description: 'Vehicle successfully stored'
+    )]
     private function onVehicleStored(VehicleStored $event): void
     {
         $this->vehicleId = $event->id;
@@ -136,21 +129,17 @@ final class AddDriverVehicleSaga extends Saga
         $this->doAddToDriver();
     }
 
-    /**
-     * Vehicle successfully added
-     *
-     * @SagaEventListener()
-     */
+    #[SagaEventListener(
+        description: 'Vehicle successfully added'
+    )]
     private function onVehicleAddedToDriver(VehicleAddedToDriver $event): void
     {
         $this->makeCompleted(\sprintf('Successful added (%s)', $event->correlationId));
     }
 
-    /**
-     * Parameter error when adding a vehicle
-     *
-     * @SagaEventListener()
-     */
+    #[SagaEventListener(
+        description: 'Parameter error when adding a vehicle'
+    )]
     private function onAddVehicleValidationFailed(AddVehicleValidationFailed $event): void
     {
         /** Vehicle has been added previously */
@@ -167,35 +156,13 @@ final class AddDriverVehicleSaga extends Saga
         $this->makeFailed('Validation failed');
     }
 
-    /**
-     * Add vehicle validation failed
-     *
-     * @SagaEventListener()
-     */
+    #[SagaEventListener(
+        description: 'Add vehicle validation failed'
+    )]
     private function onAddDriverVehicleValidationFailed(AddDriverVehicleValidationFailed $event): void
     {
         $this->makeFailed(
             \sprintf('Validation failed (%s)', \http_build_query($event->violations))
-        );
-    }
-
-    /**
-     * An unknown error occurred while adding
-     * We will try to repeat the operation
-     *
-     * @SagaEventListener()
-     */
-    private function onAddDriverVehicleFailed(AddDriverVehicleFailed $event): void
-    {
-        if ($this->storeRetryCount >= self::MAX_STORE_ATTEMPTS)
-        {
-            $this->doAddToDriver();
-
-            return;
-        }
-
-        $this->makeFailed(
-            \sprintf('Error adding vehicle to driver (%s)', $event->reason)
         );
     }
 

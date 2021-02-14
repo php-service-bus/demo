@@ -3,7 +3,7 @@
 /**
  * PHP Service Bus demo application
  *
- * @author  Maksim Masiukevich <dev@async-php.com>
+ * @author  Maksim Masiukevich <contacts@desperado.dev>
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
@@ -24,12 +24,16 @@ final class VehicleAdded
     /**
      * Driver id
      *
+     * @psalm-readonly
+     *
      * @var DriverId
      */
     public $driverId;
 
     /**
      * Vehicle id
+     *
+     * @psalm-readonly
      *
      * @var VehicleId
      */

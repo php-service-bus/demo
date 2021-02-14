@@ -10,7 +10,7 @@ include_once __DIR__ . '/../../../vendor/autoload.php';
 $publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
 $publisher->sendMessage(
     new AddDriverVehicle(
-        '0da419b4-90fe-4f88-b870-b4008a06ea1a',
+        '56e91e9b-5283-4f6e-b6a8-da93533217e6',
         'BMW',
         'Series 7',
         2018,
