@@ -15,7 +15,7 @@ Once launched, you can execute commands from the [tools](https://github.com/php-
 * Create issue [https://github.com/php-service-bus/service-bus/issues](https://github.com/php-service-bus/service-bus/issues)
 
 ## Contacts
-* [`contacts@desperado.dev`](mailto:dev@async-php.com)
+* [`contacts@desperado.dev`](mailto:contacts@desperado.dev)
 
 ## Security
 
