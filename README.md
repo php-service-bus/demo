@@ -10,8 +10,10 @@ make start consumer-logs
 ```
 Once launched, you can execute commands from the [tools](https://github.com/php-service-bus/demo/tree/v4.1/tools) directory via `Make`
 
-## Support
+### Communication Channels
+You can find help and discussion in the following places:
 * [Telegram chat (RU)](https://t.me/php_service_bus)
+* [Twitter](https://twitter.com/PhpBus)
 * Create issue [https://github.com/php-service-bus/service-bus/issues](https://github.com/php-service-bus/service-bus/issues)
 
 ## Contacts
@@ -23,4 +25,4 @@ If you discover any security related issues, please email [`contacts@desperado.d
 
 ## License
 
-The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
+The MIT License (MIT). Please see [LICENSE](./LICENSE.md) for more information.

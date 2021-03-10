@@ -45,7 +45,7 @@
     ]
   },
   "scripts": {
-    "psalm": "./vendor/bin/psalm --config=psalm.xml",
+    "psalm": "rm -rf ~/.cache/psalm/ && ./vendor/bin/psalm --config=psalm.xml",
     "phpstan": "./vendor/bin/phpstan analyse src --level 7",
     "tests": "./vendor/bin/phpunit --configuration phpunit.xml --debug --verbose --debug",
     "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --configuration phpunit.xml --coverage-html ./coverage --debug --verbose --debug",

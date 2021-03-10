@@ -20,6 +20,16 @@ RUN wget https://github.com/FriendsOfPHP/pickle/releases/download/v0.7.0/pickle.
     && mv pickle.phar /usr/local/bin/pickle \
     && chmod +x /usr/local/bin/pickle
 
+# https://github.com/phpinnacle/ext-buffer
+RUN echo "b9093d98bad023c3816cb623f8029033f83ca7e0" \
+    && git clone https://github.com/phpinnacle/ext-buffer.git \
+    && cd ext-buffer \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && echo "extension=buffer.so" > /usr/local/etc/php/conf.d/buffer.ini
+
 RUN pickle install event \
     && docker-php-ext-enable event \
     && mv /usr/local/etc/php/conf.d/docker-php-ext-event.ini /usr/local/etc/php/conf.d/docker-php-ext-zz-event.ini \
@@ -29,9 +39,10 @@ RUN pickle install event \
     && echo "extension=pq.so" > /usr/local/etc/php/conf.d/pq.ini \
     && rm -rf /tmp/* /var/cache/apk/*
 
-# Composer install
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
    && chmod +x /usr/local/bin/composer \
    && composer clear-cache
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY ./tools/* /tools/
