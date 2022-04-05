@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnusedPrivateMethodInspection */
+<?php
+
+/** @noinspection PhpUnusedPrivateMethodInspection */
 
 /**
  * PHP Service Bus demo application
@@ -7,7 +9,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Vehicle\Add;
 
@@ -30,7 +32,7 @@ use ServiceBus\Sagas\Saga;
  */
 #[SagaHeader(
     idClass: AddDriverVehicleSagaId::class,
-    containingIdProperty: 'correlationId',
+    containingIdProperty: 'processId',
     expireDateModifier: '+5 minutes'
 )]
 final class AddDriverVehicleSaga extends Saga
@@ -91,12 +93,10 @@ final class AddDriverVehicleSaga extends Saga
      */
     private $storeRetryCount = 0;
 
-    #[SagaInitialHandler(
-        containingIdProperty: 'processId'
-    )]
+    #[SagaInitialHandler]
     public function start(AddDriverVehicle $command): void
     {
-        $this->driverId                  = new DriverId($command->driverId);
+        $this->driverId                  = $command->driverId;
         $this->vehicleBrand              = $command->vehicleBrand;
         $this->vehicleModel              = $command->vehicleModel;
         $this->vehicleYear               = $command->vehicleYear;
@@ -149,7 +149,7 @@ final class AddDriverVehicleSaga extends Saga
         $this->removeAssociation('registrationNumber');
 
         /** Vehicle has been added previously */
-        if($event->vehicleId !== null)
+        if ($event->vehicleId !== null)
         {
             $this->vehicleId = $event->vehicleId;
 

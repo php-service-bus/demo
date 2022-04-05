@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Vehicle\Manage\Add\Contract;
 
@@ -57,7 +57,8 @@ final class AddVehicleValidationFailed
     {
         return new self(
             registrationNumber: $registrationNumber,
-            violations: new ValidationViolations([
+            violations: new ValidationViolations(
+                [
                     new ValidationViolation(
                         property: 'brand',
                         message: 'Car brand not found'
@@ -71,7 +72,8 @@ final class AddVehicleValidationFailed
     {
         return new self(
             registrationNumber: $registrationNumber,
-            violations: new ValidationViolations([
+            violations: new ValidationViolations(
+                [
                     new ValidationViolation(
                         property: 'registrationNumber',
                         message: 'The car with the specified registration number is already registered'
@@ -86,11 +88,9 @@ final class AddVehicleValidationFailed
         string               $registrationNumber,
         ValidationViolations $violations,
         ?VehicleId           $vehicleId = null
-    )
-    {
+    ) {
         $this->registrationNumber = $registrationNumber;
         $this->violations         = $violations;
         $this->vehicleId          = $vehicleId;
     }
-
 }

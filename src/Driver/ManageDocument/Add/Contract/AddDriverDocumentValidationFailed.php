@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\ManageDocument\Add\Contract;
 
@@ -45,7 +45,8 @@ final class AddDriverDocumentValidationFailed
     {
         return new self(
             $driverId,
-            new ValidationViolations([
+            new ValidationViolations(
+                [
                     new ValidationViolation(
                         property: 'payload',
                         message: $message
@@ -59,7 +60,8 @@ final class AddDriverDocumentValidationFailed
     {
         return new self(
             $driverId,
-            new ValidationViolations([
+            new ValidationViolations(
+                [
                     new ValidationViolation(
                         property: 'driverId',
                         message: 'Driver with specified id not found'
@@ -74,5 +76,4 @@ final class AddDriverDocumentValidationFailed
         $this->driverId   = $driverId;
         $this->violations = $violations;
     }
-
 }

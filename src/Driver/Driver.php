@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnusedPrivateMethodInspection */
+<?php
+
+/** @noinspection PhpUnusedPrivateMethodInspection */
 
 /**
  * PHP Service Bus demo application
@@ -7,7 +9,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver;
 
@@ -43,6 +45,8 @@ final class Driver extends Aggregate
     /**
      * Attached documents
      *
+     * @psalm-var array<string, DriverDocument>
+     *
      * @var DriverDocument[]
      */
     private $documents = [];
@@ -57,9 +61,12 @@ final class Driver extends Aggregate
     /**
      * Create a new driver
      */
-    public static function register(DriverFullName $fullName, DriverContacts $contacts): self
-    {
-        $self = new self(DriverId::new());
+    public static function register(
+        DriverId $id,
+        DriverFullName $fullName,
+        DriverContacts $contacts
+    ): self {
+        $self = new self($id);
 
         $self->raise(
             new DriverCreated($self->id(), $fullName, $contacts)
@@ -75,7 +82,7 @@ final class Driver extends Aggregate
      */
     public function attachDocument(DriverDocument $document): void
     {
-        if (isset($this->documents[$document->id->toString()]) === false)
+        if (\array_key_exists($document->id->toString(), $this->documents) === false)
         {
             $this->raise(
                 new DocumentAdded($this->id(), $document->id, $document->type)

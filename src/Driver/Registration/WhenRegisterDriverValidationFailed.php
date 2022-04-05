@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Registration;
 
@@ -24,8 +24,11 @@ final class WhenRegisterDriverValidationFailed
     public function on(RegisterDriverValidationFailed $event, ServiceBusContext $context): void
     {
         $context->logger()->info(
-            'Incorrect data to create a driver',
-            ['violations' => $event->violations->violations]
+            'Incorrect data to create a driver `{driverId}`',
+            [
+                'violations' => $event->violations->violations,
+                'driverId'   => $event->driverId->toString()
+            ]
         );
     }
 }

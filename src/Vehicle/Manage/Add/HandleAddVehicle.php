@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Vehicle\Manage\Add;
 
@@ -40,14 +40,13 @@ final class HandleAddVehicle
         VehicleBrandFinder $vehicleBrandFinder,
         IndexProvider $indexProvider,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise
-    {
+    ): Promise {
         return call(
-            static function() use ($command, $context, $vehicleBrandFinder, $indexProvider, $eventSourcingProvider): \Generator
+            static function () use ($command, $context, $vehicleBrandFinder, $indexProvider, $eventSourcingProvider): \Generator
             {
                 $violations = $context->violations();
 
-                if($violations !== null)
+                if ($violations !== null)
                 {
                     return yield $context->delivery(
                         new AddVehicleValidationFailed($command->registrationNumber, $violations)
@@ -57,7 +56,7 @@ final class HandleAddVehicle
                 /** @var \App\Vehicle\Brand\VehicleBrand|null $brand */
                 $brand = yield $vehicleBrandFinder->findOneByTitle($command->brand);
 
-                if($brand === null)
+                if ($brand === null)
                 {
                     return $context->delivery(AddVehicleValidationFailed::invalidBrand($command->registrationNumber));
                 }
@@ -76,7 +75,7 @@ final class HandleAddVehicle
                 $storedValue = yield $indexProvider->get($indexKey);
 
                 /** Vehicle doesn`t exist  */
-                if($storedValue === null)
+                if ($storedValue === null)
                 {
                     yield $indexProvider->add($indexKey, new IndexValue($vehicle->id()->toString()));
 

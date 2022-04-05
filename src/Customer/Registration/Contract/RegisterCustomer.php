@@ -7,10 +7,11 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Customer\Registration\Contract;
 
+use App\Customer\CustomerId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,6 +26,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class RegisterCustomer
 {
+    /**
+     * ID
+     *
+     * @psalm-readonly
+     *
+     * @Assert\NotBlank(message="Customer ID must be specified")
+     *
+     * @var CustomerId
+     */
+    public $id;
+
     /**
      * Phone number
      *
@@ -70,8 +82,9 @@ final class RegisterCustomer
      */
     public $lastName;
 
-    public function __construct(string $phone, string $email, string $firstName, string $lastName)
+    public function __construct(CustomerId $id, string $phone, string $email, string $firstName, string $lastName)
     {
+        $this->id = $id;
         $this->phone     = $phone;
         $this->email     = $email;
         $this->firstName = $firstName;

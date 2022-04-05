@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Vehicle\Add\Contract;
 
@@ -47,7 +47,8 @@ final class AddDriverVehicleValidationFailed
     {
         return new self(
             $driverId,
-            new ValidationViolations([
+            new ValidationViolations(
+                [
                     new ValidationViolation(
                         property: 'driverId',
                         message: 'Specified driver not found'

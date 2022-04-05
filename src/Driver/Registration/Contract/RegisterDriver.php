@@ -7,10 +7,11 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Registration\Contract;
 
+use App\Driver\DriverId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,6 +26,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class RegisterDriver
 {
+    /**
+     * ID
+     *
+     * @psalm-readonly
+     *
+     * @var DriverId
+     */
+    public $id;
+
     /**
      * Phone number
      *
@@ -79,8 +89,15 @@ final class RegisterDriver
      */
     public $patronymic;
 
-    public function __construct(string $phone, string $email, string $firstName, string $lastName, ?string $patronymic)
-    {
+    public function __construct(
+        DriverId  $id,
+        string  $phone,
+        string  $email,
+        string  $firstName,
+        string  $lastName,
+        ?string $patronymic
+    ) {
+        $this->id         = $id;
         $this->phone      = $phone;
         $this->email      = $email;
         $this->firstName  = $firstName;

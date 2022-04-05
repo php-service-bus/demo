@@ -7,10 +7,11 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Customer\Registration\Contract;
 
+use App\Customer\CustomerId;
 use ServiceBus\Common\Context\ValidationViolation;
 use ServiceBus\Common\Context\ValidationViolations;
 
@@ -25,13 +26,13 @@ use ServiceBus\Common\Context\ValidationViolations;
 final class RegisterCustomerValidationFailed
 {
     /**
-     * Registration request Id
+     * Customer Id
      *
      * @psalm-readonly
      *
-     * @var string
+     * @var CustomerId
      */
-    public $correlationId;
+    public $customerId;
 
     /**
      * List of validate violations
@@ -42,11 +43,12 @@ final class RegisterCustomerValidationFailed
      */
     public $violations;
 
-    public static function duplicatePhoneNumber(string $correlationId): self
+    public static function duplicatePhoneNumber(CustomerId $customerId): self
     {
         return new self(
-            $correlationId,
-            new ValidationViolations([
+            $customerId,
+            new ValidationViolations(
+                [
                     new ValidationViolation(
                         property: 'phone',
                         message: 'Customer with the specified phone number is already registered'
@@ -56,9 +58,9 @@ final class RegisterCustomerValidationFailed
         );
     }
 
-    public function __construct(string $correlationId, ValidationViolations $violations)
+    public function __construct(CustomerId $customerId, ValidationViolations $violations)
     {
-        $this->correlationId = $correlationId;
-        $this->violations    = $violations;
+        $this->customerId = $customerId;
+        $this->violations = $violations;
     }
 }

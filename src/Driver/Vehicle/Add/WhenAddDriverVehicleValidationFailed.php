@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Vehicle\Add;
 
@@ -24,8 +24,11 @@ final class WhenAddDriverVehicleValidationFailed
     public function on(AddDriverVehicleValidationFailed $event, ServiceBusContext $context): void
     {
         $context->logger()->info(
-            'Validation error in the process of saving the vehicle for the driver',
-            [ 'violations' => $event->violations->violations]
+            'Validation error in the process of saving the vehicle for the driver `{driverId}`',
+            [
+                'violations' => $event->violations->violations,
+                'driverId'   => $event->driverId
+            ]
         );
     }
 }

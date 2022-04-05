@@ -7,10 +7,11 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\ManageDocument\Add\Contract;
 
+use App\Driver\DriverId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -87,11 +88,11 @@ final class AddDriverDocument
      *
      * @Assert\NotBlank(message="Driver id must be specified")
      *
-     * @var string
+     * @var DriverId
      */
     public $driverId;
 
-    public function __construct(string $type, string $filename, string $mimeType, string $payload, string $driverId)
+    public function __construct(string $type, string $filename, string $mimeType, string $payload, DriverId $driverId)
     {
         $this->type     = $type;
         $this->filename = $filename;

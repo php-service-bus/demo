@@ -1,3 +1,6 @@
 parameters:
     checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#Property .* is never read, only written#'
+        - '#Method .* is unused#'

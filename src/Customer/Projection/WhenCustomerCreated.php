@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Customer\Projection;
 
@@ -32,15 +32,20 @@ final class WhenCustomerCreated
             {
                 try
                 {
-                    yield CustomerReadModel::new($storage, [
-                        'id'      => $event->id->toString(),
-                        'profile' => jsonEncode([
-                            'email'     => $event->contacts->email,
-                            'phone'     => $event->contacts->phone,
-                            'firstName' => $event->fullName->firstName,
-                            'lastName'  => $event->fullName->lastName
-                        ])
-                    ]);
+                    yield CustomerReadModel::new(
+                        queryExecutor: $storage,
+                        data: [
+                            'id'      => $event->id->toString(),
+                            'profile' => jsonEncode(
+                                [
+                                    'email'     => $event->contacts->email,
+                                    'phone'     => $event->contacts->phone,
+                                    'firstName' => $event->fullName->firstName,
+                                    'lastName'  => $event->fullName->lastName
+                                ]
+                            )
+                        ]
+                    );
                 }
                 catch (\Throwable $throwable)
                 {

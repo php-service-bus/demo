@@ -4,19 +4,19 @@
 declare(strict_types = 1);
 
 use App\Driver\Vehicle\Add\Contract\AddDriverVehicle;
-use function ServiceBus\Common\uuid;
+use App\Driver\DriverId;
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 
 $publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
 $publisher->sendMessage(
     new AddDriverVehicle(
-        uuid(),
-        '19fa99f7-8869-4f8c-8799-590cd22fbe0d',
-        'BMW',
-        'Series 7',
-        2018,
-        'x777xxxx',
-        'black'
+        processId: '69bd64a8-4492-4b9a-822e-9780f0c6891d',
+        driverId: new DriverId('b4591ef4-251f-4fb3-acf1-76352c0e41b5'),
+        vehicleBrand: 'BMW',
+        vehicleModel: 'Series 7',
+        vehicleYear: 2018,
+        vehicleRegistrationNumber: 'x777xxxx',
+        vehicleColor: 'black'
     )
 );

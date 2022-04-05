@@ -7,10 +7,11 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Registration\Contract;
 
+use App\Driver\DriverId;
 use ServiceBus\Common\Context\ValidationViolation;
 use ServiceBus\Common\Context\ValidationViolations;
 
@@ -25,13 +26,13 @@ use ServiceBus\Common\Context\ValidationViolations;
 final class RegisterDriverValidationFailed
 {
     /**
-     * Request operation id
+     * Driver id
      *
      * @psalm-readonly
      *
-     * @var string
+     * @var DriverId
      */
-    public $correlationId;
+    public $driverId;
 
     /**
      * List of validate violations
@@ -40,11 +41,12 @@ final class RegisterDriverValidationFailed
      */
     public $violations;
 
-    public static function duplicatePhoneNumber(string $correlationId): self
+    public static function duplicatePhoneNumber(DriverId $driverId): self
     {
         return new self(
-            $correlationId,
-            new ValidationViolations([
+            $driverId,
+            new ValidationViolations(
+                [
                     new ValidationViolation(
                         property: 'phone',
                         message: 'Driver with the specified phone number is already registered'
@@ -54,9 +56,9 @@ final class RegisterDriverValidationFailed
         );
     }
 
-    public function __construct(string $correlationId, ValidationViolations $violations)
+    public function __construct(DriverId $driverId, ValidationViolations $violations)
     {
-        $this->correlationId = $correlationId;
-        $this->violations    = $violations;
+        $this->driverId   = $driverId;
+        $this->violations = $violations;
     }
 }

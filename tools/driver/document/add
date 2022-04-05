@@ -4,16 +4,17 @@
 declare(strict_types = 1);
 
 use App\Driver\ManageDocument\Add\Contract\AddDriverDocument;
+use App\Driver\DriverId;
 
 include_once __DIR__ . '/../../../vendor/autoload.php';
 
 $publisher = new ToolsPublisher(__DIR__ . '/../../../.env');
 $publisher->sendMessage(
     new AddDriverDocument(
-        'password',
-        'passport.jpg',
-        'image/jpeg',
-        \base64_encode(\file_get_contents(__DIR__ . '/docs/passport.jpg')),
-        'fe0c35b5-262c-4f15-a303-f803a18e19af'
+        type: 'password',
+        filename: 'passport.jpg',
+        mimeType: 'image/jpeg',
+        payload: \base64_encode(\file_get_contents(__DIR__ . '/docs/passport.jpg')),
+        driverId: new DriverId('b4591ef4-251f-4fb3-acf1-76352c0e41b5'),
     )
 );

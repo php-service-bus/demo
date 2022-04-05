@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Registration;
 
@@ -35,43 +35,46 @@ final class HandleRegisterDriver
         validationEnabled: true
     )]
     public function handle(
-        RegisterDriver $command,
-        ServiceBusContext $context,
-        IndexProvider $indexProvider,
+        RegisterDriver        $command,
+        ServiceBusContext     $context,
+        IndexProvider         $indexProvider,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise
-    {
+    ): Promise {
         return call(
-            static function() use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
+            static function () use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
             {
                 $violations = $context->violations();
 
-                if($violations !== null)
+                if ($violations !== null)
                 {
                     return yield $context->delivery(
-                        new RegisterDriverValidationFailed($context->metadata()->traceId(), $violations)
+                        new RegisterDriverValidationFailed($command->id, $violations)
                     );
                 }
 
                 $driver = Driver::register(
-                    new DriverFullName($command->firstName, $command->lastName, $command->patronymic),
-                    new DriverContacts($command->phone, $command->email)
+                    id: $command->id,
+                    fullName: new DriverFullName($command->firstName, $command->lastName, $command->patronymic),
+                    contacts: new DriverContacts($command->phone, $command->email)
                 );
 
                 /** @var bool $canBeRegistered */
                 $canBeRegistered = yield $indexProvider->add(
-                    new IndexKey('driver', $command->phone),
-                    new IndexValue($driver->id()->toString())
+                    indexKey: new IndexKey('driver', $command->phone),
+                    value: new IndexValue($driver->id()->toString())
                 );
 
                 /** Check the uniqueness of the phone number */
-                if($canBeRegistered)
+                if ($canBeRegistered)
                 {
-                    return yield $eventSourcingProvider->store($driver, $context);
+                    return yield $eventSourcingProvider->store(
+                        aggregate: $driver,
+                        context: $context
+                    );
                 }
 
                 return yield $context->delivery(
-                    RegisterDriverValidationFailed::duplicatePhoneNumber($context->metadata()->traceId())
+                    RegisterDriverValidationFailed::duplicatePhoneNumber($command->id)
                 );
             }
         );

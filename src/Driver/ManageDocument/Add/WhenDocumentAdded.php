@@ -7,13 +7,12 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\ManageDocument\Add;
 
 use Amp\Promise;
 use App\Driver\Events\DocumentAdded;
-use App\Driver\ManageDocument\Add\Contract\DriverDocumentAdded;
 use ServiceBus\Common\Context\ServiceBusContext;
 use ServiceBus\Services\Attributes\EventListener;
 
@@ -23,7 +22,7 @@ use ServiceBus\Services\Attributes\EventListener;
 final class WhenDocumentAdded
 {
     #[EventListener]
-    public function on(DocumentAdded $event, ServiceBusContext $context): Promise
+    public function on(DocumentAdded $event, ServiceBusContext $context): void
     {
         $context->logger()->info(
             'Document "{driverDocumentId}" successful added to driver "{driverId}"',
@@ -31,10 +30,6 @@ final class WhenDocumentAdded
                 'driverDocumentId' => $event->documentId->toString(),
                 'driverId'         => $event->driverId->toString()
             ]
-        );
-
-        return $context->delivery(
-            new DriverDocumentAdded($context->metadata()->traceId(), $event->driverId, $event->documentId)
         );
     }
 }

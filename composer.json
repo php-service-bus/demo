@@ -8,12 +8,12 @@
     "php": ">=8.1",
     "ext-json": "*",
     "php-service-bus/service-bus": "v5.1.x-dev",
-    "php-service-bus/storage": "v5.1.*",
-    "php-service-bus/transport": "v5.1.*",
-    "php-service-bus/active-record": "v5.1.*",
-    "php-service-bus/event-sourcing": "v5.1.*",
+    "php-service-bus/storage": "v5.1.x-dev",
+    "php-service-bus/transport": "v5.1.x-dev",
+    "php-service-bus/active-record": "v5.1.x-dev",
+    "php-service-bus/event-sourcing": "v5.1.x-dev",
     "php-service-bus/sagas": "v5.1.x-dev",
-    "php-service-bus/scheduler": "v5.1.*",
+    "php-service-bus/scheduler": "v5.1.x-dev",
     "symfony/validator": "v6.0.*"
   },
   "require-dev": {
@@ -50,7 +50,7 @@
   },
   "scripts": {
     "psalm": "rm -rf ~/.cache/psalm/ && ./vendor/bin/psalm --config=psalm.xml",
-    "phpstan": "./vendor/bin/phpstan analyse src --level 7",
+    "phpstan": "./vendor/bin/phpstan analyse src --level 9",
     "tests": "./vendor/bin/phpunit --configuration phpunit.xml --debug --verbose --debug",
     "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --configuration phpunit.xml --coverage-html ./coverage --debug --verbose --debug",
     "cs-check": "./vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run",

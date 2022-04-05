@@ -4,17 +4,19 @@
 declare(strict_types = 1);
 
 use App\Driver\Registration\Contract\RegisterDriver;
+use App\Driver\DriverId;
 
 include_once __DIR__ . '/../../vendor/autoload.php';
 
 $publisher = new ToolsPublisher(__DIR__ . '/../../.env');
 $publisher->sendMessage(
     new RegisterDriver(
-        '8-800-888-88-28',
-        'desperado@minsk-info.ru',
-        'Maksim',
-        'Masiukevich',
-        'Andreevich'
+        id: new DriverId('b4591ef4-251f-4fb3-acf1-76352c0e41b5'),
+        phone: '8-800-888-88-28',
+        email: 'desperado@minsk-info.ru',
+        firstName: 'Maksim',
+        lastName: 'Masiukevich',
+        patronymic: 'Andreevich'
     ),
-    'cacaa66d-f7fa-4f12-82cb-2e4358dc955d'
+    traceId: 'cacaa66d-f7fa-4f12-82cb-2e4358dc955d'
 );

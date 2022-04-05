@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Vehicle\Add;
 
@@ -15,7 +15,6 @@ use Amp\Promise;
 use App\Driver\Commands\AddVehicleToDriver;
 use App\Driver\Driver;
 use App\Driver\ManageDocument\Add\Contract\AddDriverDocumentValidationFailed;
-use App\Driver\Vehicle\Add\Contract\AddDriverVehicleValidationFailed;
 use ServiceBus\Common\Context\ServiceBusContext;
 use ServiceBus\EventSourcing\EventSourcingProvider;
 use ServiceBus\EventSourcing\Exceptions\AggregateNotFound;
@@ -34,27 +33,22 @@ final class HandleAddVehicleToDriver
         AddVehicleToDriver    $command,
         ServiceBusContext     $context,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise
-    {
+    ): Promise {
         return call(
-            static function() use ($command, $context, $eventSourcingProvider): \Generator
+            static function () use ($command, $context, $eventSourcingProvider): \Generator
             {
                 try
                 {
                     yield $eventSourcingProvider->load(
-                        $command->driverId,
-                        $context,
-                        static function(Driver $driver) use ($command): void
+                        id: $command->driverId,
+                        context: $context,
+                        onLoaded: static function (Driver $driver) use ($command): void
                         {
                             $driver->addVehicle($command->vehicleId);
                         }
                     );
-
-                    yield $context->delivery(
-                        AddDriverVehicleValidationFailed::driverNotFound($command->driverId)
-                    );
                 }
-                catch(AggregateNotFound)
+                catch (AggregateNotFound)
                 {
                     yield $context->delivery(
                         AddDriverDocumentValidationFailed::driverNotFound($command->driverId)

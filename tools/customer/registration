@@ -4,16 +4,18 @@
 declare(strict_types = 1);
 
 use App\Customer\Registration\Contract\RegisterCustomer;
+use App\Customer\CustomerId;
 
 include_once __DIR__ . '/../../vendor/autoload.php';
 
 $publisher = new ToolsPublisher(__DIR__ . '/../../.env');
 $publisher->sendMessage(
     new RegisterCustomer(
-        '8-800-888-88-88',
-        'desperado@minsk-info.ru',
-        'Maksim',
-        'Masiukevich'
+        id: new CustomerId('03e5edf4-d059-4375-bc38-112da6222bb6'),
+        phone: '8-800-888-88-88',
+        email: 'desperado@minsk-info.ru',
+        firstName: 'Maksim',
+        lastName: 'Masiukevich'
     ),
-    'cacaa66d-f7fa-4f12-82cb-2e4358dc955d'
+    traceId: 'cacaa66d-f7fa-4f12-82cb-2e4358dc955d'
 );

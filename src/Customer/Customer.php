@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnusedPrivateMethodInspection */
+<?php
+
+/** @noinspection PhpUnusedPrivateMethodInspection */
 
 /**
  * PHP Service Bus demo application
@@ -7,7 +9,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Customer;
 
@@ -32,9 +34,12 @@ final class Customer extends Aggregate
     /**
      * Create new customer aggregate
      */
-    public static function register(CustomerFullName $fullName, CustomerContacts $contacts): self
-    {
-        $self = new self(CustomerId::new());
+    public static function register(
+        CustomerId $id,
+        CustomerFullName $fullName,
+        CustomerContacts $contacts
+    ): self {
+        $self = new self($id);
 
         $self->raise(
             new CustomerCreated($self->id(), $fullName, $contacts)

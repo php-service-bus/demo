@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver;
 
@@ -17,16 +17,22 @@ namespace App\Driver;
 final class DriverFullName
 {
     /**
+     * @psalm-readonly
+     *
      * @var string
      */
     public $firstName;
 
     /**
+     * @psalm-readonly
+     *
      * @var string
      */
     public $lastName;
 
     /**
+     * @psalm-readonly
+     *
      * @var string|null
      */
     public $middleName;

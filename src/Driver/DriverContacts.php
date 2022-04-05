@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver;
 
@@ -19,12 +19,16 @@ final class DriverContacts
     /**
      * Phone number
      *
+     * @psalm-readonly
+     *
      * @var string
      */
     public $phone;
 
     /**
      * Email address
+     *
+     * @psalm-readonly
      *
      * @var string
      */

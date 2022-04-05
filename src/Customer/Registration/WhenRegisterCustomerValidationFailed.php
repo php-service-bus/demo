@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Customer\Registration;
 
@@ -24,8 +24,11 @@ final class WhenRegisterCustomerValidationFailed
     public function on(RegisterCustomerValidationFailed $event, ServiceBusContext $context): void
     {
         $context->logger()->info(
-            'Incorrect data to create a client',
-            ['violations' => $event->violations->violations]
+            'Incorrect data to create a customer `{customerId}`',
+            [
+                'violations' => $event->violations->violations,
+                'customerId' => $event->customerId->toString()
+            ]
         );
     }
 }

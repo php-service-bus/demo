@@ -7,7 +7,7 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Customer\Registration;
 
@@ -35,43 +35,46 @@ final class HandleRegisterCustomer
         validationEnabled: true
     )]
     public function handle(
-        RegisterCustomer $command,
-        ServiceBusContext $context,
-        IndexProvider $indexProvider,
+        RegisterCustomer      $command,
+        ServiceBusContext     $context,
+        IndexProvider         $indexProvider,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise
-    {
+    ): Promise {
         return call(
-            static function() use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
+            static function () use ($command, $context, $indexProvider, $eventSourcingProvider): \Generator
             {
                 $violations = $context->violations();
 
-                if($violations !== null)
+                if ($violations !== null)
                 {
-                  return yield $context->delivery(
-                        new RegisterCustomerValidationFailed($context->metadata()->traceId(), $violations)
+                    return yield $context->delivery(
+                        new RegisterCustomerValidationFailed($command->id, $violations)
                     );
                 }
 
                 $customer = Customer::register(
-                    new CustomerFullName($command->firstName, $command->lastName),
-                    new CustomerContacts($command->phone, $command->email)
+                    id: $command->id,
+                    fullName: new CustomerFullName($command->firstName, $command->lastName),
+                    contacts: new CustomerContacts($command->phone, $command->email)
                 );
 
                 /** @var bool $canBeRegistered */
                 $canBeRegistered = yield $indexProvider->add(
-                    new IndexKey('customer', $command->phone),
-                    new IndexValue($customer->id()->toString())
+                    indexKey: new IndexKey('customer', $command->phone),
+                    value: new IndexValue($customer->id()->toString())
                 );
 
                 /** Check the uniqueness of the phone number */
-                if($canBeRegistered)
+                if ($canBeRegistered)
                 {
-                    return yield $eventSourcingProvider->store($customer, $context);
+                    return yield $eventSourcingProvider->store(
+                        aggregate: $customer,
+                        context: $context
+                    );
                 }
 
                 return yield $context->delivery(
-                    RegisterCustomerValidationFailed::duplicatePhoneNumber($context->metadata()->traceId())
+                    RegisterCustomerValidationFailed::duplicatePhoneNumber($command->id)
                 );
             }
         );

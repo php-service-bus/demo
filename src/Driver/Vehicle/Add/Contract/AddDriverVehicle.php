@@ -7,10 +7,11 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\Vehicle\Add\Contract;
 
+use App\Driver\DriverId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,9 +40,7 @@ final class AddDriverVehicle
      *
      * @psalm-readonly
      *
-     * @Assert\NotBlank(message="Driver id must be specified")
-     *
-     * @var string
+     * @var DriverId
      */
     public $driverId;
 
@@ -103,14 +102,13 @@ final class AddDriverVehicle
 
     public function __construct(
         string $processId,
-        string $driverId,
+        DriverId $driverId,
         string $vehicleBrand,
         string $vehicleModel,
         int    $vehicleYear,
         string $vehicleRegistrationNumber,
         string $vehicleColor
-    )
-    {
+    ) {
         $this->processId                 = $processId;
         $this->driverId                  = $driverId;
         $this->vehicleBrand              = $vehicleBrand;

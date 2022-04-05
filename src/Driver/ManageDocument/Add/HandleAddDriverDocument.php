@@ -7,13 +7,12 @@
  * @license MIT
  * @license https://opensource.org/licenses/MIT
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Driver\ManageDocument\Add;
 
 use Amp\Promise;
 use App\Driver\Driver;
-use App\Driver\DriverId;
 use App\Driver\ManageDocument\Add\Contract\AddDriverDocument;
 use App\Driver\ManageDocument\Add\Contract\AddDriverDocumentValidationFailed;
 use App\Driver\ManageDocument\DriverDocument;
@@ -43,46 +42,43 @@ final class HandleAddDriverDocument
         ServiceBusContext     $context,
         EventSourcingProvider $eventSourcingProvider,
         DocumentStore         $documentStore
-    ): Promise
-    {
+    ): Promise {
         return call(
-            function() use ($command, $context, $eventSourcingProvider, $documentStore): \Generator
+            function () use ($command, $context, $eventSourcingProvider, $documentStore): \Generator
             {
                 $violations = $context->violations();
 
-                if($violations !== null)
+                if ($violations !== null)
                 {
                     return yield $context->delivery(
-                        new AddDriverDocumentValidationFailed($context->metadata()->traceId(), $violations)
+                        new AddDriverDocumentValidationFailed($command->driverId, $violations)
                     );
                 }
-
-                $driverId = new DriverId($command->driverId);
 
                 try
                 {
                     yield $eventSourcingProvider->load(
-                        $driverId,
-                        $context,
-                        static function(Driver $driver) use ($command, $documentStore): \Generator
+                        id: $command->driverId,
+                        context: $context,
+                        onLoaded: static function (Driver $driver) use ($command, $documentStore): \Generator
                         {
                             $document   = self::createDocument($command);
                             $documentId = yield $documentStore->store($document);
 
                             $driver->attachDocument(
                                 new DriverDocument(
-                                    $documentId,
-                                    DriverDocumentType::create($command->type),
-                                    DriverDocumentStatus::moderation()
+                                    id: $documentId,
+                                    type: DriverDocumentType::create($command->type),
+                                    status: DriverDocumentStatus::moderation()
                                 )
                             );
                         }
                     );
                 }
-                catch(AggregateNotFound)
+                catch (AggregateNotFound)
                 {
                     yield $context->delivery(
-                        AddDriverDocumentValidationFailed::driverNotFound($context->metadata()->traceId())
+                        AddDriverDocumentValidationFailed::driverNotFound($command->driverId)
                     );
                 }
             }
@@ -94,12 +90,12 @@ final class HandleAddDriverDocument
         $fileNameParts = \explode('.', $command->filename);
         $mimeParts     = \explode('/', $command->mimeType);
 
-        if(\count($mimeParts) !== 2)
+        if (\count($mimeParts) !== 2)
         {
             throw new \InvalidArgumentException('Incorrect mime type');
         }
 
-        if(\count($fileNameParts) !== 2)
+        if (\count($fileNameParts) !== 2)
         {
             throw new \InvalidArgumentException('Filename must contain extension');
         }
