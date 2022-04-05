@@ -67,7 +67,7 @@ final class HandleRegisterCustomer
                 /** Check the uniqueness of the phone number */
                 if($canBeRegistered)
                 {
-                    return yield $eventSourcingProvider->save($customer, $context);
+                    return yield $eventSourcingProvider->store($customer, $context);
                 }
 
                 return yield $context->delivery(

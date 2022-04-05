@@ -21,11 +21,10 @@ use App\Filesystem\Exceptions\SaveFileFailed;
 use App\Filesystem\StoredDocument;
 use ServiceBus\Storage\Common\DatabaseAdapter;
 use function Amp\call;
+use function Amp\File\createDirectoryRecursively;
+use function Amp\File\deleteFile;
 use function Amp\File\exists;
-use function Amp\File\unlink;
-use function Amp\File\get;
-use function Amp\File\mkdir;
-use function Amp\File\put;
+use function Amp\File\write;
 use function ServiceBus\Common\now;
 use function ServiceBus\Common\uuid;
 use function ServiceBus\Storage\Sql\deleteQuery;
@@ -33,6 +32,8 @@ use function ServiceBus\Storage\Sql\equalsCriteria;
 use function ServiceBus\Storage\Sql\fetchOne;
 use function ServiceBus\Storage\Sql\find;
 use function ServiceBus\Storage\Sql\insertQuery;
+
+use function Amp\File\read;
 
 /**
  *
@@ -58,7 +59,7 @@ final class FilesystemDocumentStore implements DocumentStore
     public function store(Document $document): Promise
     {
         return call(
-            function () use ($document): \Generator
+            function() use ($document): \Generator
             {
                 try
                 {
@@ -78,14 +79,14 @@ final class FilesystemDocumentStore implements DocumentStore
 
                         return $documentId;
                     }
-                    catch (\Throwable $throwable)
+                    catch(\Throwable $throwable)
                     {
                         yield $this->remove($documentId);
 
                         throw $throwable;
                     }
                 }
-                catch (\Throwable $throwable)
+                catch(\Throwable $throwable)
                 {
                     throw new SaveFileFailed('Unable to store file', (int) $throwable->getCode(), $throwable);
                 }
@@ -96,16 +97,16 @@ final class FilesystemDocumentStore implements DocumentStore
     public function obtain(DocumentId $id): Promise
     {
         return call(
-            function () use ($id): \Generator
+            function() use ($id): \Generator
             {
                 $result = yield $this->findReference($id);
 
-                if ($result !== null)
+                if($result !== null)
                 {
                     /** @var string|null $payload */
                     $payload = yield $this->obtainFilePayload($result['file_path']);
 
-                    if ($payload !== null)
+                    if($payload !== null)
                     {
                         return new StoredDocument(
                             new DocumentId($result['id']),
@@ -133,19 +134,19 @@ final class FilesystemDocumentStore implements DocumentStore
     public function remove(DocumentId $id): Promise
     {
         return call(
-            function () use ($id): \Generator
+            function() use ($id): \Generator
             {
                 try
                 {
                     /** @var string|null $filePath */
                     $filePath = yield $this->removeReference($id);
 
-                    if ($filePath !== null)
+                    if($filePath !== null)
                     {
                         yield $this->removeFile($filePath);
                     }
                 }
-                catch (\Throwable)
+                catch(\Throwable)
                 {
                     /** Not interests */
                 }
@@ -159,7 +160,7 @@ final class FilesystemDocumentStore implements DocumentStore
     private function storeReference(DocumentId $id, Document $document, string $filePath): Promise
     {
         return call(
-            function () use ($id, $document, $filePath): \Generator
+            function() use ($id, $document, $filePath): \Generator
             {
                 $query = insertQuery('document_store', [
                     'id'             => $id->toString(),
@@ -183,17 +184,17 @@ final class FilesystemDocumentStore implements DocumentStore
     private function saveFile(string $payload, string $directoryPath, string $filePath): Promise
     {
         return call(
-            static function () use ($payload, $directoryPath, $filePath): \Generator
+            static function() use ($payload, $directoryPath, $filePath): \Generator
             {
                 /** @var bool $directoryExists */
                 $directoryExists = yield exists($directoryPath);
 
-                if ($directoryExists === false)
+                if($directoryExists === false)
                 {
-                    yield mkdir($directoryPath, 0777, true);
+                    yield createDirectoryRecursively($directoryPath);
                 }
 
-                yield put($filePath, $payload);
+                yield write($filePath, $payload);
             }
         );
     }
@@ -204,11 +205,11 @@ final class FilesystemDocumentStore implements DocumentStore
     private function removeReference(DocumentId $id): Promise
     {
         return call(
-            function () use ($id): \Generator
+            function() use ($id): \Generator
             {
                 $result = yield $this->findReference($id);
 
-                if ($result !== null)
+                if($result !== null)
                 {
                     yield $this->removeFile($result['file_path']);
 
@@ -231,13 +232,13 @@ final class FilesystemDocumentStore implements DocumentStore
     private function removeFile(string $filePath): Promise
     {
         return call(
-            static function () use ($filePath): \Generator
+            static function() use ($filePath): \Generator
             {
                 try
                 {
-                    yield unlink($filePath);
+                    yield deleteFile($filePath);
                 }
-                catch (\Throwable)
+                catch(\Throwable)
                 {
                     /** Not interests */
                 }
@@ -258,7 +259,7 @@ final class FilesystemDocumentStore implements DocumentStore
     private function findReference(DocumentId $id): Promise
     {
         return call(
-            function () use ($id): \Generator
+            function() use ($id): \Generator
             {
                 $resultSet = yield find(
                     $this->store,
@@ -294,24 +295,24 @@ final class FilesystemDocumentStore implements DocumentStore
     private function obtainFilePayload(string $filePath): Promise
     {
         return call(
-            static function () use ($filePath): \Generator
+            static function() use ($filePath): \Generator
             {
                 try
                 {
                     /** @var bool $fileExists */
                     $fileExists = yield exists($filePath);
 
-                    if ($fileExists)
+                    if($fileExists)
                     {
                         /** @var string $payload */
-                        $payload = yield get($filePath);
+                        $payload = yield read($filePath);
 
                         return $payload;
                     }
 
                     return null;
                 }
-                catch (\Throwable $throwable)
+                catch(\Throwable $throwable)
                 {
                     throw new ObtainFileFailed(
                         \sprintf('Obtain file `%s` failed', $filePath),

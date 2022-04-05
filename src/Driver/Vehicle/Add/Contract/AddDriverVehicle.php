@@ -26,6 +26,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class AddDriverVehicle
 {
     /**
+     * Request operation id
+     *
+     * @psalm-readonly
+     *
+     * @var string
+     */
+    public $processId;
+
+    /**
      * Driver identifier
      *
      * @psalm-readonly
@@ -93,13 +102,16 @@ final class AddDriverVehicle
     public $vehicleColor;
 
     public function __construct(
+        string $processId,
         string $driverId,
         string $vehicleBrand,
         string $vehicleModel,
-        int $vehicleYear,
+        int    $vehicleYear,
         string $vehicleRegistrationNumber,
         string $vehicleColor
-    ) {
+    )
+    {
+        $this->processId                 = $processId;
         $this->driverId                  = $driverId;
         $this->vehicleBrand              = $vehicleBrand;
         $this->vehicleModel              = $vehicleModel;

@@ -4,15 +4,15 @@ declare(strict_types = 1);
 
 use function Amp\Promise\wait;
 use function ServiceBus\Common\uuid;
-use ServiceBus\Metadata\ServiceBusMetadata;
-use ServiceBus\MessageSerializer\MessageSerializer;
-use ServiceBus\MessageSerializer\Symfony\SymfonySerializer;
+use ServiceBus\Common\Metadata\ServiceBusMetadata;
 use ServiceBus\Transport\Amqp\AmqpConnectionConfiguration;
 use ServiceBus\Transport\Amqp\AmqpTransportLevelDestination;
 use ServiceBus\Transport\Common\Package\OutboundPackage;
 use ServiceBus\Transport\Common\Transport;
 use ServiceBus\Transport\Amqp\PhpInnacle\PhpInnacleTransport;
 use Symfony\Component\Dotenv\Dotenv;
+use ServiceBus\MessageSerializer\Symfony\SymfonyJsonObjectSerializer;
+use ServiceBus\MessageSerializer\ObjectSerializer;
 
 /**
  * Tools message publisher.
@@ -27,7 +27,7 @@ final class ToolsPublisher
     private $transport;
 
     /**
-     * @var MessageSerializer
+     * @var ObjectSerializer
      */
     private $encoder;
 
@@ -39,7 +39,7 @@ final class ToolsPublisher
     {
         (new Dotenv())->usePutenv(true)->load($envPath);
 
-        $this->encoder = new SymfonySerializer();
+        $this->encoder = new SymfonyJsonObjectSerializer();
     }
 
     /**

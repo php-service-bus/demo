@@ -93,7 +93,7 @@ final class Driver extends Aggregate
     public function addVehicle(VehicleId $vehicleId): void
     {
         $this->raise(
-            new  VehicleAdded($this->id(), $vehicleId)
+            new VehicleAdded($this->id(), $vehicleId)
         );
     }
 

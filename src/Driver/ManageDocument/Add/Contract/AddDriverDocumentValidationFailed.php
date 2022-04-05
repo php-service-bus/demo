@@ -11,6 +11,7 @@ declare(strict_types = 1);
 
 namespace App\Driver\ManageDocument\Add\Contract;
 
+use App\Driver\DriverId;
 use ServiceBus\Common\Context\ValidationViolation;
 use ServiceBus\Common\Context\ValidationViolations;
 
@@ -25,13 +26,13 @@ use ServiceBus\Common\Context\ValidationViolations;
 final class AddDriverDocumentValidationFailed
 {
     /**
-     * Request operation id
+     * Driver aggregate id
      *
      * @psalm-readonly
      *
-     * @var string
+     * @var DriverId
      */
-    public $correlationId;
+    public $driverId;
 
     /**
      * List of validate violations
@@ -40,10 +41,10 @@ final class AddDriverDocumentValidationFailed
      */
     public $violations;
 
-    public static function incorrectImage(string $correlationId, string $message): self
+    public static function incorrectImage(DriverId $driverId, string $message): self
     {
         return new self(
-            $correlationId,
+            $driverId,
             new ValidationViolations([
                     new ValidationViolation(
                         property: 'payload',
@@ -54,10 +55,10 @@ final class AddDriverDocumentValidationFailed
         );
     }
 
-    public static function driverNotFound(string $correlationId): self
+    public static function driverNotFound(DriverId $driverId): self
     {
         return new self(
-            $correlationId,
+            $driverId,
             new ValidationViolations([
                     new ValidationViolation(
                         property: 'driverId',
@@ -68,10 +69,10 @@ final class AddDriverDocumentValidationFailed
         );
     }
 
-    public function __construct(string $correlationId, ValidationViolations $violations)
+    public function __construct(DriverId $driverId, ValidationViolations $violations)
     {
-        $this->correlationId = $correlationId;
-        $this->violations    = $violations;
+        $this->driverId   = $driverId;
+        $this->violations = $violations;
     }
 
 }

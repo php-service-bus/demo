@@ -26,15 +26,6 @@ use ServiceBus\Common\Context\ValidationViolations;
 final class AddVehicleValidationFailed
 {
     /**
-     * Request operation id
-     *
-     * @psalm-readonly
-     *
-     * @var string
-     */
-    public $correlationId;
-
-    /**
      * List of validate violations
      *
      * @psalm-readonly
@@ -47,15 +38,26 @@ final class AddVehicleValidationFailed
      * Vehicle identifier
      * Indicated in case the vehicle with registration number has already been added
      *
+     * @psalm-readonly
+     *
      * @var VehicleId|null
      */
     public $vehicleId;
 
-    public static function invalidBrand(string $correlationId): self
+    /**
+     * State registration number
+     *
+     * @psalm-readonly
+     *
+     * @var string
+     */
+    public $registrationNumber;
+
+    public static function invalidBrand(string $registrationNumber): self
     {
         return new self(
-            $correlationId,
-            new ValidationViolations([
+            registrationNumber: $registrationNumber,
+            violations: new ValidationViolations([
                     new ValidationViolation(
                         property: 'brand',
                         message: 'Car brand not found'
@@ -65,26 +67,30 @@ final class AddVehicleValidationFailed
         );
     }
 
-    public static function duplicateStateRegistrationNumber(string $correlationId, VehicleId $vehicleId): self
+    public static function duplicateStateRegistrationNumber(string $registrationNumber, VehicleId $vehicleId): self
     {
         return new self(
-            $correlationId,
-            new ValidationViolations([
+            registrationNumber: $registrationNumber,
+            violations: new ValidationViolations([
                     new ValidationViolation(
                         property: 'registrationNumber',
                         message: 'The car with the specified registration number is already registered'
                     )
                 ]
             ),
-            clone $vehicleId
+            vehicleId: clone $vehicleId
         );
     }
 
-    public function __construct(string $correlationId, ValidationViolations $violations, ?VehicleId $vehicleId = null)
+    public function __construct(
+        string               $registrationNumber,
+        ValidationViolations $violations,
+        ?VehicleId           $vehicleId = null
+    )
     {
-        $this->correlationId = $correlationId;
-        $this->violations    = $violations;
-        $this->vehicleId = $vehicleId;
+        $this->registrationNumber = $registrationNumber;
+        $this->violations         = $violations;
+        $this->vehicleId          = $vehicleId;
     }
 
 }

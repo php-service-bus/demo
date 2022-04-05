@@ -8,7 +8,7 @@ git clone git@github.com:php-service-bus/demo.git service-bus-demo
 cd service-bus-demo
 make start consumer-logs
 ```
-Once launched, you can execute commands from the [tools](https://github.com/php-service-bus/demo/tree/v4.1/tools) directory via `Make`
+Once launched, you can execute commands from the [tools](https://github.com/php-service-bus/demo/tree/v5.1/tools) directory via `Make`
 
 ### Communication Channels
 You can find help and discussion in the following places:

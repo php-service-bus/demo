@@ -25,6 +25,7 @@ use App\Filesystem\DocumentMimeType;
 use App\Filesystem\Store\DocumentStore;
 use ServiceBus\Common\Context\ServiceBusContext;
 use ServiceBus\EventSourcing\EventSourcingProvider;
+use ServiceBus\EventSourcing\Exceptions\AggregateNotFound;
 use ServiceBus\Services\Attributes\CommandHandler;
 use function Amp\call;
 
@@ -38,10 +39,10 @@ final class HandleAddDriverDocument
         validationEnabled: true
     )]
     public function handle(
-        AddDriverDocument $command,
-        ServiceBusContext $context,
+        AddDriverDocument     $command,
+        ServiceBusContext     $context,
         EventSourcingProvider $eventSourcingProvider,
-        DocumentStore $documentStore
+        DocumentStore         $documentStore
     ): Promise
     {
         return call(
@@ -56,33 +57,39 @@ final class HandleAddDriverDocument
                     );
                 }
 
-                /** @var Driver|null $driver */
-                $driver = yield $eventSourcingProvider->load(new DriverId($command->driverId));
+                $driverId = new DriverId($command->driverId);
 
-                if($driver === null)
+                try
                 {
-                    return yield $context->delivery(
+                    yield $eventSourcingProvider->load(
+                        $driverId,
+                        $context,
+                        static function(Driver $driver) use ($command, $documentStore): \Generator
+                        {
+                            $document   = self::createDocument($command);
+                            $documentId = yield $documentStore->store($document);
+
+                            $driver->attachDocument(
+                                new DriverDocument(
+                                    $documentId,
+                                    DriverDocumentType::create($command->type),
+                                    DriverDocumentStatus::moderation()
+                                )
+                            );
+                        }
+                    );
+                }
+                catch(AggregateNotFound)
+                {
+                    yield $context->delivery(
                         AddDriverDocumentValidationFailed::driverNotFound($context->metadata()->traceId())
                     );
                 }
-
-                $document   = $this->createDocument($command);
-                $documentId = yield $documentStore->store($document);
-
-                $driver->attachDocument(
-                    new DriverDocument(
-                        $documentId,
-                        DriverDocumentType::create($command->type),
-                        DriverDocumentStatus::moderation()
-                    )
-                );
-
-                return yield $eventSourcingProvider->save($driver, $context);
             }
         );
     }
 
-    private function createDocument(AddDriverDocument $command): Document
+    private static function createDocument(AddDriverDocument $command): Document
     {
         $fileNameParts = \explode('.', $command->filename);
         $mimeParts     = \explode('/', $command->mimeType);

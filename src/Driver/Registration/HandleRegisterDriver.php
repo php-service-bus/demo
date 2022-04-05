@@ -67,7 +67,7 @@ final class HandleRegisterDriver
                 /** Check the uniqueness of the phone number */
                 if($canBeRegistered)
                 {
-                    return yield $eventSourcingProvider->save($driver, $context);
+                    return yield $eventSourcingProvider->store($driver, $context);
                 }
 
                 return yield $context->delivery(

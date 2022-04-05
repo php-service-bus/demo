@@ -13,14 +13,16 @@ namespace App\Driver\Vehicle\Add;
 
 use App\Driver\Commands\AddVehicleToDriver;
 use App\Driver\DriverId;
+use App\Driver\Events\VehicleAdded;
+use App\Driver\Vehicle\Add\Contract\AddDriverVehicle;
 use App\Driver\Vehicle\Add\Contract\AddDriverVehicleValidationFailed;
-use App\Driver\Vehicle\Add\Contract\VehicleAddedToDriver;
+use App\Vehicle\Events\VehicleCreated;
 use App\Vehicle\Manage\Add\Contract\AddVehicle;
 use App\Vehicle\Manage\Add\Contract\AddVehicleValidationFailed;
-use App\Vehicle\Manage\Add\Contract\VehicleStored;
 use App\Vehicle\VehicleId;
 use ServiceBus\Sagas\Configuration\Attributes\SagaEventListener;
 use ServiceBus\Sagas\Configuration\Attributes\SagaHeader;
+use ServiceBus\Sagas\Configuration\Attributes\SagaInitialHandler;
 use ServiceBus\Sagas\Saga;
 
 /**
@@ -89,24 +91,18 @@ final class AddDriverVehicleSaga extends Saga
      */
     private $storeRetryCount = 0;
 
-    public function start(object $command): void
+    #[SagaInitialHandler(
+        containingIdProperty: 'processId'
+    )]
+    public function start(AddDriverVehicle $command): void
     {
-        /** @var \App\Driver\Vehicle\Add\Contract\AddDriverVehicle $initCommand */
+        $this->driverId                  = new DriverId($command->driverId);
+        $this->vehicleBrand              = $command->vehicleBrand;
+        $this->vehicleModel              = $command->vehicleModel;
+        $this->vehicleYear               = $command->vehicleYear;
+        $this->vehicleRegistrationNumber = $command->vehicleRegistrationNumber;
+        $this->vehicleColor              = $command->vehicleColor;
 
-        $initCommand = $command;
-
-        $this->driverId                  = new DriverId($initCommand->driverId);
-        $this->vehicleBrand              = $initCommand->vehicleBrand;
-        $this->vehicleModel              = $initCommand->vehicleModel;
-        $this->vehicleYear               = $initCommand->vehicleYear;
-        $this->vehicleRegistrationNumber = $initCommand->vehicleRegistrationNumber;
-        $this->vehicleColor              = $initCommand->vehicleColor;
-
-        $this->onStarted();
-    }
-
-    private function onStarted(): void
-    {
         /** Try to add new vehicle */
         $this->fire(
             new AddVehicle(
@@ -117,33 +113,43 @@ final class AddDriverVehicleSaga extends Saga
                 $this->vehicleColor
             )
         );
+
+        $this->associateWith('registrationNumber', $this->vehicleRegistrationNumber);
     }
 
     #[SagaEventListener(
-        description: 'Vehicle successfully stored'
+        containingIdProperty: 'registrationNumber',
+        description: 'Vehicle successfully stored',
     )]
-    private function onVehicleStored(VehicleStored $event): void
+    private function onVehicleCreated(VehicleCreated $event): void
     {
+        $this->removeAssociation('registrationNumber');
+
         $this->vehicleId = $event->id;
 
         $this->doAddToDriver();
     }
 
     #[SagaEventListener(
+        containingIdProperty: 'driverId',
         description: 'Vehicle successfully added'
     )]
-    private function onVehicleAddedToDriver(VehicleAddedToDriver $event): void
+    private function onVehicleAdded(VehicleAdded $event): void
     {
-        $this->makeCompleted(\sprintf('Successful added (%s)', $event->correlationId));
+        $this->removeAssociation('driverId');
+        $this->complete();
     }
 
     #[SagaEventListener(
+        containingIdProperty: 'registrationNumber',
         description: 'Parameter error when adding a vehicle'
     )]
     private function onAddVehicleValidationFailed(AddVehicleValidationFailed $event): void
     {
+        $this->removeAssociation('registrationNumber');
+
         /** Vehicle has been added previously */
-        if ($event->vehicleId !== null)
+        if($event->vehicleId !== null)
         {
             $this->vehicleId = $event->vehicleId;
 
@@ -153,15 +159,17 @@ final class AddDriverVehicleSaga extends Saga
         }
 
         /** Another validation errors */
-        $this->makeFailed('Validation failed');
+        $this->complete('Validation failed');
     }
 
     #[SagaEventListener(
+        containingIdProperty: 'driverId',
         description: 'Add vehicle validation failed'
     )]
     private function onAddDriverVehicleValidationFailed(AddDriverVehicleValidationFailed $event): void
     {
-        $this->makeFailed(
+        $this->removeAssociation('driverId');
+        $this->fail(
             \sprintf('Validation failed (%s)', \http_build_query($event->violations))
         );
     }
@@ -176,6 +184,7 @@ final class AddDriverVehicleSaga extends Saga
         /** @var VehicleId $vehicleId */
         $vehicleId = $this->vehicleId;
 
+        $this->associateWith('driverId', $this->driverId->toString());
         $this->fire(
             new AddVehicleToDriver($this->driverId, $vehicleId)
         );

@@ -13,9 +13,12 @@ namespace App\Driver\Vehicle\Add;
 
 use Amp\Promise;
 use App\Driver\Commands\AddVehicleToDriver;
+use App\Driver\Driver;
+use App\Driver\ManageDocument\Add\Contract\AddDriverDocumentValidationFailed;
 use App\Driver\Vehicle\Add\Contract\AddDriverVehicleValidationFailed;
 use ServiceBus\Common\Context\ServiceBusContext;
 use ServiceBus\EventSourcing\EventSourcingProvider;
+use ServiceBus\EventSourcing\Exceptions\AggregateNotFound;
 use ServiceBus\Services\Attributes\CommandHandler;
 use function Amp\call;
 
@@ -28,26 +31,35 @@ final class HandleAddVehicleToDriver
         description: 'Add vehicle to driver aggregate'
     )]
     public function handle(
-        AddVehicleToDriver $command,
-        ServiceBusContext $context,
+        AddVehicleToDriver    $command,
+        ServiceBusContext     $context,
         EventSourcingProvider $eventSourcingProvider
-    ): Promise {
+    ): Promise
+    {
         return call(
-            static function () use ($command, $context, $eventSourcingProvider): \Generator
+            static function() use ($command, $context, $eventSourcingProvider): \Generator
             {
-                /** @var \App\Driver\Driver|null $driver */
-                $driver = yield $eventSourcingProvider->load($command->driverId);
-
-                if ($driver !== null)
+                try
                 {
-                    $driver->addVehicle($command->vehicleId);
+                    yield $eventSourcingProvider->load(
+                        $command->driverId,
+                        $context,
+                        static function(Driver $driver) use ($command): void
+                        {
+                            $driver->addVehicle($command->vehicleId);
+                        }
+                    );
 
-                    return yield $eventSourcingProvider->save($driver, $context);
+                    yield $context->delivery(
+                        AddDriverVehicleValidationFailed::driverNotFound($command->driverId)
+                    );
                 }
-
-                return yield $context->delivery(
-                    AddDriverVehicleValidationFailed::driverNotFound($context->metadata()->traceId())
-                );
+                catch(AggregateNotFound)
+                {
+                    yield $context->delivery(
+                        AddDriverDocumentValidationFailed::driverNotFound($command->driverId)
+                    );
+                }
             }
         );
     }

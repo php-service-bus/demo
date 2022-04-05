@@ -5,26 +5,30 @@
   "license": "MIT",
   "minimum-stability": "stable",
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.1",
     "ext-json": "*",
-    "php-service-bus/service-bus": "v5.0.x-dev",
-    "php-service-bus/storage": "v5.0.*",
-    "php-service-bus/transport": "v5.0.*",
-    "php-service-bus/active-record": "v5.0.*",
-    "php-service-bus/event-sourcing": "v5.0.*",
-    "php-service-bus/sagas": "v5.0.*",
-    "php-service-bus/scheduler": "v5.0.*",
-    "symfony/validator": "v5.2.*"
+    "php-service-bus/service-bus": "v5.1.x-dev",
+    "php-service-bus/storage": "v5.1.*",
+    "php-service-bus/transport": "v5.1.*",
+    "php-service-bus/active-record": "v5.1.*",
+    "php-service-bus/event-sourcing": "v5.1.*",
+    "php-service-bus/sagas": "v5.1.x-dev",
+    "php-service-bus/scheduler": "v5.1.*",
+    "symfony/validator": "v6.0.*"
   },
   "require-dev": {
-    "php-service-bus/code-style-config": "v1.3.*",
+    "php-service-bus/code-style-config": "v5.1.*",
     "phpunit/phpunit": "v9.5.*",
-    "vimeo/psalm": "v4.5.*",
-    "phpstan/phpstan": "v0.12.*"
+    "vimeo/psalm": "v4.22.*",
+    "phpstan/phpstan": "v1.5.*",
+    "boesing/psalm-plugin-stringf": "v1.1.*"
   },
   "config": {
     "sort-packages": true,
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
   },
   "autoload": {
     "psr-4": {

@@ -19,8 +19,22 @@ CREATE TABLE IF NOT EXISTS sagas_store
     CONSTRAINT saga_identifier PRIMARY KEY (id, identifier_class)
 );
 
+CREATE TABLE IF NOT EXISTS sagas_association
+(
+    id  UUID,
+    saga_id          uuid         not null,
+    identifier_class varchar(255) not null,
+    saga_class       varchar(255) not null,
+    property_name    varchar(255) not null,
+    property_value   varchar(255) not null,
+    CONSTRAINT sagas_association_pk PRIMARY KEY (id)
+);
+
+
 CREATE INDEX IF NOT EXISTS sagas_state ON sagas_store (state_id);
 CREATE INDEX IF NOT EXISTS saga_closed_index ON sagas_store (state_id, closed_at);
+CREATE UNIQUE INDEX IF NOT EXISTS  sagas_association_property ON sagas_association (saga_id, saga_class, property_name);
+CREATE INDEX IF NOT EXISTS  sagas_association_property_value ON sagas_association (identifier_class, saga_class, property_name, property_value);
 
 CREATE TABLE IF NOT EXISTS event_store_stream
 (

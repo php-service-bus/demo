@@ -50,7 +50,7 @@ final class HandleAddVehicle
                 if($violations !== null)
                 {
                     return yield $context->delivery(
-                        new AddVehicleValidationFailed($context->metadata()->traceId(), $violations)
+                        new AddVehicleValidationFailed($command->registrationNumber, $violations)
                     );
                 }
 
@@ -59,7 +59,7 @@ final class HandleAddVehicle
 
                 if($brand === null)
                 {
-                    return $context->delivery(AddVehicleValidationFailed::invalidBrand($context->metadata()->traceId()));
+                    return $context->delivery(AddVehicleValidationFailed::invalidBrand($command->registrationNumber));
                 }
 
                 $vehicle = Vehicle::create(
@@ -80,12 +80,12 @@ final class HandleAddVehicle
                 {
                     yield $indexProvider->add($indexKey, new IndexValue($vehicle->id()->toString()));
 
-                    return yield $eventSourcingProvider->save($vehicle, $context);
+                    return yield $eventSourcingProvider->store($vehicle, $context);
                 }
 
                 return yield $context->delivery(
                     AddVehicleValidationFailed::duplicateStateRegistrationNumber(
-                        $context->metadata()->traceId(),
+                        $command->registrationNumber,
                         new VehicleId((string) $storedValue->value)
                     )
                 );
