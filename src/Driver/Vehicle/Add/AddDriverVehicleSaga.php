@@ -22,6 +22,7 @@ use App\Vehicle\Events\VehicleCreated;
 use App\Vehicle\Manage\Add\Contract\AddVehicle;
 use App\Vehicle\Manage\Add\Contract\AddVehicleValidationFailed;
 use App\Vehicle\VehicleId;
+use Psr\Log\LoggerInterface;
 use ServiceBus\Sagas\Configuration\Attributes\SagaEventListener;
 use ServiceBus\Sagas\Configuration\Attributes\SagaHeader;
 use ServiceBus\Sagas\Configuration\Attributes\SagaInitialHandler;
@@ -94,7 +95,7 @@ final class AddDriverVehicleSaga extends Saga
     private $storeRetryCount = 0;
 
     #[SagaInitialHandler]
-    public function start(AddDriverVehicle $command): void
+    public function start(AddDriverVehicle $command, LoggerInterface $logger): void
     {
         $this->driverId                  = $command->driverId;
         $this->vehicleBrand              = $command->vehicleBrand;
@@ -115,6 +116,10 @@ final class AddDriverVehicleSaga extends Saga
         );
 
         $this->associateWith('registrationNumber', $this->vehicleRegistrationNumber);
+
+        $logger->info('Adding vehicle to driver `{driverId}`', [
+            'driverId' => $this->driverId->toString()
+        ]);
     }
 
     #[SagaEventListener(
